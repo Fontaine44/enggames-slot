@@ -134,7 +134,6 @@ audio/win*.wav
 audio/stop.mp3
 audio/spin.mp3
 audio/spinclip.mp3
-graphics/font/kidspace.ttf
 graphics/neon/*
 graphics/neon
 graphics/test/*
