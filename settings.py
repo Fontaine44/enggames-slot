@@ -19,7 +19,7 @@ UI_FONT_SIZE = 30
 WIN_FONT_SIZE = 110
 
 # Symbols dictionnary
-symbols = {
+SYMBOLS_PATH = {
     'diamond': f"{SYM_PATH}/0_diamond.png", 
     'chug': f"{SYM_PATH}/0_chug.png",
     'wah': f"{SYM_PATH}/0_wah.png",
@@ -27,12 +27,20 @@ symbols = {
     'mgcil': f"{SYM_PATH}/0_mgcil.png",
 }
 
-symbols_weight = {
+SYMBOLS_WEIGHT = {
     'diamond': 20, 
     'chug': 2,
     'wah': 10,
     'jdg': 10,
     'mgcil': 10,
+}
+
+SYMBOLS_PAY = {
+    '0_diamond': 1, 
+    '0_chug': 0,
+    '0_wah': 2,
+    '0_jdg': 2,
+    '0_mgcil': 2,
 }
 
 # Paylines (index=reel, value=row)

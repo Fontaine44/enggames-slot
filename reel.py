@@ -4,9 +4,9 @@ import pygame, random
 class Reel:
     def __init__(self, pos):
         self.symbol_list = pygame.sprite.Group()
-        self.shuffled_keys = list(symbols.keys())
+        self.shuffled_keys = list(SYMBOLS_PATH.keys())
         random.shuffle(self.shuffled_keys)
-        self.weights = [symbols_weight[k] for k in self.shuffled_keys]
+        self.weights = [SYMBOLS_WEIGHT[k] for k in self.shuffled_keys]
 
         self.reel_is_spinning = False
 
@@ -17,7 +17,7 @@ class Reel:
         # Init symbols in reel
         for idx in range(5):
             rand_key = random.choice(self.shuffled_keys)
-            self.symbol_list.add(Symbol(symbols[rand_key], pos, idx))
+            self.symbol_list.add(Symbol(SYMBOLS_PATH[rand_key], pos, idx))
             pos = list(pos)
             pos[1] += 300
             pos = tuple(pos)
@@ -48,7 +48,7 @@ class Reel:
                         symbol.kill()
                         # Spawn random symbol in place of the above
                         rand_key = random.choices(self.shuffled_keys, weights=self.weights, k=1)[0]
-                        new_symbol = Symbol(symbols[rand_key], ((symbol.x_val), -300), symbol_idx)
+                        new_symbol = Symbol(SYMBOLS_PATH[rand_key], ((symbol.x_val), -300), symbol_idx)
                         self.symbol_list.add(new_symbol)
 
     def start_spin(self, delay_time):

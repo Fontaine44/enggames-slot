@@ -119,12 +119,13 @@ class Machine:
         return len(list(group))
 
     def pay_player(self, win_data, curr_player):
-        # multiplier = 0
-        # spin_payout = 0
-        # for v in win_data.values():
-        #     multiplier += len(v[1])
-        # spin_payout = (multiplier * curr_player.bet_size)
-        spin_payout = 100
+        multiplier = 0
+        spin_payout = 0
+        for w in win_data:
+            win_symbol = w[1]
+            symbol_mult = SYMBOLS_PAY[win_symbol]
+            multiplier += (len(w[2]) - 2) *symbol_mult
+            spin_payout += curr_player.bet_size * multiplier
         curr_player.balance += spin_payout
         self.machine_balance -= spin_payout
         curr_player.last_payout = spin_payout
