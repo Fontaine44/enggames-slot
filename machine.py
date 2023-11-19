@@ -96,21 +96,6 @@ class Machine:
             self.spin_result[reel] = self.reel_list[reel].reel_spin_result()
         return self.spin_result
 
-    # def check_wins(self, result):
-    #     hits = []
-    #     horizontal = flip_horizontal(result)
-    #     for row in horizontal:
-    #         for sym in row:
-    #             if row.count(sym) > 2: # Potential win
-    #                 possible_win = [idx for idx, val in enumerate(row) if sym == val]
-
-    #                 # Check possible_win for a subsequence longer than 2 and add to hits
-    #                 if len(longest_seq(possible_win)) > 2:
-    #                     hits.append([sym, longest_seq(possible_win)])
-    #     if hits:
-    #          self.can_animate = True
-    #     return hits
-
     def check_wins(self, result):
         # Initialize a list to store winning lines
         winning_lines = []
