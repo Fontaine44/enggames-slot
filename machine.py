@@ -2,7 +2,6 @@ from player import Player
 from reel import *
 from settings import *
 from ui import UI
-from wins import *
 from itertools import groupby
 import pygame
 

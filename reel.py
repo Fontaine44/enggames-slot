@@ -87,7 +87,7 @@ class Symbol(pygame.sprite.Sprite):
     def update(self):
         # Slightly increases size of winning symbols
         if self.fade_in:
-            if self.size_x < 320:
+            if self.size_x < 310:
                 self.size_x += 1
                 self.size_y += 1
                 self.image = pygame.transform.scale(self.image, (self.size_x, self.size_y))
