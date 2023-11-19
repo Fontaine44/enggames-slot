@@ -3,6 +3,7 @@ from reel import *
 from settings import *
 from ui import UI
 from wins import *
+from itertools import groupby
 import pygame
 
 class Machine:
@@ -41,12 +42,13 @@ class Machine:
                 self.can_toggle = False
                 self.spinning = True
 
+        # Wait for reel to finish spinning and check for win
         if not self.can_toggle and [self.reel_list[reel].reel_is_spinning for reel in self.reel_list].count(False) == 5:
             self.can_toggle = True
             self.spin_result = self.get_result()
 
-            if self.check_wins(self.spin_result):
-                self.win_data = self.check_wins(self.spin_result)
+            self.win_data = self.check_wins(self.spin_result)
+            if self.win_data:
                 # Play the win sound
                 # self.play_win_sound(self.win_data)
                 self.pay_player(self.win_data, self.currPlayer)
@@ -94,27 +96,51 @@ class Machine:
             self.spin_result[reel] = self.reel_list[reel].reel_spin_result()
         return self.spin_result
 
-    def check_wins(self, result):
-        hits = {}
-        horizontal = flip_horizontal(result)
-        for row in horizontal:
-            for sym in row:
-                if row.count(sym) > 2: # Potential win
-                    possible_win = [idx for idx, val in enumerate(row) if sym == val]
+    # def check_wins(self, result):
+    #     hits = []
+    #     horizontal = flip_horizontal(result)
+    #     for row in horizontal:
+    #         for sym in row:
+    #             if row.count(sym) > 2: # Potential win
+    #                 possible_win = [idx for idx, val in enumerate(row) if sym == val]
 
-                    # Check possible_win for a subsequence longer than 2 and add to hits
-                    if len(longest_seq(possible_win)) > 2:
-                        hits[horizontal.index(row) + 1] = [sym, longest_seq(possible_win)]
-        if hits:
-            self.can_animate = True
-            return hits
+    #                 # Check possible_win for a subsequence longer than 2 and add to hits
+    #                 if len(longest_seq(possible_win)) > 2:
+    #                     hits.append([sym, longest_seq(possible_win)])
+    #     if hits:
+    #          self.can_animate = True
+    #     return hits
+
+    def check_wins(self, result):
+        # Initialize a list to store winning lines
+        winning_lines = []
+
+        # Iterate through the line patterns
+        for line in PAYLINES:
+            line_symbols = [result[reel][row] for reel, row in enumerate(line)]
+            count = self.count_line(line_symbols)
+            if count >= 3:
+                # All symbols in the line are the same, it's a win!
+                symbol = line_symbols.pop(0)
+                self.can_animate = True
+                # Record the winning line
+                winning_line = [symbol, line[:count]]
+                winning_lines.append(winning_line)
+
+        return winning_lines
+    
+    def count_line(self, line):
+        groups = groupby(line)
+        _, group = next(groups)
+        return len(list(group))
 
     def pay_player(self, win_data, curr_player):
-        multiplier = 0
-        spin_payout = 0
-        for v in win_data.values():
-            multiplier += len(v[1])
-        spin_payout = (multiplier * curr_player.bet_size)
+        # multiplier = 0
+        # spin_payout = 0
+        # for v in win_data.values():
+        #     multiplier += len(v[1])
+        # spin_payout = (multiplier * curr_player.bet_size)
+        spin_payout = 100
         curr_player.balance += spin_payout
         self.machine_balance -= spin_payout
         curr_player.last_payout = spin_payout
@@ -131,20 +157,15 @@ class Machine:
 
     def win_animation(self):
         if self.win_animation_ongoing and self.win_data:
-            for k, v in list(self.win_data.items()):
-                if k == 1:
-                    animationRow = 3
-                elif k == 3:
-                    animationRow = 1
-                else:
-                    animationRow = 2
-                animationCols = v[1]
-                for reel in self.reel_list:
-                    if reel in animationCols and self.can_animate:
-                        self.reel_list[reel].symbol_list.sprites()[animationRow].fade_in = True
-                    for symbol in self.reel_list[reel].symbol_list:
-                        if not symbol.fade_in:
-                            symbol.fade_out = True
+            for win in self.win_data:
+                for reel, row in enumerate(win[1]):
+                    row = 3 - row
+                    self.reel_list[reel].symbol_list.sprites()[row].fade_in = True
+
+            for reel in range(5):
+                for symbol in self.reel_list[reel].symbol_list:
+                    if not symbol.fade_in:
+                        symbol.fade_out = True
 
     def update(self, delta_time):
         self.cooldowns()
