@@ -30,22 +30,25 @@ WIN_FONT_SIZE = 110
 # 4 Symbols for more wins
 symbols = {
     # 'diamond': f"{SYM_PATH}/0_diamond.png", 
-    # 'chug': f"{SYM_PATH}/0_chug.png",
-    # 'wah': f"{SYM_PATH}/0_wah.png",
-    # 'jdg': f"{SYM_PATH}/0_jdg.png",
-    # 'mgcil': f"{SYM_PATH}/0_mgcil.png",
-    'seven': f"{SYM_PATH}/0_seven.png",
-    'telephone': f"{SYM_PATH}/0_telephone.png"
+    'chug': f"{SYM_PATH}/0_chug.png",
+    'wah': f"{SYM_PATH}/0_wah.png",
+    'jdg': f"{SYM_PATH}/0_jdg.png",
+    'mgcil': f"{SYM_PATH}/0_mgcil.png",
+    # 'seven': f"{SYM_PATH}/0_seven.png",
+    # 'telephone': f"{SYM_PATH}/0_telephone.png"
 }
 
 # Paylines (index=reel, value=row)
 PAYLINES = [
     [0, 0, 0, 0, 0],   # Top Row
     [1, 1, 1, 1, 1],   # Middle Row
-    [2, 2, 2, 2, 2]   # Bottom Row
-    # [(0, 1), (1, 2), (2, 2), (3, 2), (4, 2)],   # V
-    # [(0, 2), (1, 2), (2, 2), (3, 2), (4, 2)],   # Reverse V
-    # [(0, 2), (1, 2), (2, 2), (3, 2), (4, 2)],   # Bottom Row
-    # [(0, 2), (1, 2), (2, 2), (3, 2), (4, 2)],   # Bottom Row
-    # [(0, 2), (1, 2), (2, 2), (3, 2), (4, 2)],   # Bottom Row
+    [2, 2, 2, 2, 2],   # Bottom Row
+    [0, 1, 2, 1, 0],   # V
+    [2, 1, 0, 1, 2],   # Reverse V
+    [0, 0, 1, 2, 2],   # Cross top-left to bottom-right
+    [2, 2, 1, 0, 0],   # Cross bottom-left to top-right
+    [0, 1, 0, 1, 0],   # Top zig-zag
+    [1, 0, 1, 0, 1],   # Middle zig-zag 1
+    [1, 2, 1, 2, 1],   # Middle zig-zag 2
+    [2, 1, 2, 1, 2]    # Bottom zig-zag
 ]
