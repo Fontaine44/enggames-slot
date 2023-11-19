@@ -18,24 +18,21 @@ UI_FONT = 'graphics/font/Casino3D.ttf'
 UI_FONT_SIZE = 30
 WIN_FONT_SIZE = 110
 
-# 5 Symbols for demo
-# symbols = {
-#     'diamond': f"{SYM_PATH}/0_diamond.png", 
-#     'floppy': f"{SYM_PATH}/0_floppy.png",
-#     'hourglass': f"{SYM_PATH}/0_hourglass.png",
-#     'seven': f"{SYM_PATH}/0_seven.png",
-#     'telephone': f"{SYM_PATH}/0_telephone.png"
-# }
-
-# 4 Symbols for more wins
+# Symbols dictionnary
 symbols = {
-    # 'diamond': f"{SYM_PATH}/0_diamond.png", 
+    'diamond': f"{SYM_PATH}/0_diamond.png", 
     'chug': f"{SYM_PATH}/0_chug.png",
     'wah': f"{SYM_PATH}/0_wah.png",
     'jdg': f"{SYM_PATH}/0_jdg.png",
     'mgcil': f"{SYM_PATH}/0_mgcil.png",
-    # 'seven': f"{SYM_PATH}/0_seven.png",
-    # 'telephone': f"{SYM_PATH}/0_telephone.png"
+}
+
+symbols_weight = {
+    'diamond': 20, 
+    'chug': 2,
+    'wah': 10,
+    'jdg': 10,
+    'mgcil': 10,
 }
 
 # Paylines (index=reel, value=row)

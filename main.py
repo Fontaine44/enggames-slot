@@ -41,6 +41,7 @@ class Game:
             self.screen.blit(self.bg_image, (0, 0))
             self.machine.update(self.delta_time)
             self.screen.blit(self.grid_image, (0, 0))
+            self.machine.draw_paylines()
             self.clock.tick(FPS)
 
 if __name__ == '__main__':

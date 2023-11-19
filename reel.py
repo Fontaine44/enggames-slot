@@ -6,6 +6,7 @@ class Reel:
         self.symbol_list = pygame.sprite.Group()
         self.shuffled_keys = list(symbols.keys())
         random.shuffle(self.shuffled_keys)
+        self.weights = [symbols_weight[k] for k in self.shuffled_keys]
 
         self.reel_is_spinning = False
 
@@ -46,7 +47,7 @@ class Reel:
                         symbol_idx = symbol.idx
                         symbol.kill()
                         # Spawn random symbol in place of the above
-                        rand_key = random.choice(self.shuffled_keys)
+                        rand_key = random.choices(self.shuffled_keys, weights=self.weights, k=1)[0]
                         new_symbol = Symbol(symbols[rand_key], ((symbol.x_val), -300), symbol_idx)
                         self.symbol_list.add(new_symbol)
 

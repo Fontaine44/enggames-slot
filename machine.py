@@ -116,7 +116,7 @@ class Machine:
         winning_lines = []
 
         # Iterate through the line patterns
-        for line in PAYLINES:
+        for ind, line in enumerate(PAYLINES):
             line_symbols = [result[reel][row] for reel, row in enumerate(line)]
             count = self.count_line(line_symbols)
             if count >= 3:
@@ -124,7 +124,7 @@ class Machine:
                 symbol = line_symbols.pop(0)
                 self.can_animate = True
                 # Record the winning line
-                winning_line = [symbol, line[:count]]
+                winning_line = [ind, symbol, line[:count]]
                 winning_lines.append(winning_line)
 
         return winning_lines
@@ -155,10 +155,11 @@ class Machine:
         elif sum == 4: self.win_four.play()
         elif sum > 4: self.win_five.play()
 
+    # Toggle the fade on the winning/losing symbols
     def win_animation(self):
         if self.win_animation_ongoing and self.win_data:
             for win in self.win_data:
-                for reel, row in enumerate(win[1]):
+                for reel, row in enumerate(win[2]):
                     row = 3 - row
                     self.reel_list[reel].symbol_list.sprites()[row].fade_in = True
 
@@ -167,6 +168,9 @@ class Machine:
                     if not symbol.fade_in:
                         symbol.fade_out = True
 
+    def draw_paylines(self):
+        pass
+            
     def update(self, delta_time):
         self.cooldowns()
         self.input()
