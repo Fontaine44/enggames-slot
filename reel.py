@@ -6,7 +6,6 @@ class Reel:
         self.symbol_list = pygame.sprite.Group()
         self.shuffled_keys = list(symbols.keys())
         random.shuffle(self.shuffled_keys)
-        self.shuffled_keys = self.shuffled_keys[:5] # Only matters when there are more than 5 symbols
 
         self.reel_is_spinning = False
 
@@ -14,8 +13,10 @@ class Reel:
         # self.stop_sound = pygame.mixer.Sound('audio/stop.mp3')
         # self.stop_sound.set_volume(0.5)
 
-        for idx, item in enumerate(self.shuffled_keys):
-            self.symbol_list.add(Symbol(symbols[item], pos, idx))
+        # Init symbols in reel
+        for idx in range(5):
+            rand_key = random.choice(self.shuffled_keys)
+            self.symbol_list.add(Symbol(symbols[rand_key], pos, idx))
             pos = list(pos)
             pos[1] += 300
             pos = tuple(pos)
@@ -32,7 +33,7 @@ class Reel:
             # Stagger reel spin start animation
             if self.delay_time <= 0:
 
-                # Iterate through all 5 symbols in reel; truncate; add new random symbol on top of stack
+                # Iterate through all symbols in reel; truncate; add new random symbol on top of stack
                 for symbol in self.symbol_list:
                     symbol.rect.bottom += 100
 
@@ -45,7 +46,9 @@ class Reel:
                         symbol_idx = symbol.idx
                         symbol.kill()
                         # Spawn random symbol in place of the above
-                        self.symbol_list.add(Symbol(symbols[random.choice(self.shuffled_keys)], ((symbol.x_val), -300), symbol_idx))
+                        rand_key = random.choice(self.shuffled_keys)
+                        new_symbol = Symbol(symbols[rand_key], ((symbol.x_val), -300), symbol_idx)
+                        self.symbol_list.add(new_symbol)
 
     def start_spin(self, delay_time):
         self.delay_time = delay_time
@@ -55,8 +58,9 @@ class Reel:
     def reel_spin_result(self):
         # Get and return text representation of symbols in a given reel
         spin_symbols = []
+        sprites = self.symbol_list.sprites()
         for i in GAME_INDICES:
-            spin_symbols.append(self.symbol_list.sprites()[i].sym_type)
+            spin_symbols.append(sprites[i].sym_type)
         return spin_symbols[::-1]
 
 class Symbol(pygame.sprite.Sprite):
