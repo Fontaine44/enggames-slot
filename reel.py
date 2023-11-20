@@ -17,7 +17,7 @@ class Reel:
         # Init symbols in reel
         for idx in range(5):
             rand_key = random.choice(self.shuffled_keys)
-            self.symbol_list.add(Symbol(SYMBOLS_PATH[rand_key], pos, idx))
+            self.symbol_list.add(Symbol(rand_key, pos, idx))
             pos = list(pos)
             pos[1] += 300
             pos = tuple(pos)
@@ -48,7 +48,7 @@ class Reel:
                         symbol.kill()
                         # Spawn random symbol in place of the above
                         rand_key = random.choices(self.shuffled_keys, weights=self.weights, k=1)[0]
-                        new_symbol = Symbol(SYMBOLS_PATH[rand_key], ((symbol.x_val), -300), symbol_idx)
+                        new_symbol = Symbol(rand_key, ((symbol.x_val), -300), symbol_idx)
                         self.symbol_list.add(new_symbol)
 
     def start_spin(self, delay_time):
@@ -65,15 +65,13 @@ class Reel:
         return spin_symbols[::-1]
 
 class Symbol(pygame.sprite.Sprite):
-    def __init__(self, pathToFile, pos, idx):
+    def __init__(self, sym_key, pos, idx):
         super().__init__()
 
-        # Friendly name
-        self.sym_type = pathToFile.split('/')[3].split('.')[0]
-
+        self.sym_type = sym_key
         self.pos = pos
         self.idx = idx
-        self.image = pygame.image.load(pathToFile).convert_alpha()
+        self.image = pygame.image.load(SYMBOLS_PATH[sym_key]).convert_alpha()
         self.rect = self.image.get_rect(topleft = pos)
         self.x_val = self.rect.left
 

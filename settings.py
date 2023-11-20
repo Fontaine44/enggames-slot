@@ -7,10 +7,10 @@ START_X, START_Y = 0, -300
 X_OFFSET, Y_OFFSET = 20, 0
 
 # Images
-BG_IMAGE_PATH = 'graphics/0/bg_black.png'
-GRID_IMAGE_PATH = 'graphics/0/gridline.png'
+BG_IMAGE_PATH = 'graphics/assets/bg_black.png'
+GRID_IMAGE_PATH = 'graphics/assets/gridline.png'
 GAME_INDICES = [1, 2, 3] # 0 and 4 are outside of play area
-SYM_PATH = 'graphics/0/symbols'
+SYM_PATH = 'graphics/symbols'
 
 # Text
 TEXT_COLOR = 'White'
@@ -20,27 +20,27 @@ WIN_FONT_SIZE = 110
 
 # Symbols dictionnary
 SYMBOLS_PATH = {
-    'diamond': f"{SYM_PATH}/0_diamond.png", 
-    'chug': f"{SYM_PATH}/0_chug.png",
-    'wah': f"{SYM_PATH}/0_wah.png",
-    'jdg': f"{SYM_PATH}/0_jdg.png",
-    'mgcil': f"{SYM_PATH}/0_mgcil.png",
+    'diamond': f"{SYM_PATH}/diamond.png", 
+    'chug': f"{SYM_PATH}/chug.png",
+    'wah': f"{SYM_PATH}/wah.png",
+    'jdg': f"{SYM_PATH}/jdg.png",
+    'mgcil': f"{SYM_PATH}/mgcil.png",
 }
 
 SYMBOLS_WEIGHT = {
     'diamond': 20, 
-    'chug': 2,
+    'chug': 3,
     'wah': 10,
     'jdg': 10,
     'mgcil': 10,
 }
 
 SYMBOLS_PAY = {
-    '0_diamond': 1, 
-    '0_chug': 0,
-    '0_wah': 2,
-    '0_jdg': 2,
-    '0_mgcil': 2,
+    'diamond': 1, 
+    'chug': 0,
+    'wah': 2,
+    'jdg': 2,
+    'mgcil': 2,
 }
 
 # Paylines (index=reel, value=row)

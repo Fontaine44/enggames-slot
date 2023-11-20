@@ -13,12 +13,10 @@ class Machine:
         self.reel_list = {}
         self.can_toggle = True
         self.spinning = False
-        self.can_animate = False
         self.win_animation_ongoing = False
 
-        # Results
-        self.prev_result = {0: None, 1: None, 2: None, 3: None, 4: None}
-        self.spin_result = {0: None, 1: None, 2: None, 3: None, 4: None}
+        # Init empty results 2D array
+        self.spin_result = [[] for _ in range(5)]
 
         self.spawn_reels()
         self.currPlayer = Player()
@@ -44,9 +42,9 @@ class Machine:
         # Wait for reel to finish spinning and check for win
         if not self.can_toggle and [self.reel_list[reel].reel_is_spinning for reel in self.reel_list].count(False) == 5:
             self.can_toggle = True
-            self.spin_result = self.get_result()
+            self.set_result()       # Set self.spin_result with new results
 
-            self.win_data = self.check_wins(self.spin_result)
+            self.win_data, self.bonus_data  = self.check_wins(self.spin_result)
             if self.win_data:
                 # Play the win sound
                 # self.play_win_sound(self.win_data)
@@ -90,12 +88,23 @@ class Machine:
                 # self.spin_sound.play()
                 self.win_animation_ongoing = False
 
-    def get_result(self):
+    # Set spin_result with new results (2D arrays of symbol strings)
+    def set_result(self):
         for reel in self.reel_list:
             self.spin_result[reel] = self.reel_list[reel].reel_spin_result()
-        return self.spin_result
 
-    def check_wins(self, result):
+    # Check for winning lines or winning bonus and returns lists of wins
+    def check_wins(self, result):         
+        # Check for winning lines in the result
+        winning_lines = self.check_lines(result)
+
+        # Check for winning bonus in the result
+        winning_bonus = self.check_bonus(result)
+
+        return winning_lines, winning_bonus
+
+    # Returns list of winning paylines
+    def check_lines(self, result):
         # Initialize a list to store winning lines
         winning_lines = []
 
@@ -104,15 +113,43 @@ class Machine:
             line_symbols = [result[reel][row] for reel, row in enumerate(line)]
             count = self.count_line(line_symbols)
             if count >= 3:
-                # All symbols in the line are the same, it's a win!
                 symbol = line_symbols.pop(0)
-                self.can_animate = True
-                # Record the winning line
-                winning_line = [ind, symbol, line[:count]]
-                winning_lines.append(winning_line)
+
+                # Add winning line if not chug or sip
+                if symbol not in ['chug', 'sip']:
+                    # Record the winning line
+                    winning_line = [ind, symbol, line[:count]]
+                    winning_lines.append(winning_line)
 
         return winning_lines
     
+    # Check if grid contains 3 bonus symbols
+    def check_bonus(self, result):
+        chug_count = 0
+        sip_count = 0
+
+        chug_symbols = []
+        sip_symbols = []
+
+        for reel, reel_symbols in enumerate(result):
+            for row, symbol in enumerate(reel_symbols):
+                if symbol == 'chug':
+                    chug_count += 1
+                    chug_symbols.append((reel, row))
+                elif symbol == 'sip':
+                    sip_count += 1
+                    sip_symbols.append((reel, row))
+        
+        # Add winning bonus to the list
+        winning_bonus = []
+        if chug_count >= 3:
+            winning_bonus.append(['chug', chug_symbols])
+        if sip_count >= 3:
+            winning_bonus.append(['sip', sip_symbols])
+
+        return winning_bonus
+
+    # Count the number of identic symbols at the beginning of a payline
     def count_line(self, line):
         groups = groupby(line)
         _, group = next(groups)
