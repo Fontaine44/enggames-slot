@@ -37,8 +37,14 @@ class Machine:
         # self.win_five = pygame.mixer.Sound('audio/winfive.wav')
         # self.win_five.set_volume(0.8)
 
+    def load_symbols(self):
+        symbols_surfaces = {}
+        for key, path in SYMBOLS_PATH.items():
+            symbols_surfaces[key] = pygame.image.load(path).convert_alpha()
+        return symbols_surfaces
+
     def cooldowns(self):
-        # Only lets player spin if all reels are NOT spinning
+        # Only lets player spin if all reels are NOT spinning and animations are done
         for reel in self.reel_list:
             if self.reel_list[reel].reel_is_spinning:
                 self.can_toggle = False
@@ -83,13 +89,14 @@ class Machine:
             self.reel_list[reel].animate(delta_time)
 
     def spawn_reels(self):
+        symbols_surfaces = self.load_symbols()
         if not self.reel_list:
             x_topleft, y_topleft = 10, -300
         while self.reel_index < 5:
             if self.reel_index > 0:
                 x_topleft, y_topleft = x_topleft + (300 + X_OFFSET), y_topleft
             
-            self.reel_list[self.reel_index] = Reel((x_topleft, y_topleft)) # Need to create reel class
+            self.reel_list[self.reel_index] = Reel(symbols_surfaces, (x_topleft, y_topleft)) # Need to create reel class
             self.reel_index += 1
 
     def toggle_spinning(self):
@@ -102,6 +109,7 @@ class Machine:
                 self.reel_list[reel].start_spin(int(reel) * 200)
                 # self.spin_sound.play()
                 self.win_animation_ongoing = False
+                self.bonus_animation_ongoing = False
 
     # Set spin_result with new results (2D arrays of symbol strings)
     def set_result(self):
@@ -243,9 +251,6 @@ class Machine:
             print("Bonus")
             self.toggle_bonus_animation(True, self.bonus_data[0])
             
-
-
-
     def update(self, delta_time):
         self.cooldowns()
         self.input()

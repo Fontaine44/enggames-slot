@@ -2,11 +2,12 @@ from settings import *
 import pygame, random
 
 class Reel:
-    def __init__(self, pos):
+    def __init__(self, symbols_surfaces, pos):
         self.symbol_list = pygame.sprite.Group()
         self.shuffled_keys = list(SYMBOLS_PATH.keys())
         random.shuffle(self.shuffled_keys)
         self.weights = [SYMBOLS_WEIGHT[k] for k in self.shuffled_keys]
+        self.symbols_surfaces = symbols_surfaces
 
         self.reel_is_spinning = False
 
@@ -17,7 +18,8 @@ class Reel:
         # Init symbols in reel
         for idx in range(5):
             rand_key = random.choices(self.shuffled_keys, weights=self.weights, k=1)[0]
-            self.symbol_list.add(Symbol(rand_key, pos, idx))
+            image = self.symbols_surfaces[rand_key]
+            self.symbol_list.add(Symbol(image, rand_key, pos, idx))
             pos = list(pos)
             pos[1] += 300
             pos = tuple(pos)
@@ -48,7 +50,8 @@ class Reel:
                         symbol.kill()
                         # Spawn random symbol in place of the above
                         rand_key = random.choices(self.shuffled_keys, weights=self.weights, k=1)[0]
-                        new_symbol = Symbol(rand_key, ((symbol.x_val), -300), symbol_idx)
+                        image = self.symbols_surfaces[rand_key]
+                        new_symbol = Symbol(image, rand_key, ((symbol.x_val), -300), symbol_idx)
                         self.symbol_list.add(new_symbol)
 
     def start_spin(self, delay_time):
@@ -67,13 +70,14 @@ class Reel:
         return spin_symbols[::-1], spin_symbols_obj[::-1]
 
 class Symbol(pygame.sprite.Sprite):
-    def __init__(self, sym_type, pos, idx):
+    def __init__(self, image, sym_type, pos, idx):
         super().__init__()
 
+        self.image = image.copy()
         self.sym_type = sym_type
         self.pos = pos
         self.idx = idx
-        self.image = pygame.image.load(SYMBOLS_PATH[sym_type]).convert_alpha()
+
         self.rect = self.image.get_rect(topleft = pos)
         self.x_val = self.rect.left
 
