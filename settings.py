@@ -1,6 +1,6 @@
 # Display settings
 DEFAULT_IMAGE_SIZE = (300, 300)
-FPS = 120
+FPS = 60
 HEIGHT = 1000
 WIDTH = 1600
 START_X, START_Y = 0, -300
@@ -21,26 +21,29 @@ WIN_FONT_SIZE = 110
 # Symbols dictionnary
 SYMBOLS_PATH = {
     'diamond': f"{SYM_PATH}/diamond.png", 
-    'chug': f"{SYM_PATH}/chug.png",
+    'sip': f"{SYM_PATH}/sip.png",
     'wah': f"{SYM_PATH}/wah.png",
     'jdg': f"{SYM_PATH}/jdg.png",
     'mgcil': f"{SYM_PATH}/mgcil.png",
+    'bonus': f"{SYM_PATH}/bonus.png"
 }
 
 SYMBOLS_WEIGHT = {
-    'diamond': 20, 
-    'chug': 3,
+    'diamond': 0, 
+    'sip': 5,
     'wah': 10,
-    'jdg': 10,
+    'jdg': 2,
     'mgcil': 10,
+    'bonus': 1
 }
 
 SYMBOLS_PAY = {
     'diamond': 1, 
-    'chug': 0,
+    'sip': 0,
     'wah': 2,
     'jdg': 2,
     'mgcil': 2,
+    'bonus': 0
 }
 
 # Paylines (index=reel, value=row)

@@ -16,7 +16,7 @@ class Reel:
 
         # Init symbols in reel
         for idx in range(5):
-            rand_key = random.choice(self.shuffled_keys)
+            rand_key = random.choices(self.shuffled_keys, weights=self.weights, k=1)[0]
             self.symbol_list.add(Symbol(rand_key, pos, idx))
             pos = list(pos)
             pos[1] += 300
@@ -56,22 +56,24 @@ class Reel:
         self.spin_time = 1000 + delay_time
         self.reel_is_spinning = True
 
+    # Gets and returns the symbols and sprites in a given reel
     def reel_spin_result(self):
-        # Get and return text representation of symbols in a given reel
+        spin_symbols_obj = []
         spin_symbols = []
         sprites = self.symbol_list.sprites()
         for i in GAME_INDICES:
+            spin_symbols_obj.append(sprites[i])
             spin_symbols.append(sprites[i].sym_type)
-        return spin_symbols[::-1]
+        return spin_symbols[::-1], spin_symbols_obj[::-1]
 
 class Symbol(pygame.sprite.Sprite):
-    def __init__(self, sym_key, pos, idx):
+    def __init__(self, sym_type, pos, idx):
         super().__init__()
 
-        self.sym_type = sym_key
+        self.sym_type = sym_type
         self.pos = pos
         self.idx = idx
-        self.image = pygame.image.load(SYMBOLS_PATH[sym_key]).convert_alpha()
+        self.image = pygame.image.load(SYMBOLS_PATH[sym_type]).convert_alpha()
         self.rect = self.image.get_rect(topleft = pos)
         self.x_val = self.rect.left
 
@@ -79,19 +81,29 @@ class Symbol(pygame.sprite.Sprite):
         self.size_x = 300
         self.size_y = 300
         self.alpha = 255
-        self.fade_out = False
-        self.fade_in = False
+        self.winning = False
+        self.bonus = False
 
-    def update(self):
-        # Slightly increases size of winning symbols
-        if self.fade_in:
-            if self.size_x < 310:
-                self.size_x += 1
-                self.size_y += 1
-                self.image = pygame.transform.scale(self.image, (self.size_x, self.size_y))
-        
+    def update(self, win_animation_ongoing, bonus_animation_ongoing):
         # Fades out non-winning symbols
-        elif not self.fade_in and self.fade_out:
-            if self.alpha > 115:
-                self.alpha -= 7
-                self.image.set_alpha(self.alpha)
+        if win_animation_ongoing:
+            if self.winning:
+                if self.alpha <= 255:
+                    self.alpha += 20
+            else:
+                if self.alpha > 115:
+                    self.alpha -= 20
+            # Update alpha value
+            self.image.set_alpha(self.alpha)
+
+        elif bonus_animation_ongoing:
+            if self.bonus:
+                if self.alpha <= 255:
+                    self.alpha += 20
+            else:
+                if self.alpha > 115:
+                    self.alpha -= 20
+            # Update alpha value
+            self.image.set_alpha(self.alpha)
+
+        
