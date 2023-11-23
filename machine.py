@@ -11,8 +11,9 @@ class Machine:
         self.machine_balance = 10000.00
         self.reel_index = 0
         self.reel_list = {}
-        self.can_toggle = True
+        self.can_spin = True
         self.spinning = False
+        self.checked_win = True
         self.win_animation_ongoing = False
         self.bonus_animation_ongoing = False
 
@@ -37,6 +38,7 @@ class Machine:
         # self.win_five = pygame.mixer.Sound('audio/winfive.wav')
         # self.win_five.set_volume(0.8)
 
+    # Load symbols into dictionary
     def load_symbols(self):
         symbols_surfaces = {}
         for key, path in SYMBOLS_PATH.items():
@@ -45,14 +47,11 @@ class Machine:
 
     def cooldowns(self):
         # Only lets player spin if all reels are NOT spinning and animations are done
-        for reel in self.reel_list:
-            if self.reel_list[reel].reel_is_spinning:
-                self.can_toggle = False
-                self.spinning = True
+        self.spinning = self.is_spinning()
 
         # Wait for reel to finish spinning and check for win
-        if not self.can_toggle and [self.reel_list[reel].reel_is_spinning for reel in self.reel_list].count(False) == 5:
-            self.can_toggle = True
+        if not self.checked_win and not self.spinning:
+            self.checked_win = True
             self.set_result()       # Set spin_result and spin_result_obj
 
             self.win_data, self.bonus_data  = self.check_wins(self.spin_result)
@@ -73,12 +72,21 @@ class Machine:
             elif self.bonus_data:
                 self.bonus_animation_ongoing = True
 
+            else:
+                # No win, allow new spin
+                self.can_spin = True
+
+    # Returns true if the machine is spinning (last reel is still spinning)
+    def is_spinning(self):
+        return self.reel_list[4].is_spinning
+
+    # Start spin if spacebar is pressed
     def input(self):
         keys = pygame.key.get_pressed()
 
         # Checks for space key, ability to toggle spin, and balance to cover bet size
-        if keys[pygame.K_SPACE] and self.can_toggle and self.curr_player.balance >= self.curr_player.bet_size:
-            self.toggle_spinning()
+        if keys[pygame.K_SPACE] and self.can_spin and self.curr_player.balance >= self.curr_player.bet_size:
+            self.start_spinning()
             self.spin_time = pygame.time.get_ticks()
             self.curr_player.place_bet()
             self.machine_balance += self.curr_player.bet_size
@@ -99,17 +107,17 @@ class Machine:
             self.reel_list[self.reel_index] = Reel(symbols_surfaces, (x_topleft, y_topleft)) # Need to create reel class
             self.reel_index += 1
 
-    def toggle_spinning(self):
-        if self.can_toggle:
-            self.spin_time = pygame.time.get_ticks()
-            self.spinning = not self.spinning
-            self.can_toggle = False
+    def start_spinning(self):
+        self.checked_win = False
+        self.spin_time = pygame.time.get_ticks()
+        self.spinning = True
+        self.can_spin = False
 
-            for reel in self.reel_list:
-                self.reel_list[reel].start_spin(int(reel) * 200)
-                # self.spin_sound.play()
-                self.win_animation_ongoing = False
-                self.bonus_animation_ongoing = False
+        for reel in self.reel_list:
+            self.reel_list[reel].start_spin(int(reel) * 200)
+            # self.spin_sound.play()
+            self.win_animation_ongoing = False
+            self.bonus_animation_ongoing = False
 
     # Set spin_result with new results (2D arrays of symbol strings)
     def set_result(self):
@@ -236,7 +244,10 @@ class Machine:
                         # Reset to first line win
                         self.current_animation = 0
                         # Turn on next animation
-                        self.toggle_win_animation(True, self.win_data[self.current_animation])   
+                        self.toggle_win_animation(True, self.win_data[self.current_animation])
+                        # Allow new spin
+                        self.can_spin = True
+
                 else:
                     # Increment current animation index
                     self.current_animation += 1
@@ -250,6 +261,7 @@ class Machine:
         if self.bonus_animation_ongoing:
             print("Bonus")
             self.toggle_bonus_animation(True, self.bonus_data[0])
+            self.can_spin = True
             
     def update(self, delta_time):
         self.cooldowns()
