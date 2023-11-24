@@ -26,7 +26,7 @@ class Symbol(pygame.sprite.Sprite):
                 if self.alpha <= 255:
                     self.alpha += 20
             else:
-                if self.alpha > 115:
+                if self.alpha > 95:
                     self.alpha -= 20
             # Update alpha value
             self.image.set_alpha(self.alpha)
@@ -36,7 +36,7 @@ class Symbol(pygame.sprite.Sprite):
                 if self.alpha <= 255:
                     self.alpha += 20
             else:
-                if self.alpha > 115:
+                if self.alpha > 95:
                     self.alpha -= 20
             # Update alpha value
             self.image.set_alpha(self.alpha)
