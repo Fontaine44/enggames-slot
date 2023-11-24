@@ -42,7 +42,8 @@ class Machine:
     def load_symbols(self):
         symbols_surfaces = {}
         for key, path in SYMBOLS_PATH.items():
-            symbols_surfaces[key] = pygame.image.load(path).convert_alpha()
+            image = pygame.image.load(path).convert_alpha()
+            symbols_surfaces[key] = pygame.transform.scale(image, DEFAULT_IMAGE_SIZE)
         return symbols_surfaces
 
     def cooldowns(self):
@@ -99,10 +100,10 @@ class Machine:
     def spawn_reels(self):
         symbols_surfaces = self.load_symbols()
         if not self.reel_list:
-            x_topleft, y_topleft = 10, -300
+            x_topleft, y_topleft = 10, -DEFAULT_IMAGE_SIZE[0]
         while self.reel_index < 5:
             if self.reel_index > 0:
-                x_topleft, y_topleft = x_topleft + (300 + X_OFFSET), y_topleft
+                x_topleft, y_topleft = x_topleft + (DEFAULT_IMAGE_SIZE[0] + X_OFFSET), y_topleft
             
             self.reel_list[self.reel_index] = Reel(symbols_surfaces, (x_topleft, y_topleft)) # Need to create reel class
             self.reel_index += 1
@@ -259,7 +260,6 @@ class Machine:
     
     def bonus_animation(self):
         if self.bonus_animation_ongoing:
-            print("Bonus")
             self.toggle_bonus_animation(True, self.bonus_data[0])
             self.can_spin = True
             

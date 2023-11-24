@@ -9,8 +9,8 @@ class Reel:
         random.shuffle(self.shuffled_keys)
         self.weights = [SYMBOLS_WEIGHT[k] for k in self.shuffled_keys]
         self.symbols_surfaces = symbols_surfaces
-
         self.is_spinning = False
+        self.image_size = DEFAULT_IMAGE_SIZE[0]
 
         # Sounds
         # self.stop_sound = pygame.mixer.Sound('audio/stop.mp3')
@@ -21,9 +21,7 @@ class Reel:
             rand_key = random.choices(self.shuffled_keys, weights=self.weights, k=1)[0]
             image = self.symbols_surfaces[rand_key]
             self.symbol_list.add(Symbol(image, rand_key, pos, idx))
-            pos = list(pos)
-            pos[1] += 300
-            pos = tuple(pos)
+            pos = (pos[0], pos[1] + self.image_size)
 
     def animate(self, delta_time):
         if self.is_spinning:
@@ -42,7 +40,7 @@ class Reel:
                     symbol.rect.bottom += 100
 
                     # Correct spacing is dependent on the above addition eventually hitting 1200
-                    if symbol.rect.top == 1200:
+                    if symbol.rect.top == self.image_size*4:
                         if reel_is_stopping:
                             self.is_spinning = False
                             # self.stop_sound.play()
@@ -52,7 +50,7 @@ class Reel:
                         # Spawn random symbol in place of the above
                         rand_key = random.choices(self.shuffled_keys, weights=self.weights, k=1)[0]
                         image = self.symbols_surfaces[rand_key]
-                        new_symbol = Symbol(image, rand_key, ((symbol.x_val), -300), symbol_idx)
+                        new_symbol = Symbol(image, rand_key, ((symbol.x_val), -self.image_size), symbol_idx)
                         self.symbol_list.add(new_symbol)
 
     def start_spin(self, delay_time):

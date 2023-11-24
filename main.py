@@ -40,10 +40,19 @@ class Game:
             pygame.display.update()
             self.screen.blit(self.bg_image, (0, 0))
             self.machine.update(self.delta_time)
-            self.screen.blit(self.grid_image, (0, 0))
+            # self.screen.blit(self.grid_image, (0, 0))
             self.machine.draw_paylines()
             self.clock.tick(FPS)
+
+
 
 if __name__ == '__main__':
     game = Game()
     game.run()
+
+# def main():
+#     game = Game()
+#     game.run()
+
+# import cProfile as profile
+# profile.run('main()')
