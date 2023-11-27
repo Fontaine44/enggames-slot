@@ -11,7 +11,7 @@ class Game:
         # General setup
         pygame.init()
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
-        pygame.display.set_caption('Slot Machine Demo')
+        pygame.display.set_caption('MGCIL DRINKING SLOT MACHINE')
         self.clock = pygame.time.Clock()
         self.bg_image = pygame.image.load(BG_IMAGE_PATH).convert_alpha()
         self.grid_image = pygame.image.load(GRID_IMAGE_PATH).convert_alpha()
@@ -38,10 +38,13 @@ class Game:
             self.start_time = pygame.time.get_ticks()
 
             pygame.display.update()
-            self.screen.blit(self.bg_image, (0, 0))
+            # self.screen.blit(self.bg_image, (0, 0))
+            # self.screen.fill(BLACK)
+            pygame.draw.rect(self.screen, RED, REELS_ZONE) # Slot
+            pygame.draw.rect(self.screen, GREEN, BOTTOM_UI_ZONE) # Balance
+            pygame.draw.rect(self.screen, BLUE, SIDE_UI_ZONE) # Info
             self.machine.update(self.delta_time)
             # self.screen.blit(self.grid_image, (0, 0))
-            self.machine.draw_paylines()
             self.clock.tick(FPS)
 
 

@@ -7,9 +7,13 @@ import pygame
 
 class Machine:
     def __init__(self):
+        # Create surfaces
         self.display_surface = pygame.display.get_surface()
+        self.reels_surface = pygame.Surface((REELS_ZONE[2], REELS_ZONE[3]))
+        self.bottom_ui_surface = pygame.Surface((BOTTOM_UI_ZONE[2], BOTTOM_UI_ZONE[3]))
+        self.side_ui_surface = pygame.Surface((SIDE_UI_ZONE[2], SIDE_UI_ZONE[3]))
+
         self.machine_balance = 10000.00
-        self.reel_index = 0
         self.reel_list = {}
         self.can_spin = True
         self.spinning = False
@@ -43,7 +47,7 @@ class Machine:
         symbols_surfaces = {}
         for key, path in SYMBOLS_PATH.items():
             image = pygame.image.load(path).convert_alpha()
-            symbols_surfaces[key] = pygame.transform.scale(image, DEFAULT_IMAGE_SIZE)
+            symbols_surfaces[key] = pygame.transform.scale(image, (SYMBOL_SIZE, SYMBOL_SIZE))
         return symbols_surfaces
 
     def cooldowns(self):
@@ -98,15 +102,11 @@ class Machine:
             self.reel_list[reel].animate(delta_time)
 
     def spawn_reels(self):
-        symbols_surfaces = self.load_symbols()
-        if not self.reel_list:
-            x_topleft, y_topleft = 10, -DEFAULT_IMAGE_SIZE[0]
-        while self.reel_index < 5:
-            if self.reel_index > 0:
-                x_topleft, y_topleft = x_topleft + (DEFAULT_IMAGE_SIZE[0] + X_OFFSET), y_topleft
-            
-            self.reel_list[self.reel_index] = Reel(symbols_surfaces, (x_topleft, y_topleft)) # Need to create reel class
-            self.reel_index += 1
+        symbols_surfaces = self.load_symbols()              # Create dictionnary of surfaces
+        x_topleft, y_topleft = 0, -SYMBOL_SIZE    # Top left position of the reel
+        # Spawn 5 reels
+        for i in range(5):
+            self.reel_list[i] = Reel(symbols_surfaces, x_topleft + i*SYMBOL_SIZE, y_topleft) # Need to create reel class
 
     def start_spinning(self):
         self.checked_win = False
@@ -267,10 +267,15 @@ class Machine:
         self.cooldowns()
         self.input()
         self.draw_reels(delta_time)
+        self.reels_surface.fill(BLACK)
         for reel in self.reel_list:
-            self.reel_list[reel].symbol_list.draw(self.display_surface)
+            self.reel_list[reel].symbol_list.draw(self.reels_surface)
             self.reel_list[reel].symbol_list.update(self.win_animation_ongoing, self.bonus_animation_ongoing)
-        self.ui.update()
+            # for im in self.reel_list[reel].symbol_list:
+            #     pygame.draw.rect(self.reels_surface, BLUE, im.rect, width=1)
+        self.display_surface.blit(self.reels_surface, REELS_ZONE[:2])
+
+        # self.ui.update()
         self.win_animation()
         self.bonus_animation()
 

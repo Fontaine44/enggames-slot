@@ -1,15 +1,18 @@
 # Display settings
-DEFAULT_IMAGE_SIZE = (200, 200)
+SYMBOL_SIZE = 225
 FPS = 60
 HEIGHT = 768
 WIDTH = 1366
-START_X, START_Y = 0, -200
-X_OFFSET, Y_OFFSET = 20, 0
+REEL_SPEED = 75     # number of pixels down per frame, must be a divider of the image size (60, 80, 120)
+SPIN_TIME = 1000
+# topleft_x, topleft_y, width, height
+REELS_ZONE = [0, 0, SYMBOL_SIZE*5, SYMBOL_SIZE*3]
+BOTTOM_UI_ZONE = [0, REELS_ZONE[3], WIDTH, HEIGHT-REELS_ZONE[3]]
+SIDE_UI_ZONE =  [REELS_ZONE[2], 0, WIDTH-REELS_ZONE[2], HEIGHT]
 
 # Images
 BG_IMAGE_PATH = 'graphics/assets/bg_black.png'
 GRID_IMAGE_PATH = 'graphics/assets/gridline.png'
-GAME_INDICES = [1, 2, 3] # 0 and 4 are outside of play area
 SYM_PATH = 'graphics/symbols'
 
 # Text
@@ -17,6 +20,14 @@ TEXT_COLOR = 'White'
 UI_FONT = 'graphics/font/Casino3D.ttf'
 UI_FONT_SIZE = 30
 WIN_FONT_SIZE = 110
+
+# Colors
+BLACK = (0, 0, 0)
+GRAY = (127, 127, 127)
+WHITE = (255, 255, 255)
+RED = (255, 0, 0)
+GREEN = (0, 255, 0)
+BLUE = (0, 0, 255)
 
 # Symbols dictionnary
 SYMBOLS_PATH = {

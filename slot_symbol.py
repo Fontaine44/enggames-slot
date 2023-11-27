@@ -1,20 +1,19 @@
+from settings import *
 import pygame
 
 class Symbol(pygame.sprite.Sprite):
-    def __init__(self, image, sym_type, pos, idx):
+    def __init__(self, image, sym_type, pos):
         super().__init__()
 
         self.image = image.copy()
         self.sym_type = sym_type
         self.pos = pos
-        self.idx = idx
 
         self.rect = self.image.get_rect(topleft = pos)
         self.x_val = self.rect.left
 
         # Used for win animations
-        self.size_x = 300
-        self.size_y = 300
+        self.size = SYMBOL_SIZE
         self.alpha = 255
         self.winning = False
         self.bonus = False
