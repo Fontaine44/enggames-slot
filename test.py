@@ -1,68 +1,64 @@
-"""
- Pygame base template for opening a window
- 
- Sample Python/Pygame Programs
- Simpson College Computer Science
- http://programarcadegames.com/
- http://simpson.edu/computer-science/
- 
- Explanation video: http://youtu.be/vRB_983kUMc
-"""
- 
 import pygame
-from pygame.locals import *
-
-BLACK = (0, 0, 0)
-GRAY = (127, 127, 127)
-WHITE = (255, 255, 255)
-RED = (255, 0, 0)
-GREEN = (0, 255, 0)
-BLUE = (0, 0, 255)
+import sys
 
 pygame.init()
- 
-# Set the width and height of the screen [width, height]
-size = (1366, 768)
-screen = pygame.display.set_mode(size)
- 
-pygame.display.set_caption("My Game")
- 
-# Loop until the user clicks the close button.
-done = False
- 
-# Used to manage how fast the screen updates
+
+# Set up display
+width, height = 800, 600
+screen = pygame.display.set_mode((width, height))
+pygame.display.set_caption("Smooth Scale-Down Animation")
+
+# Define a custom sprite class
+class MySprite(pygame.sprite.Sprite):
+    def __init__(self, image, position):
+        super().__init__()
+        self.original_image = image
+        self.image = image
+        self.rect = self.image.get_rect(topleft=position)
+        self.scale_factor = 1.0
+        self.target_scale = 0.5  # Target scale for the animation
+
+    def update(self):
+        # Linear interpolation (lerp) to smoothly transition between scale factors
+        self.scale_factor = pygame.math.lerp(self.scale_factor, self.target_scale, 0.05)
+        # Scale the original image
+        self.image = pygame.transform.rotozoom(self.original_image, 0, self.scale_factor)
+
+# Load sprite image
+sprite_image = pygame.image.load("graphics//symbols//wah.png")
+
+# Create a sprite group
+sprite_group = pygame.sprite.Group()
+
+# Create an instance of the custom sprite class
+my_sprite = MySprite(sprite_image, (100, 100))
+
+# Add the sprite to the group
+sprite_group.add(my_sprite)
+
 clock = pygame.time.Clock()
- 
-# -------- Main Program Loop -----------
-while not done:
-    # --- Main event loop
+
+running = True
+while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            done = True
- 
-    # --- Game logic should go here
- 
-    # --- Screen-clearing code goes here
- 
-    # Here, we clear the screen to white. Don't put other drawing commands
-    # above this, or they will be erased with this command.
- 
-    # If you want a background image, replace this clear with blit'ing the
-    # background image.
-    screen.fill(WHITE)
- 
-    # --- Drawing code should go here
-    # x, y, width, height
+            running = False
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                running = False
+            elif event.key == pygame.K_DOWN:
+                # Trigger the scale-down animation
+                my_sprite.target_scale = 0.1  # You can adjust the target scale as needed
 
-    pygame.draw.rect(screen, RED, [0, 0, 1030, 620]) # Slot
-    pygame.draw.rect(screen, GREEN, [0, 620, 1366, 148]) # Balance
-    pygame.draw.rect(screen, BLUE, [1030, 0, 366, 768]) # Info
- 
-    # --- Go ahead and update the screen with what we've drawn.
+    sprite_group.update()
+
+    screen.fill((255, 255, 255))
+
+    # Draw all sprites in the group
+    sprite_group.draw(screen)
+
     pygame.display.flip()
- 
-    # --- Limit to 60 frames per second
     clock.tick(60)
- 
-# Close the window and quit.
+
 pygame.quit()
+sys.exit()

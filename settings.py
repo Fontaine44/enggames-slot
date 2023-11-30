@@ -1,9 +1,9 @@
 # Display settings
-SYMBOL_SIZE = 225
+SYMBOL_SIZE = 222
 FPS = 60
 HEIGHT = 768
 WIDTH = 1366
-REEL_SPEED = 75     # number of pixels down per frame, must be a divider of the image size (60, 80, 120)
+REEL_SPEED = 74     # number of pixels down per frame, must be a divider of the image size (60, 80, 120)
 SPIN_TIME = 1000
 # topleft_x, topleft_y, width, height
 REELS_ZONE = [0, 0, SYMBOL_SIZE*5, SYMBOL_SIZE*3]
@@ -41,9 +41,9 @@ SYMBOLS_PATH = {
 
 SYMBOLS_WEIGHT = {
     'diamond': 0, 
-    'sip': 5,
+    'sip': 10,
     'wah': 10,
-    'jdg': 2,
+    'jdg': 8,
     'mgcil': 10,
     'bonus': 1
 }

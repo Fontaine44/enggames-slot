@@ -28,6 +28,8 @@ class Machine:
         # Index of the current win animation
         self.current_animation = 0
 
+        self.bonus_state = 0
+
         self.spawn_reels()
         self.curr_player = Player()
         self.ui = UI(self.curr_player)
@@ -75,7 +77,12 @@ class Machine:
                 self.ui.win_text_angle = random.randint(-4, 4)
             
             elif self.bonus_data:
+                # Reset animation parameters and start animation
                 self.bonus_animation_ongoing = True
+                self.current_animation = 0
+                self.current_animation_time = 0
+                self.bonus_state = 0
+                self.toggle_bonus_animation(True, self.bonus_data[self.current_animation])        # Start first animation
 
             else:
                 # No win, allow new spin
@@ -99,7 +106,15 @@ class Machine:
             
     def draw_reels(self, delta_time):
         for reel in self.reel_list:
-            self.reel_list[reel].animate(delta_time)
+
+            self.reel_list[reel].animate(delta_time)    # Move symbols
+
+            self.reel_list[reel].symbol_list.update(self.win_animation_ongoing, self.bonus_animation_ongoing, self.bonus_state)
+
+            self.reel_list[reel].symbol_list.draw(self.reels_surface)
+
+            # for im in self.reel_list[reel].symbol_list:
+            #     pygame.draw.rect(self.reels_surface, BLUE, im.rect, width=1)
 
     def spawn_reels(self):
         symbols_surfaces = self.load_symbols()              # Create dictionnary of surfaces
@@ -218,10 +233,18 @@ class Machine:
             self.spin_result_obj[reel][row].winning = state
     
     def toggle_bonus_animation(self, state, bonus):
+        # Turn on/off bonus on winning symbols
         for symbol in bonus[1]:
             reel = symbol[0]
             row = symbol[1]
-            self.spin_result_obj[reel][row].bonus = state
+            symbol = self.spin_result_obj[reel][row]
+            symbol.bonus = state
+
+            if not state:
+                # Reset scale
+                symbol.scale_factor = 1.0
+                symbol.scale_image()
+
 
 
     # Toogle win animation between win lines
@@ -229,7 +252,7 @@ class Machine:
         if self.win_animation_ongoing:
             self.current_animation_time += 1
 
-            if self.current_animation_time > 60:
+            if self.current_animation_time > FPS:
                 # Turn off animation current animation
                 self.toggle_win_animation(False, self.win_data[self.current_animation])
                 # Reset timer
@@ -241,6 +264,9 @@ class Machine:
                     if self.bonus_data:
                         self.win_animation_ongoing = False
                         self.bonus_animation_ongoing = True
+                        self.current_animation = 0
+                        self.bonus_state = 0
+                        self.toggle_bonus_animation(True, self.bonus_data[self.current_animation])
                     else:
                         # Reset to first line win
                         self.current_animation = 0
@@ -260,21 +286,23 @@ class Machine:
     
     def bonus_animation(self):
         if self.bonus_animation_ongoing:
-            self.toggle_bonus_animation(True, self.bonus_data[0])
-            self.can_spin = True
+            self.current_animation_time += 1
+
+            if self.current_animation_time > FPS*2:
+                self.current_animation_time = 0
+                self.bonus_state += 1
+            
+            if self.bonus_state == 2:
+                self.toggle_bonus_animation(False, self.bonus_data[self.current_animation])
+                self.bonus_animation_ongoing = False
+                self.can_spin = True
             
     def update(self, delta_time):
         self.cooldowns()
         self.input()
-        self.draw_reels(delta_time)
         self.reels_surface.fill(BLACK)
-        for reel in self.reel_list:
-            self.reel_list[reel].symbol_list.draw(self.reels_surface)
-            self.reel_list[reel].symbol_list.update(self.win_animation_ongoing, self.bonus_animation_ongoing)
-            # for im in self.reel_list[reel].symbol_list:
-            #     pygame.draw.rect(self.reels_surface, BLUE, im.rect, width=1)
+        self.draw_reels(delta_time)
         self.display_surface.blit(self.reels_surface, REELS_ZONE[:2])
-
         # self.ui.update()
         self.win_animation()
         self.bonus_animation()
