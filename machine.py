@@ -19,16 +19,15 @@ class Machine:
         self.spinning = False
         self.checked_win = True
         self.win_animation_ongoing = False
+        self.sip_animation_ongoing = False
         self.bonus_animation_ongoing = False
 
         # Init empty results 2D array
         self.spin_result = [[] for _ in range(5)]
         self.spin_result_obj = [[] for _ in range(5)]
 
-        # Index of the current win animation
+        # Index of the current win animation or state of sip/bonus animation
         self.current_animation = 0
-
-        self.bonus_state = 0
 
         self.spawn_reels()
         self.curr_player = Player()
@@ -61,7 +60,7 @@ class Machine:
             self.checked_win = True
             self.set_result()       # Set spin_result and spin_result_obj
 
-            self.win_data, self.bonus_data  = self.check_wins(self.spin_result)
+            self.win_data, self.sip_data, self.bonus_data  = self.check_wins()
 
             if self.win_data:
                 # Reset animation parameters
@@ -76,13 +75,17 @@ class Machine:
                 self.pay_player()          # Pay the player for the wins
                 self.ui.win_text_angle = random.randint(-4, 4)
             
-            elif self.bonus_data:
+            elif self.sip_data:
                 # Reset animation parameters and start animation
+                self.sip_animation_ongoing = True
+                self.current_animation = 0
+                self.current_animation_time = 0
+                self.toggle_sip_animation(True, self.sip_data)        # Start sip animation
+
+            elif self.bonus_data:
                 self.bonus_animation_ongoing = True
                 self.current_animation = 0
                 self.current_animation_time = 0
-                self.bonus_state = 0
-                self.toggle_bonus_animation(True, self.bonus_data[self.current_animation])        # Start first animation
 
             else:
                 # No win, allow new spin
@@ -109,7 +112,7 @@ class Machine:
 
             self.reel_list[reel].animate(delta_time)    # Move symbols
 
-            self.reel_list[reel].symbol_list.update(self.win_animation_ongoing, self.bonus_animation_ongoing, self.bonus_state)
+            self.reel_list[reel].symbol_list.update(self.win_animation_ongoing, self.sip_animation_ongoing, self.bonus_animation_ongoing, self.current_animation)
 
             self.reel_list[reel].symbol_list.draw(self.reels_surface)
 
@@ -133,6 +136,7 @@ class Machine:
             self.reel_list[reel].start_spin(int(reel) * 200)
             # self.spin_sound.play()
             self.win_animation_ongoing = False
+            self.sip_animation_ongoing = False
             self.bonus_animation_ongoing = False
 
     # Set spin_result with new results (2D arrays of symbol strings)
@@ -140,15 +144,15 @@ class Machine:
         for reel in self.reel_list:
             self.spin_result[reel], self.spin_result_obj[reel] = self.reel_list[reel].reel_spin_result()
 
-    # Check for winning lines or winning bonus and returns lists of wins
-    def check_wins(self, result):         
+    # Check for winning lines or sip or bonus and returns lists of wins
+    def check_wins(self):         
         # Check for winning lines in the result
-        winning_lines = self.check_lines(result)
+        winning_lines = self.check_lines(self.spin_result)
 
-        # Check for winning bonus in the result
-        winning_bonus = self.check_bonus(result)
+        # Check for winning sip/bonus in the result
+        winning_sip, winning_bonus = self.check_sip_bonus(self.spin_result)
 
-        return winning_lines, winning_bonus
+        return winning_lines, winning_sip, winning_bonus
 
     # Returns list of winning paylines
     def check_lines(self, result):
@@ -169,12 +173,9 @@ class Machine:
                     winning_lines.append(winning_line)
 
         return winning_lines
-    
-    # Check if grid contains 3 bonus symbols
-    def check_bonus(self, result):
-        bonus_count = 0
-        sip_count = 0
 
+    # Check if grid contains 3 sip symbols
+    def check_sip_bonus(self, result):
         bonus_symbols = []
         sip_symbols = []
 
@@ -182,20 +183,13 @@ class Machine:
         for reel, reel_symbols in enumerate(result):
             for row, symbol in enumerate(reel_symbols):
                 if symbol == 'bonus':
-                    bonus_count += 1
                     bonus_symbols.append((reel, row))
                 elif symbol == 'sip':
-                    sip_count += 1
                     sip_symbols.append((reel, row))
-        
-        # Add winning bonus to the list
-        winning_bonus = []
-        if bonus_count >= 3:
-            winning_bonus.append(['bonus', bonus_symbols])
-        if sip_count >= 3:
-            winning_bonus.append(['sip', sip_symbols])
 
-        return winning_bonus
+        winning_sip = sip_symbols if len(sip_symbols) > 2 else None
+        winning_bonus = bonus_symbols if len(bonus_symbols) > 2 else None
+        return winning_sip, winning_bonus
 
     # Count the number of identic symbols at the beginning of a payline
     def count_line(self, line):
@@ -227,25 +221,24 @@ class Machine:
         elif sum == 4: self.win_four.play()
         elif sum > 4: self.win_five.play()
         
-    def toggle_win_animation(self, state, win):
+    def toggle_win_animation(self, state, win_data):
         # TODO: display win lines here
-        for reel, row in enumerate(win[2]):
+        for reel, row in enumerate(win_data[2]):
             self.spin_result_obj[reel][row].winning = state
     
-    def toggle_bonus_animation(self, state, bonus):
-        # Turn on/off bonus on winning symbols
-        for symbol in bonus[1]:
-            reel = symbol[0]
-            row = symbol[1]
-            symbol = self.spin_result_obj[reel][row]
-            symbol.bonus = state
+    def toggle_sip_animation(self, state, sip_data):
+        # Turn on/off sip animation on winning symbols
+        for symbol in sip_data:
+            symbol = self.spin_result_obj[symbol[0]][symbol[1]]
+            symbol.sip = state
 
             if not state:
                 # Reset scale
-                symbol.scale_factor = 1.0
-                symbol.scale_image()
+                symbol.scale_image(1.0)
 
-
+    def toggle_bonus_animation(self, state, bonus_data):
+        # Turn on/off bonus animation on winning symbols
+        pass
 
     # Toogle win animation between win lines
     def win_animation(self):
@@ -258,18 +251,18 @@ class Machine:
                 # Reset timer
                 self.current_animation_time = 0
 
-                # Switch to new animation (switch to bonus or loop back to first line win)
+                # Switch to new animation (switch to sip/bonus or loop back to first line win)
                 if self.current_animation == len(self.win_data)-1:
-                    # Check for bonus data
-                    if self.bonus_data:
+                    self.current_animation = 0  # Reset current animation
+                    # Check for sip/bonus data
+                    if self.sip_data:
+                        self.win_animation_ongoing = False
+                        self.sip_animation_ongoing = True
+                        self.toggle_sip_animation(True, self.sip_data)
+                    elif self.bonus_data:
                         self.win_animation_ongoing = False
                         self.bonus_animation_ongoing = True
-                        self.current_animation = 0
-                        self.bonus_state = 0
-                        self.toggle_bonus_animation(True, self.bonus_data[self.current_animation])
                     else:
-                        # Reset to first line win
-                        self.current_animation = 0
                         # Turn on next animation
                         self.toggle_win_animation(True, self.win_data[self.current_animation])
                         # Allow new spin
@@ -284,18 +277,22 @@ class Machine:
     def draw_paylines(self):
         pass
     
-    def bonus_animation(self):
-        if self.bonus_animation_ongoing:
+    def sip_animation(self):
+        if self.sip_animation_ongoing:
             self.current_animation_time += 1
 
             if self.current_animation_time > FPS*2:
                 self.current_animation_time = 0
-                self.bonus_state += 1
+                self.current_animation += 1
             
-            if self.bonus_state == 2:
-                self.toggle_bonus_animation(False, self.bonus_data[self.current_animation])
+            # Check if animation is done
+            if self.current_animation == 2:
+                self.toggle_bonus_animation(False, self.sip_data)
                 self.bonus_animation_ongoing = False
                 self.can_spin = True
+    
+    def bonus_animation(self):
+        pass
             
     def update(self, delta_time):
         self.cooldowns()
@@ -305,6 +302,7 @@ class Machine:
         self.display_surface.blit(self.reels_surface, REELS_ZONE[:2])
         # self.ui.update()
         self.win_animation()
+        self.sip_animation()
         self.bonus_animation()
 
         # Balance/payout debugger
