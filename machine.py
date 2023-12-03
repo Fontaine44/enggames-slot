@@ -287,7 +287,7 @@ class Machine:
             
             # Check if animation is done
             if self.current_animation == 2:
-                self.toggle_bonus_animation(False, self.sip_data)
+                self.toggle_sip_animation(False, self.sip_data)
                 self.bonus_animation_ongoing = False
                 self.can_spin = True
     

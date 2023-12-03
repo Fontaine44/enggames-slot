@@ -52,11 +52,12 @@ class Symbol(pygame.sprite.Sprite):
                     self.alpha -= 20
             # Update alpha value
             self.image.set_alpha(self.alpha)
+
         elif state == 1:
             if self.sip:
                 self.scale_factor = pygame.math.lerp(self.scale_factor, self.target_scale, 0.05)
                 self.scale_image(self.scale_factor)
-    
+
     def bonus_animation():
         pass
 
