@@ -3,6 +3,7 @@ from reel import *
 from settings import *
 from ui import UI
 from itertools import groupby
+from input import ArcadeButton
 import pygame
 
 class Machine:
@@ -15,7 +16,7 @@ class Machine:
 
         self.machine_balance = 10000.00
         self.reel_list = {}
-        self.can_spin = True
+        self.can_spin = False
         self.spinning = False
         self.checked_win = True
         self.win_animation_ongoing = False
@@ -32,6 +33,9 @@ class Machine:
         self.spawn_reels()
         self.curr_player = Player()
         self.ui = UI(self.curr_player)
+        self.buttons = ArcadeButton()
+
+        self.allow_spin()
 
         # Import sounds
         # self.spin_sound = pygame.mixer.Sound('audio/spinclip.mp3')
@@ -89,7 +93,7 @@ class Machine:
 
             else:
                 # No win, allow new spin
-                self.can_spin = True
+                self.allow_spin()
 
     # Returns true if the machine is spinning (last reel is still spinning)
     def is_spinning(self):
@@ -97,15 +101,23 @@ class Machine:
 
     # Start spin if spacebar is pressed
     def input(self):
-        keys = pygame.key.get_pressed()
+        if self.can_spin and self.curr_player.balance >= self.curr_player.bet_size:
+            if self.buttons.get_input() == 0:
+                self.start_spinning()
+                self.spin_time = pygame.time.get_ticks()
+                self.curr_player.place_bet()
+                self.machine_balance += self.curr_player.bet_size
+                self.curr_player.last_payout = None
 
-        # Checks for space key, ability to toggle spin, and balance to cover bet size
-        if keys[pygame.K_SPACE] and self.can_spin and self.curr_player.balance >= self.curr_player.bet_size:
-            self.start_spinning()
-            self.spin_time = pygame.time.get_ticks()
-            self.curr_player.place_bet()
-            self.machine_balance += self.curr_player.bet_size
-            self.curr_player.last_payout = None
+            keys = pygame.key.get_pressed()
+
+            # Checks for space key, ability to toggle spin, and balance to cover bet size
+            if keys[pygame.K_SPACE]:
+                self.start_spinning()
+                self.spin_time = pygame.time.get_ticks()
+                self.curr_player.place_bet()
+                self.machine_balance += self.curr_player.bet_size
+                self.curr_player.last_payout = None
             
     def draw_reels(self, delta_time):
         for reel in self.reel_list:
@@ -138,6 +150,10 @@ class Machine:
             self.win_animation_ongoing = False
             self.sip_animation_ongoing = False
             self.bonus_animation_ongoing = False
+        
+    def allow_spin(self):
+        self.can_spin = True
+        self.buttons.clear_buffer()
 
     # Set spin_result with new results (2D arrays of symbol strings)
     def set_result(self):
@@ -266,7 +282,7 @@ class Machine:
                         # Turn on next animation
                         self.toggle_win_animation(True, self.win_data[self.current_animation])
                         # Allow new spin
-                        self.can_spin = True
+                        self.allow_spin()
 
                 else:
                     # Increment current animation index
@@ -288,8 +304,8 @@ class Machine:
             # Check if animation is done
             if self.current_animation == 2:
                 self.toggle_sip_animation(False, self.sip_data)
-                self.bonus_animation_ongoing = False
-                self.can_spin = True
+                self.sip_animation_ongoing = False
+                self.allow_spin()
     
     def bonus_animation(self):
         pass

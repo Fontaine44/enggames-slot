@@ -30,6 +30,7 @@ class Game:
             # Handle quit operation
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
+                    self.machine.buttons.ser.close()
                     pygame.quit()
                     sys.exit()
 
@@ -50,8 +51,12 @@ class Game:
 
 
 if __name__ == '__main__':
-    game = Game()
-    game.run()
+    try:
+        game = Game()
+        game.run()
+    except KeyboardInterrupt:
+        game.machine.input.ser.close()
+
 
 # def main():
 #     game = Game()
