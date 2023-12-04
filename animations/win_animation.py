@@ -13,6 +13,12 @@ class WinAnimation(Animation):
         self.win_data = win_data
         self.playing = True
         self.toggle_win_animation(True, self.win_data[self.current_win])        # Start first animation
+    
+    def stop(self):
+        self.current_win = 0
+        self.current_animation_time = 0
+        self.win_data = None
+        self.playing = False
 
     def play(self):
         if self.playing:

@@ -82,7 +82,7 @@ class Machine:
             self.win_data, self.sip_data, self.bonus_data  = self.check_wins()
 
             if self.win_data:
-                # self.win_animation.start(self.win_data)
+                self.win_animation.start(self.win_data)
                 self.allow_spin()
 
                 self.curr_player.last_payout = 0
@@ -155,13 +155,13 @@ class Machine:
         self.spin_time = pygame.time.get_ticks()
         self.spinning = True
         self.can_spin = False
+        self.win_animation.stop()
+        self.sip_animation_ongoing = False
+        self.bonus_animation_ongoing = False
 
         for reel in self.reel_list:
             self.reel_list[reel].start_spin(int(reel) * DELAY_TIME)
             # self.spin_sound.play()
-            self.win_animation.stop()
-            self.sip_animation_ongoing = False
-            self.bonus_animation_ongoing = False
     
     def play_animations(self):
         self.win_animation.play()
@@ -256,8 +256,6 @@ class Machine:
         elif sum == 4: self.win_four.play()
         elif sum > 4: self.win_five.play()
         
-
-    
     def toggle_sip_animation(self, state, sip_data):
         # Turn on/off sip animation on winning symbols
         for sym_pos in sip_data:

@@ -10,9 +10,11 @@ class Game:
 
         # General setup
         pygame.init()
-        self.screen = pygame.display.set_mode((WIDTH, HEIGHT), flags=pygame.HWSURFACE)
+        flags = pygame.FULLSCREEN | pygame.DOUBLEBUF | pygame.HWSURFACE
+        self.screen = pygame.display.set_mode((WIDTH, HEIGHT), flags, 16, vsync=1)
         # self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption('MGCIL DRINKING SLOT MACHINE')
+        pygame.event.set_allowed([pygame.QUIT, pygame.KEYDOWN])
         self.clock = pygame.time.Clock()
         self.bg_image = pygame.image.load(BG_IMAGE_PATH).convert_alpha()
         self.grid_image = pygame.image.load(GRID_IMAGE_PATH).convert_alpha()
@@ -33,7 +35,7 @@ class Game:
 
         self.start_time = pygame.time.get_ticks()
 
-        while True:
+        while 1:
             # Handle quit operation
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -57,7 +59,6 @@ class Game:
             pygame.display.update(slot_zone)
 
             self.clock.tick(FPS)
-            print(self.clock.get_fps())
 
 def main():
     try:
