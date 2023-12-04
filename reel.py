@@ -1,6 +1,7 @@
 from settings import *
 from slot_symbol import Symbol
-import pygame, random
+import pygame
+import random
 
 class Reel:
     def __init__(self, symbols_surfaces, x, y):

@@ -14,6 +14,7 @@ SIDE_UI_ZONE =  [REELS_ZONE[2], 0, WIDTH-REELS_ZONE[2], HEIGHT]
 BG_IMAGE_PATH = 'graphics/assets/bg_black.png'
 GRID_IMAGE_PATH = 'graphics/assets/gridline.png'
 SYM_PATH = 'graphics/symbols'
+NUM_PATH = 'graphics/numbers'
 
 # Text
 TEXT_COLOR = 'White'
@@ -30,12 +31,28 @@ GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 
 NUMBERS_PATH = {
-    '1': f"{SYM_PATH}/1.png",
-    '2': f"{SYM_PATH}/2.png",
-    '3': f"{SYM_PATH}/3.png",
-    '5': f"{SYM_PATH}/5.png",
+    '1': f"{NUM_PATH}/1.png",
+    '2': f"{NUM_PATH}/2.png",
+    '3': f"{NUM_PATH}/3.png",
+    '4': f"{NUM_PATH}/4.png",
+    '5': f"{NUM_PATH}/5.png",
+    '6': f"{NUM_PATH}/6.png",
+    '7': f"{NUM_PATH}/7.png",
+    '8': f"{NUM_PATH}/8.png",
+    '9': f"{NUM_PATH}/9.png",
 }
 
+NUMBERS_WEIGHT = {
+    '1': 2,
+    '2': 3,
+    '3': 3,
+    '4': 3,
+    '5': 3,
+    '6': 2,
+    '7': 2,
+    '8': 1,
+    '9': 1,
+}
 
 # Symbols dictionnary
 SYMBOLS_PATH = {

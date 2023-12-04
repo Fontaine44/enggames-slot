@@ -19,6 +19,9 @@ class Machine:
         self.can_spin = False
         self.spinning = False
         self.checked_win = True
+        self.win_data = None
+        self.sip_data = None
+        self.bonus_data = None
         self.win_animation_ongoing = False
         self.sip_animation_ongoing = False
         self.bonus_animation_ongoing = False
@@ -29,6 +32,13 @@ class Machine:
 
         # Index of the current win animation or state of sip/bonus animation
         self.current_animation = 0
+
+        # Images for sip animation
+        self.numbers_images = self.load_images(NUMBERS_PATH, SYMBOL_SIZE)
+        self.numbers_keys = list(NUMBERS_PATH.keys())
+        self.numbers_weights = [NUMBERS_WEIGHT[k] for k in self.numbers_keys]
+        self.sip_number = None
+        self.sip_scale_factor = 1.0
 
         self.spawn_reels()
         self.curr_player = Player()
@@ -47,13 +57,13 @@ class Machine:
         # self.win_five = pygame.mixer.Sound('audio/winfive.wav')
         # self.win_five.set_volume(0.8)
 
-    # Load symbols into dictionary
-    def load_symbols(self):
-        symbols_surfaces = {}
-        for key, path in SYMBOLS_PATH.items():
+    # Load images (surfaces) into dictionary from dictionnary of paths
+    def load_images(self, paths, size):
+        images_surfaces = {}
+        for key, path in paths.items():
             image = pygame.image.load(path).convert_alpha()
-            symbols_surfaces[key] = pygame.transform.scale(image, (SYMBOL_SIZE, SYMBOL_SIZE))
-        return symbols_surfaces
+            images_surfaces[key] = pygame.transform.scale(image, (size, size))
+        return images_surfaces
 
     def cooldowns(self):
         # Only lets player spin if all reels are NOT spinning and animations are done
@@ -132,7 +142,7 @@ class Machine:
             #     pygame.draw.rect(self.reels_surface, BLUE, im.rect, width=1)
 
     def spawn_reels(self):
-        symbols_surfaces = self.load_symbols()              # Create dictionnary of surfaces
+        symbols_surfaces = self.load_images(SYMBOLS_PATH, SYMBOL_SIZE)              # Create dictionnary of surfaces
         x_topleft, y_topleft = 0, -SYMBOL_SIZE    # Top left position of the reel
         # Spawn 5 reels
         for i in range(5):
@@ -244,13 +254,9 @@ class Machine:
     
     def toggle_sip_animation(self, state, sip_data):
         # Turn on/off sip animation on winning symbols
-        for symbol in sip_data:
-            symbol = self.spin_result_obj[symbol[0]][symbol[1]]
+        for sym_pos in sip_data:
+            symbol = self.spin_result_obj[sym_pos[0]][sym_pos[1]]
             symbol.sip = state
-
-            if not state:
-                # Reset scale
-                symbol.scale_image(1.0)
 
     def toggle_bonus_animation(self, state, bonus_data):
         # Turn on/off bonus animation on winning symbols
@@ -297,14 +303,64 @@ class Machine:
         if self.sip_animation_ongoing:
             self.current_animation_time += 1
 
-            if self.current_animation_time > FPS*2:
-                self.current_animation_time = 0
-                self.current_animation += 1
+            # State 0 (highlight)
+            if self.current_animation == 0:
+                # Go to state 1
+                if self.current_animation_time > FPS*2:
+                    # Go to next animation
+                    self.current_animation_time = 0
+                    self.current_animation += 1
             
-            # Check if animation is done
+            # State 1 (zoom out)
+            elif self.current_animation == 1:
+                # Go to state 2
+                if self.current_animation_time > FPS:
+                    # Go to next animation
+                    self.current_animation_time = 0
+                    self.current_animation += 1
+                    self.sip_scale_factor = 1.0
+
+                    # Rescale images
+                    for sym_pos in self.sip_data:
+                        symbol = self.spin_result_obj[sym_pos[0]][sym_pos[1]]
+                        symbol.scale_image(1.0)
+
+                else:
+                    # Zoom out
+                    self.sip_scale_factor = pygame.math.lerp(self.sip_scale_factor, 0, 0.10)
+                    for sym_pos in self.sip_data:
+                        symbol = self.spin_result_obj[sym_pos[0]][sym_pos[1]]
+                        symbol.scale_image(self.sip_scale_factor)
+            
+            # State 2 (random numbers)
             if self.current_animation == 2:
+                if self.current_animation_time > FPS*3:
+                    # Go to next animation
+                    self.current_animation_time = 0
+                    self.current_animation += 1
+
+                elif self.current_animation_time % 10 == 0:
+                    # Get a random number image
+                    rand_key = random.choices(self.numbers_keys, weights=self.numbers_weights, k=1)[0]
+                    self.sip_number = int(rand_key)
+
+                    for sym_pos in self.sip_data:
+                        symbol = self.spin_result_obj[sym_pos[0]][sym_pos[1]]
+                        symbol.image = self.numbers_images[rand_key]
+                    
+
+            # State 3 (wait for the user to take the sips)
+            elif self.current_animation == 3:
+                if self.current_animation_time > FPS*self.sip_number*2:
+                    # Go to next animation
+                    self.current_animation_time = 0
+                    self.current_animation += 1
+
+            # State 4 (allow new spin)
+            elif self.current_animation == 4:
                 self.toggle_sip_animation(False, self.sip_data)
                 self.sip_animation_ongoing = False
+                # TODO: Check for binus animation here
                 self.allow_spin()
     
     def bonus_animation(self):

@@ -1,5 +1,6 @@
 from settings import *
 import pygame
+import random
 
 class Symbol(pygame.sprite.Sprite):
     def __init__(self, image, sym_type, pos):
@@ -14,7 +15,6 @@ class Symbol(pygame.sprite.Sprite):
         self.size = SYMBOL_SIZE
         self.alpha = 255
         self.scale_factor = 1.0
-        self.target_scale = 0  # Target scale for the animation
         self.winning = False
         self.sip = False
         self.bonus = False
@@ -52,12 +52,7 @@ class Symbol(pygame.sprite.Sprite):
                     self.alpha -= 20
             # Update alpha value
             self.image.set_alpha(self.alpha)
-
-        elif state == 1:
-            if self.sip:
-                self.scale_factor = pygame.math.lerp(self.scale_factor, self.target_scale, 0.05)
-                self.scale_image(self.scale_factor)
-
+        
     def bonus_animation():
         pass
 
@@ -71,3 +66,9 @@ class Symbol(pygame.sprite.Sprite):
             self.pos[0] + (self.size - new_size[0])/2,
             self.pos[1] + (self.size - new_size[1])/2
         )
+
+    # Returns a random symbol object
+    def get_random_number(self, x, y):
+        rand_key = random.choices(self.shuffled_keys, weights=self.weights, k=1)[0]
+        image = self.symbols_surfaces[rand_key]
+        return Symbol(image, rand_key, (x, y))
