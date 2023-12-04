@@ -1,9 +1,9 @@
 # Display settings
-SYMBOL_SIZE = 222
+SYMBOL_SIZE = 300
 FPS = 60
-HEIGHT = 768
-WIDTH = 1366
-REEL_SPEED = 74     # number of pixels down per frame, must be a divider of the image size (60, 80, 120)
+HEIGHT = 1080
+WIDTH = 1920
+REEL_SPEED = 100     # number of pixels down per frame, must be a divider of the image size (60, 80, 120)
 SPIN_TIME = 1000
 # topleft_x, topleft_y, width, height
 REELS_ZONE = [0, 0, SYMBOL_SIZE*5, SYMBOL_SIZE*3]
