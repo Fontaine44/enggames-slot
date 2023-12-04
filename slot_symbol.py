@@ -53,7 +53,7 @@ class Symbol(pygame.sprite.Sprite):
             # Update alpha value
             self.image.set_alpha(self.alpha)
         
-    def bonus_animation():
+    def bonus_animation(self):
         pass
 
     def scale_image(self, scale_factor):
