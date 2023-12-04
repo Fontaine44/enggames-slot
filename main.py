@@ -21,6 +21,12 @@ class Game:
         # Sound
         # main_sound = pygame.mixer.Sound('audio/track.mp3')
         # main_sound.play(loops = -1)
+    
+    def quit(self):
+        if self.machine.buttons.ser is not None:
+            self.machine.buttons.ser.close()
+        pygame.quit()
+        sys.exit()
 
     def run(self):
 
@@ -30,10 +36,10 @@ class Game:
             # Handle quit operation
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    if self.machine.buttons.ser is not None:
-                        self.machine.buttons.ser.close()
-                    pygame.quit()
-                    sys.exit()
+                    self.quit()
+
+            if pygame.key.get_pressed()[pygame.K_ESCAPE]:
+                self.quit()
 
             # Time variables
             self.delta_time = (pygame.time.get_ticks() - self.start_time) / 1000
@@ -50,19 +56,15 @@ class Game:
             self.clock.tick(FPS)
             # print(self.clock.get_fps())
 
-
-
-if __name__ == '__main__':
+def main():
     try:
         game = Game()
         game.run()
     except KeyboardInterrupt:
         game.machine.input.ser.close()
 
-
-# def main():
-#     game = Game()
-#     game.run()
+if __name__ == '__main__':
+    main()
 
 # import cProfile as profile
 # profile.run('main()')
