@@ -1,2 +1,5 @@
 pygame>=2.1.2
 pyserial
+python-escpos
+pyzbar
+opencv-python
