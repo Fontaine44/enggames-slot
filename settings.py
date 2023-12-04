@@ -1,9 +1,9 @@
 # Display settings
-SYMBOL_SIZE = 300
+SYMBOL_SIZE = 320
 FPS = 60
 HEIGHT = 1080
 WIDTH = 1920
-REEL_SPEED = 100     # number of pixels down per frame, must be a divider of the image size (60, 80, 120)
+REEL_SPEED = 80     # number of pixels down per frame, must be a divider of the image size (60, 80, 120)
 SPIN_TIME = 1000
 # topleft_x, topleft_y, width, height
 REELS_ZONE = [0, 0, SYMBOL_SIZE*5, SYMBOL_SIZE*3]
@@ -29,6 +29,14 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 
+NUMBERS_PATH = {
+    '1': f"{SYM_PATH}/1.png",
+    '2': f"{SYM_PATH}/2.png",
+    '3': f"{SYM_PATH}/3.png",
+    '5': f"{SYM_PATH}/5.png",
+}
+
+
 # Symbols dictionnary
 SYMBOLS_PATH = {
     'diamond': f"{SYM_PATH}/diamond.png", 
@@ -36,7 +44,7 @@ SYMBOLS_PATH = {
     'wah': f"{SYM_PATH}/wah.png",
     'jdg': f"{SYM_PATH}/jdg.png",
     'mgcil': f"{SYM_PATH}/mgcil.png",
-    'bonus': f"{SYM_PATH}/bonus.png"
+    'bonus': f"{SYM_PATH}/bonus.png",
 }
 
 SYMBOLS_WEIGHT = {

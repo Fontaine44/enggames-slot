@@ -30,7 +30,8 @@ class Game:
             # Handle quit operation
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    self.machine.buttons.ser.close()
+                    if self.machine.buttons.ser is not None:
+                        self.machine.buttons.ser.close()
                     pygame.quit()
                     sys.exit()
 
@@ -47,6 +48,7 @@ class Game:
             self.machine.update(self.delta_time)
             # self.screen.blit(self.grid_image, (0, 0))
             self.clock.tick(FPS)
+            # print(self.clock.get_fps())
 
 
 

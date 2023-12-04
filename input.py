@@ -5,10 +5,15 @@ class ArcadeButton():
         # Define the serial port and baud rate
         self.serial_port = 'COM8'
         self.baud_rate = 19200
-        self.ser = serial.Serial(self.serial_port, self.baud_rate)
+        try:
+            self.ser = serial.Serial(self.serial_port, self.baud_rate)
+        except:
+            print("Cannot find Arduino")
+            self.ser = None
     
     def clear_buffer(self):
-        self.ser.reset_input_buffer()
+        if self.ser is not None:
+            self.ser.reset_input_buffer()
     
     def read_line_or_none(self):
         if self.ser.in_waiting > 0:
@@ -17,15 +22,16 @@ class ArcadeButton():
             return None
         
     def get_input(self):
-        line = self.read_line_or_none()
+        if self.ser is not None:
+            line = self.read_line_or_none()
 
-        if line == '0':
-            return 0
-        elif line == '1':
-            print("cashing_out")
-            return 1
-        else:
-            return None
+            if line == '0':
+                return 0
+            elif line == '1':
+                print("cashing_out")
+                return 1
+            else:
+                return None
 
 # can_spin = False
 # i = 0
