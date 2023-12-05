@@ -23,27 +23,14 @@ class Machine:
         self.win_data = None
         self.sip_data = None
         self.bonus_data = None
-        self.win_animation_ongoing = False
-        self.sip_animation_ongoing = False
-        self.bonus_animation_ongoing = False
 
         # Init empty results 2D array
         self.spin_result = [[] for _ in range(5)]
         self.spin_result_obj = [[] for _ in range(5)]
 
-        # Index of the current win animation or state of sip/bonus animation
-        self.current_animation = 0
-
-        # Images for sip animation
-        self.numbers_images = self.load_images(NUMBERS_PATH, SYMBOL_SIZE)
-        self.numbers_keys = list(NUMBERS_PATH.keys())
-        self.numbers_weights = [NUMBERS_WEIGHT[k] for k in self.numbers_keys]
-        self.sip_number = None
-        self.sip_scale_factor = 1.0
-
         self.win_animation = WinAnimation(self)
-        # self.sip_animation = SipAnimation()
-        # self.bonus_animation = BonusAnimation()
+        self.sip_animation = SipAnimation(self)
+        self.bonus_animation = BonusAnimation(self)
 
         self.spawn_reels()
         self.curr_player = Player()
@@ -83,7 +70,6 @@ class Machine:
 
             if self.win_data:
                 self.win_animation.start(self.win_data)
-                self.allow_spin()
 
                 self.curr_player.last_payout = 0
                 # Play the win sound
@@ -92,16 +78,10 @@ class Machine:
                 self.ui.win_text_angle = random.randint(-4, 4)
             
             elif self.sip_data:
-                # Reset animation parameters and start animation
-                self.sip_animation_ongoing = True
-                self.current_animation = 0
-                self.current_animation_time = 0
-                self.toggle_sip_animation(True, self.sip_data)        # Start sip animation
+                self.sip_animation.start(self.sip_data)
 
             elif self.bonus_data:
-                self.bonus_animation_ongoing = True
-                self.current_animation = 0
-                self.current_animation_time = 0
+                self.bonus_animation.start(self.bonus_data)
 
             else:
                 # No win, allow new spin
@@ -136,7 +116,7 @@ class Machine:
 
             self.reel_list[reel].animate(delta_time)    # Move symbols
 
-            self.reel_list[reel].symbol_list.update(self.win_animation.playing, self.sip_animation_ongoing, self.bonus_animation_ongoing, self.current_animation)
+            self.reel_list[reel].symbol_list.update(self.win_animation, self.sip_animation, self.bonus_animation)
 
             self.reel_list[reel].symbol_list.draw(self.reels_surface)
 
@@ -156,8 +136,8 @@ class Machine:
         self.spinning = True
         self.can_spin = False
         self.win_animation.stop()
-        self.sip_animation_ongoing = False
-        self.bonus_animation_ongoing = False
+        self.sip_animation.stop()
+        self.bonus_animation.stop()
 
         for reel in self.reel_list:
             self.reel_list[reel].start_spin(int(reel) * DELAY_TIME)
@@ -165,10 +145,8 @@ class Machine:
     
     def play_animations(self):
         self.win_animation.play()
-        # if self.sip_animation_ongoing:
-        #     self.sip_animation.play()
-        # elif self.bonus_animation_ongoing:
-        #     self.bonus_animation.play()
+        self.sip_animation.play()
+        self.bonus_animation.play()
 
     def allow_spin(self):
         self.can_spin = True
@@ -255,83 +233,6 @@ class Machine:
         if sum == 3: self.win_three.play()
         elif sum == 4: self.win_four.play()
         elif sum > 4: self.win_five.play()
-        
-    def toggle_sip_animation(self, state, sip_data):
-        # Turn on/off sip animation on winning symbols
-        for sym_pos in sip_data:
-            symbol = self.spin_result_obj[sym_pos[0]][sym_pos[1]]
-            symbol.sip = state
-
-    def toggle_bonus_animation(self, state, bonus_data):
-        # Turn on/off bonus animation on winning symbols
-        pass
-            
-    def sip_animation(self):
-        if self.sip_animation_ongoing:
-            self.current_animation_time += 1
-
-            # State 0 (highlight)
-            if self.current_animation == 0:
-                # Go to state 1
-                if self.current_animation_time > FPS*2:
-                    # Go to next animation
-                    self.current_animation_time = 0
-                    self.current_animation += 1
-            
-            # State 1 (zoom out)
-            elif self.current_animation == 1:
-                # Go to state 2
-                if self.current_animation_time > FPS:
-                    # Go to next animation
-                    self.current_animation_time = 0
-                    self.current_animation += 1
-                    self.sip_scale_factor = 1.0
-
-                    # Rescale images
-                    for sym_pos in self.sip_data:
-                        symbol = self.spin_result_obj[sym_pos[0]][sym_pos[1]]
-                        symbol.scale_image(1.0)
-
-                else:
-                    # Zoom out
-                    self.sip_scale_factor = pygame.math.lerp(self.sip_scale_factor, 0, 0.10)
-                    for sym_pos in self.sip_data:
-                        symbol = self.spin_result_obj[sym_pos[0]][sym_pos[1]]
-                        symbol.scale_image(self.sip_scale_factor)
-            
-            # State 2 (random numbers)
-            if self.current_animation == 2:
-                if self.current_animation_time > FPS*3:
-                    # Go to next animation
-                    self.current_animation_time = 0
-                    self.current_animation += 1
-
-                elif self.current_animation_time % 10 == 0:
-                    # Get a random number image
-                    rand_key = random.choices(self.numbers_keys, weights=self.numbers_weights, k=1)[0]
-                    self.sip_number = int(rand_key)
-
-                    for sym_pos in self.sip_data:
-                        symbol = self.spin_result_obj[sym_pos[0]][sym_pos[1]]
-                        symbol.image = self.numbers_images[rand_key]
-                    
-
-            # State 3 (wait for the user to take the sips)
-            elif self.current_animation == 3:
-                if self.current_animation_time > FPS*self.sip_number*2:
-                    # Go to next animation
-                    self.current_animation_time = 0
-                    self.current_animation += 1
-
-            # State 4 (allow new spin)
-            elif self.current_animation == 4:
-                self.toggle_sip_animation(False, self.sip_data)
-                self.sip_animation_ongoing = False
-                # TODO: Check for binus animation here
-                self.allow_spin()
-    
-    def bonus_animation(self):
-        pass
             
     def update(self, delta_time):
         self.cooldowns()

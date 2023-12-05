@@ -10,7 +10,8 @@ class Game:
 
         # General setup
         pygame.init()
-        flags = pygame.FULLSCREEN | pygame.DOUBLEBUF | pygame.HWSURFACE
+        # flags = pygame.FULLSCREEN | pygame.DOUBLEBUF | pygame.HWSURFACE
+        flags = pygame.DOUBLEBUF | pygame.HWSURFACE
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT), flags, 16, vsync=1)
         # self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption('MGCIL DRINKING SLOT MACHINE')

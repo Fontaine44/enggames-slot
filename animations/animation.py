@@ -5,16 +5,18 @@ class Animation(ABC):
         self.current_animation_time = 0
         self.playing = False
     
+    @abstractmethod
     def start(self):
-        self.playing = True
-    
+        pass
+
+    @abstractmethod
+    def reset(self):
+        pass
+
+    @abstractmethod
     def stop(self):
-        self.playing = False
+        pass
 
     @abstractmethod
     def play(self):
         pass
-
-    # @abstractmethod
-    # def reset(self):
-    #     pass

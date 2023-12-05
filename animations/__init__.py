@@ -1,4 +1,4 @@
-# from .bonus_animation import *
-# from .sip_animation import *
-from .win_animation import *
-from .animation import *
+from .win_animation import WinAnimation
+from .sip_animation import SipAnimation
+from .bonus_animation import BonusAnimation
+from .animation import Animation

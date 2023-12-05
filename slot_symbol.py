@@ -19,13 +19,13 @@ class Symbol(pygame.sprite.Sprite):
         self.sip = False
         self.bonus = False
 
-    def update(self, win_animation_ongoing, sip_animation_ongoing, bonus_animation_ongoing, state):
+    def update(self, win_animation, sip_animation, bonus_animation):
         # Fades out non-winning symbols
-        if win_animation_ongoing:
+        if win_animation.playing:
             self.win_animation()
-        elif sip_animation_ongoing:
-            self.sip_animation(state)
-        elif bonus_animation_ongoing:
+        elif sip_animation.playing:
+            self.sip_animation(sip_animation.state)
+        elif bonus_animation.playing:
             self.bonus_animation()
         else:
             self.pos = self.rect.topleft    # Update pos
@@ -66,9 +66,3 @@ class Symbol(pygame.sprite.Sprite):
             self.pos[0] + (self.size - new_size[0])/2,
             self.pos[1] + (self.size - new_size[1])/2
         )
-
-    # Returns a random symbol object
-    def get_random_number(self, x, y):
-        rand_key = random.choices(self.shuffled_keys, weights=self.weights, k=1)[0]
-        image = self.symbols_surfaces[rand_key]
-        return Symbol(image, rand_key, (x, y))
