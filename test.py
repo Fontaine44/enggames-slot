@@ -1,64 +1,58 @@
 import pygame
 import sys
+import math
 
+# Initialize Pygame
 pygame.init()
 
 # Set up display
-width, height = 800, 600
+width, height = 1000, 1000
 screen = pygame.display.set_mode((width, height))
-pygame.display.set_caption("Smooth Scale-Down Animation")
+pygame.display.set_caption("Rotating Arrow")
 
-# Define a custom sprite class
-class MySprite(pygame.sprite.Sprite):
-    def __init__(self, image, position):
-        super().__init__()
-        self.original_image = image
-        self.image = image
-        self.rect = self.image.get_rect(topleft=position)
-        self.scale_factor = 1.0
-        self.target_scale = 0.5  # Target scale for the animation
+# Define colors
+white = (255, 255, 255)
+black = (0, 0, 0)
 
-    def update(self):
-        # Linear interpolation (lerp) to smoothly transition between scale factors
-        self.scale_factor = pygame.math.lerp(self.scale_factor, self.target_scale, 0.05)
-        # Scale the original image
-        self.image = pygame.transform.rotozoom(self.original_image, 0, self.scale_factor)
+# Load long arrow image
+arrow_image = pygame.image.load("graphics/wheel/arrow.svg").convert_alpha()
+original_arrow = arrow_image  # Save the original arrow for reference
 
-# Load sprite image
-sprite_image = pygame.image.load("graphics//symbols//wah.png")
+# Set initial position and angle
+arrow_rect = arrow_image.get_rect(bottomleft=(width // 4, height // 2))
+angle = 0
 
-# Create a sprite group
-sprite_group = pygame.sprite.Group()
+# Set rotation speed
+rotation_speed = 10
 
-# Create an instance of the custom sprite class
-my_sprite = MySprite(sprite_image, (100, 100))
-
-# Add the sprite to the group
-sprite_group.add(my_sprite)
-
-clock = pygame.time.Clock()
-
-running = True
-while running:
+# Game loop
+while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            running = False
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_ESCAPE:
-                running = False
-            elif event.key == pygame.K_DOWN:
-                # Trigger the scale-down animation
-                my_sprite.target_scale = 0.1  # You can adjust the target scale as needed
+            pygame.quit()
+            sys.exit()
 
-    sprite_group.update()
+    # Rotate arrow around the end
+    # rotated_arrow = pygame.transform.rotate(original_arrow, angle)
+    rotated_arrow = pygame.transform.rotozoom(original_arrow, angle, 1)
+    rotated_rect = rotated_arrow.get_rect(center=arrow_rect.midbottom)
+    
 
-    screen.fill((255, 255, 255))
+    # Draw to the screen
+    screen.fill(white)
+    screen.blit(rotated_arrow, rotated_rect.topleft)
 
-    # Draw all sprites in the group
-    sprite_group.draw(screen)
+    # pygame.draw.rect(screen, black, arrow_rect, 2)
+    pygame.draw.rect(screen, black, rotated_rect, 2)
 
+    wheel_surface = pygame.draw.circle(screen, black, (width/2, height/2), 20, 0) #(r, g, b) is color, (x, y) is center, R is radius and w is the thickness of the circle border.
+    # screen.blit(self.arrow, (WIDTH/2, HEIGHT/2))
+
+    # Update the display
     pygame.display.flip()
-    clock.tick(60)
 
-pygame.quit()
-sys.exit()
+    # Increment angle for the next frame
+    angle += rotation_speed
+
+    # Control the frame rate
+    pygame.time.Clock().tick(60)

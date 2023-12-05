@@ -4,16 +4,16 @@
 # HEIGHT = 900
 # WIDTH = 1600
 # REEL_SPEED =  67   # number of pixels down per frame, must be a divider of the image size
-SYMBOL_SIZE = 320
+SYMBOL_SIZE = 300
 FPS = 60
 HEIGHT = 1080
 WIDTH = 1920
-REEL_SPEED = 80    # number of pixels down per frame, must be a divider of the image size
+REEL_SPEED = 100    # number of pixels down per frame, must be a divider of the image size
 DELAY_TIME = 200
 SPIN_TIME = 1000
 # topleft_x, topleft_y, width, height
 REELS_ZONE = [0, 0, SYMBOL_SIZE*5, SYMBOL_SIZE*3]
-BOTTOM_UI_ZONE = [0, REELS_ZONE[3], WIDTH, HEIGHT-REELS_ZONE[3]]
+BOTTOM_UI_ZONE = [0, REELS_ZONE[3], SYMBOL_SIZE*5, HEIGHT-REELS_ZONE[3]]
 SIDE_UI_ZONE =  [REELS_ZONE[2], 0, WIDTH-REELS_ZONE[2], HEIGHT]
 
 # Images
@@ -102,3 +102,9 @@ PAYLINES = [
     [1, 2, 1, 2, 1],   # Middle zig-zag 2
     [2, 1, 2, 1, 2]    # Bottom zig-zag
 ]
+
+# Wheel
+WHEEL_SIZE = 500
+ARROW_PATH = 'graphics/wheel/arrow.svg'
+ARROW_SIZE = 500
+DOT_SIZE = 20
