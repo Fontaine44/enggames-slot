@@ -1,6 +1,5 @@
 from settings import *
 import pygame
-import random
 
 class Symbol(pygame.sprite.Sprite):
     def __init__(self, image, sym_type, pos):
@@ -65,6 +64,22 @@ class Symbol(pygame.sprite.Sprite):
                     self.alpha -= 20
             # Update alpha value
             self.image.set_alpha(self.alpha)
+
+        elif state == 1:
+            # Fade out
+            if self.alpha > 95:
+                self.alpha -= 5
+            # Update alpha value
+            self.image.set_alpha(self.alpha)
+        
+        elif state == 5:
+            if self.bonus:
+                # Glow
+                if self.alpha <= 255:
+                    self.alpha += 2
+            # Update alpha value
+            self.image.set_alpha(self.alpha)
+
 
     def scale_image(self, scale_factor):
         # Scale image

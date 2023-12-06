@@ -47,16 +47,15 @@ class Game:
 
             # self.screen.blit(self.bg_image, (0, 0))
             # self.screen.fill(BLACK)
-            slot_zone = pygame.draw.rect(self.screen, RED, REELS_ZONE) # Slot
-            bottom_zone = pygame.draw.rect(self.screen, GREEN, BOTTOM_UI_ZONE) # Balance
-            side_zone = pygame.draw.rect(self.screen, BLUE, SIDE_UI_ZONE) # Info
-            self.machine.update(self.delta_time)
+            # slot_zone = pygame.draw.rect(self.screen, RED, REELS_ZONE) # Slot
+            # bottom_zone = pygame.draw.rect(self.screen, GREEN, BOTTOM_UI_ZONE) # Balance
+            # side_zone = pygame.draw.rect(self.screen, BLUE, SIDE_UI_ZONE) # Info
+            rects_to_update = self.machine.update(self.delta_time)
             # self.screen.blit(self.grid_image, (0, 0))
 
-            pygame.display.update(slot_zone)
+            pygame.display.update(rects_to_update)
 
             self.clock.tick(FPS)
-            print(self.clock.get_fps())
 
 def main():
     try:
@@ -65,8 +64,8 @@ def main():
     except KeyboardInterrupt:
         game.machine.input.ser.close()
 
-# if __name__ == '__main__':
-#     main()
+if __name__ == '__main__':
+    main()
 
-import cProfile as profile
-profile.run('main()')
+# import cProfile as profile
+# profile.run('main()')

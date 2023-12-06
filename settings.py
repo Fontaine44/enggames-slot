@@ -72,11 +72,11 @@ SYMBOLS_PATH = {
 
 SYMBOLS_WEIGHT = {
     'diamond': 0, 
-    'sip': 1,
+    'sip': 7,
     'wah': 10,
     'jdg': 8,
     'mgcil': 10,
-    'bonus': 8
+    'bonus': 1
 }
 
 SYMBOLS_PAY = {
@@ -108,4 +108,3 @@ WHEEL_PATH = 'graphics/wheel/wheel.png'
 WHEEL_SIZE = 800
 ARROW_PATH = 'graphics/wheel/arrow.svg'
 ARROW_SIZE = 400
-DOT_SIZE = 20

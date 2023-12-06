@@ -96,6 +96,7 @@ class SipAnimation(Animation):
                 if self.machine.bonus_data:
                     self.machine.bonus_animation.start(self.machine.bonus_data)
                 else:
+                    self.stop()
                     self.machine.allow_spin()   # Allow new spin
 
     # Toggle state on symbols

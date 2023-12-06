@@ -12,6 +12,7 @@ class Machine:
         # Create surfaces
         self.display_surface = pygame.display.get_surface()
         self.reels_surface = pygame.Surface((REELS_ZONE[2], REELS_ZONE[3]))
+        self.reels_rect = self.reels_surface.get_rect()
         self.bottom_ui_surface = pygame.Surface((BOTTOM_UI_ZONE[2], BOTTOM_UI_ZONE[3]))
         self.side_ui_surface = pygame.Surface((SIDE_UI_ZONE[2], SIDE_UI_ZONE[3]))
 
@@ -126,9 +127,8 @@ class Machine:
         self.spin_time = pygame.time.get_ticks()
         self.spinning = True
         self.can_spin = False
+
         self.win_animation.stop()
-        self.sip_animation.stop()
-        self.bonus_animation.stop()
 
         for reel in self.reel_list:
             self.reel_list[reel].start_spin(int(reel) * DELAY_TIME)
@@ -225,7 +225,16 @@ class Machine:
         self.draw_reels(delta_time)
         self.play_animations()
         self.display_surface.blit(self.reels_surface, REELS_ZONE)
+
+
         # self.ui.update()
+
+        return [self.reels_rect]
+
+        # if self.bonus_animation.playing and self.bonus_animation.state > 0:
+        #     return [self.bonus_animation.wheel_rect]
+        # else:
+        #     return  [self.reels_rect]
 
 
 
