@@ -37,7 +37,7 @@ class WinAnimation(Animation):
                     # Check for sip/bonus data
                     if self.machine.sip_data:
                         self.stop()
-                        self.machine.sip_animation.start()
+                        self.machine.sip_animation.start(self.machine.sip_data)
                     elif self.machine.bonus_data:
                         self.stop()
                         self.machine.bonus_animation.start()

@@ -38,10 +38,12 @@ class Game:
         self.spin_time = 0
         self.rotation_speed = 8
 
-        self.desired_angle = 270
+        self.desired_angle = 96
         self.slowdown_drift = 105
         self.full_speed_angle = FPS*2*self.rotation_speed
         self.slowdown_angle = -(360-(self.full_speed_angle % 360) + self.full_speed_angle + self.desired_angle + self.slowdown_drift)
+        self.real_angle = self.desired_angle + self.rotation_speed - 1 - (self.desired_angle%self.rotation_speed)
+        print(self.real_angle)
         self.decrement_factor = 0.03
 
 
@@ -93,7 +95,9 @@ class Game:
                 self.rotation_speed = pygame.math.lerp(self.rotation_speed, 0, self.decrement_factor)
 
             self.angle -= self.rotation_speed
-
+            
+            current_angle = (-self.angle%360)
+            abc =  self.desired_angle-1 <= current_angle and current_angle >= self.desired_angle+1
             if self.rotation_speed < 0.1:
                 print("done")
                 print((-self.angle%360))
