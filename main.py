@@ -21,10 +21,6 @@ class Game:
         self.grid_image = pygame.image.load(GRID_IMAGE_PATH).convert_alpha()
         self.machine = Machine()
         self.delta_time = 0
-
-        # Sound
-        # main_sound = pygame.mixer.Sound('audio/track.mp3')
-        # main_sound.play(loops = -1)
     
     def quit(self):
         if self.machine.buttons.ser is not None:

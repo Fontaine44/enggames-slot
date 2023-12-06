@@ -39,15 +39,7 @@ class Machine:
 
         self.allow_spin()
 
-        # Import sounds
-        # self.spin_sound = pygame.mixer.Sound('audio/spinclip.mp3')
-        # self.spin_sound.set_volume(0.15)
-        # self.win_three = pygame.mixer.Sound('audio/winthree.wav')
-        # self.win_three.set_volume(0.6)
-        # self.win_four = pygame.mixer.Sound('audio/winfour.wav')
-        # self.win_four.set_volume(0.7)
-        # self.win_five = pygame.mixer.Sound('audio/winfive.wav')
-        # self.win_five.set_volume(0.8)
+
 
     # Load images (surfaces) into dictionary from dictionnary of paths
     def load_images(self, paths, size):
@@ -72,8 +64,7 @@ class Machine:
                 self.win_animation.start(self.win_data)
 
                 self.curr_player.last_payout = 0
-                # Play the win sound
-                # self.play_win_sound(self.win_data)
+
                 self.pay_player()          # Pay the player for the wins
                 self.ui.win_text_angle = random.randint(-4, 4)
             
@@ -141,7 +132,7 @@ class Machine:
 
         for reel in self.reel_list:
             self.reel_list[reel].start_spin(int(reel) * DELAY_TIME)
-            # self.spin_sound.play()
+
     
     def play_animations(self):
         self.win_animation.play()
@@ -187,7 +178,7 @@ class Machine:
 
         return winning_lines
 
-    # Check if grid contains 3 sip symbols
+    # Check if grid contains 3 sip/bonus symbols
     def check_sip_bonus(self, result):
         bonus_symbols = []
         sip_symbols = []
@@ -225,14 +216,7 @@ class Machine:
         self.curr_player.last_payout += spin_payout
         self.curr_player.total_won += spin_payout
 
-    # You need to provide sounds and load them in the Machine init function for this to work!
-    def play_win_sound(self, win_data):
-        sum = 0
-        for item in win_data.values():
-            sum += len(item[1])
-        if sum == 3: self.win_three.play()
-        elif sum == 4: self.win_four.play()
-        elif sum > 4: self.win_five.play()
+
             
     def update(self, delta_time):
         self.cooldowns()
