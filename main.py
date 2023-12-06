@@ -56,6 +56,7 @@ class Game:
             pygame.display.update(slot_zone)
 
             self.clock.tick(FPS)
+            print(self.clock.get_fps())
 
 def main():
     try:
@@ -64,8 +65,8 @@ def main():
     except KeyboardInterrupt:
         game.machine.input.ser.close()
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()
 
-# import cProfile as profile
-# profile.run('main()')
+import cProfile as profile
+profile.run('main()')

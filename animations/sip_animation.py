@@ -94,13 +94,13 @@ class SipAnimation(Animation):
                 
                 # Check for bonus
                 if self.machine.bonus_data:
-                    self.machine.bonus_animation.start()
+                    self.machine.bonus_animation.start(self.machine.bonus_data)
                 else:
                     self.machine.allow_spin()   # Allow new spin
 
     # Toggle state on symbols
-    def set_symbols_state(self, state, sip_data):
+    def set_symbols_state(self, activate, sip_data):
         # Turn on/off sip animation on winning symbols
         for sym_pos in sip_data:
             symbol = self.machine.spin_result_obj[sym_pos[0]][sym_pos[1]]
-            symbol.sip = state
+            symbol.sip = activate

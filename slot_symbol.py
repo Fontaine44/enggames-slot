@@ -26,7 +26,7 @@ class Symbol(pygame.sprite.Sprite):
         elif sip_animation.playing:
             self.sip_animation(sip_animation.state)
         elif bonus_animation.playing:
-            self.bonus_animation()
+            self.bonus_animation(bonus_animation.state)
         else:
             self.pos = self.rect.topleft    # Update pos
 
@@ -53,8 +53,18 @@ class Symbol(pygame.sprite.Sprite):
             # Update alpha value
             self.image.set_alpha(self.alpha)
         
-    def bonus_animation(self):
-        pass
+    def bonus_animation(self, state):
+        if state == 0:
+            if self.bonus:
+                # Glow
+                if self.alpha <= 255:
+                    self.alpha += 20
+            else:
+                # Fade out
+                if self.alpha > 95:
+                    self.alpha -= 20
+            # Update alpha value
+            self.image.set_alpha(self.alpha)
 
     def scale_image(self, scale_factor):
         # Scale image

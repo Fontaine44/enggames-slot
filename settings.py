@@ -76,7 +76,7 @@ SYMBOLS_WEIGHT = {
     'wah': 10,
     'jdg': 8,
     'mgcil': 10,
-    'bonus': 1
+    'bonus': 8
 }
 
 SYMBOLS_PAY = {
@@ -104,7 +104,8 @@ PAYLINES = [
 ]
 
 # Wheel
-WHEEL_SIZE = 500
+WHEEL_PATH = 'graphics/wheel/wheel.png'
+WHEEL_SIZE = 800
 ARROW_PATH = 'graphics/wheel/arrow.svg'
-ARROW_SIZE = 500
+ARROW_SIZE = 400
 DOT_SIZE = 20

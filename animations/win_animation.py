@@ -40,7 +40,7 @@ class WinAnimation(Animation):
                         self.machine.sip_animation.start(self.machine.sip_data)
                     elif self.machine.bonus_data:
                         self.stop()
-                        self.machine.bonus_animation.start()
+                        self.machine.bonus_animation.start(self.machine.bonus_data)
                     else:
                         # Turn on next animation
                         self.set_symbols_state(True, self.win_data[self.current_win])

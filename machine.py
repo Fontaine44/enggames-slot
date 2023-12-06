@@ -223,9 +223,11 @@ class Machine:
         self.input()
         self.reels_surface.fill(BLACK)
         self.draw_reels(delta_time)
-        self.display_surface.blit(self.reels_surface, REELS_ZONE[:2])
-        # self.ui.update()
         self.play_animations()
+        self.display_surface.blit(self.reels_surface, REELS_ZONE)
+        # self.ui.update()
+
+
 
         # Balance/payout debugger
         # debug_player_data = self.curr_player.get_data()
