@@ -14,10 +14,6 @@ class Reel:
         self.symbols_surfaces = symbols_surfaces
         self.is_spinning = False
 
-        # Sounds
-        # self.stop_sound = pygame.mixer.Sound('audio/stop.mp3')
-        # self.stop_sound.set_volume(0.5)
-
         # Create initial symbols
         for i in range(4):
             symbol = self.get_random_symbol(x, y + i*SYMBOL_SIZE)
@@ -46,7 +42,6 @@ class Reel:
                     if symbol.rect.top == SYMBOL_SIZE*3:
                         if stop_reel:
                             self.is_spinning = False
-                            # self.stop_sound.play()
                         
                         symbol.kill()
                         # Spawn random symbol in place of the above

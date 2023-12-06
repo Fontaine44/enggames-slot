@@ -26,3 +26,10 @@ def play_win_sound(self, win_data):
     if sum == 3: self.win_three.play()
     elif sum == 4: self.win_four.play()
     elif sum > 4: self.win_five.play()
+
+# Sounds in Reel init
+# self.stop_sound = pygame.mixer.Sound('audio/stop.mp3')
+# self.stop_sound.set_volume(0.5)
+
+# Sound when reel stop
+# self.stop_sound.play()
