@@ -3,12 +3,14 @@ from reel import *
 from settings import *
 from ui import UI
 from itertools import groupby
-from input import ArcadeButton
+from buttons import ArcadeButton
 from animations import *
 import pygame
 
 class Machine:
-    def __init__(self):
+    def __init__(self, state_machine):
+        self.state_machine = state_machine
+
         # Create surfaces
         self.display_surface = pygame.display.get_surface()
         self.reels_surface = pygame.Surface((REELS_ZONE[2], REELS_ZONE[3]))
