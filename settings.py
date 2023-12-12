@@ -78,7 +78,7 @@ SYMBOLS_WEIGHT = {
     'wah': 10,
     'jdg': 8,
     'mgcil': 10,
-    'bonus': 1
+    'bonus': 10
 }
 
 SYMBOLS_PAY = {

@@ -44,14 +44,14 @@ class BonusAnimation(Animation):
             # State 0 (highlight)
             if self.state == 0:
                 # Go to state 1
-                if self.current_animation_time > FPS*3:
+                if self.current_animation_time > FPS*2:
                     self.next_state()
                     self.wheel = Wheel(self)
 
             # State 1 (fade in wheel)
             elif self.state == 1:
                 self.wheel.draw_1()
-                if self.wheel.alpha > 255 and self.current_animation_time > FPS*3:
+                if self.wheel.alpha > 255 and self.current_animation_time > FPS*2:
                     self.next_state()
 
             # State 2 (wait for input button press)
@@ -83,9 +83,7 @@ class BonusAnimation(Animation):
     
     def get_input(self):
         keys = pygame.key.get_pressed()
-
         return self.machine.buttons.get_input() == 0 or keys[pygame.K_SPACE]
-
 
     # Toggle state on symbols
     def set_symbols_state(self, activate, bonus_data):
@@ -101,6 +99,7 @@ class BonusAnimation(Animation):
 
 class Wheel():
     def __init__(self, bonus):
+        self.bonus = bonus
         self.reels = bonus.reels_surface
 
         self.alpha = 0
@@ -124,7 +123,7 @@ class Wheel():
         self.decrement_factor = 0.03
 
     def draw_1(self):
-        self.alpha += 2
+        self.alpha += 4
         self.wheel_img.set_alpha(self.alpha)
         self.original_arrow.set_alpha(self.alpha)
 
