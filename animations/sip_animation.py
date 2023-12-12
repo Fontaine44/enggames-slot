@@ -8,7 +8,7 @@ class SipAnimation(Animation):
         super().__init__()
         self.machine = machine
         # Images for sip animation
-        self.numbers_images = self.machine.load_images(NUMBERS_PATH, SYMBOL_SIZE)
+        self.numbers_images = self.machine.load_images_dict(NUMBERS_PATH, size=(SYMBOL_SIZE, SYMBOL_SIZE))
         self.numbers_keys = list(NUMBERS_PATH.keys())
         self.numbers_weights = [NUMBERS_WEIGHT[k] for k in self.numbers_keys]
 

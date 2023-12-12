@@ -1,4 +1,4 @@
-from settings import FPS
+from settings import *
 from .animation import *
 
 class WinAnimation(Animation):
@@ -15,6 +15,7 @@ class WinAnimation(Animation):
     def reset(self):
         self.current_animation_time = 0
         self.current_win = 0
+        self.line_index = None
         self.win_data = None
     
     def stop(self):
@@ -24,8 +25,9 @@ class WinAnimation(Animation):
     def play(self):
         if self.playing:
             self.current_animation_time += 1
+            self.draw_line()
 
-            if self.current_animation_time > FPS:
+            if self.current_animation_time > FPS*1.2:
                 # Turn off animation current animation
                 self.set_symbols_state(False, self.win_data[self.current_win])
                 # Reset timer
@@ -55,5 +57,13 @@ class WinAnimation(Animation):
 
     # Toggle state on symbols
     def set_symbols_state(self, state, win_data):
+        if state:
+            # Set line index
+            self.line_ind = self.win_data[self.current_win][0]
+
+        # Turn animation on symbols
         for reel, row in enumerate(win_data[2]):
             self.machine.spin_result_obj[reel][row].winning = state
+
+    def draw_line(self):
+        self.machine.reels_surface.blit(self.machine.lines[self.line_ind], REELS_ZONE)

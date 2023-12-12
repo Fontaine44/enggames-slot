@@ -58,7 +58,7 @@ class Reel:
         spin_symbols_obj = []
         spin_symbols = []
         sprites = self.symbol_list.sprites()
-        for i in range(0, 3):
+        for i in range(2, -1, -1):
             spin_symbols_obj.append(sprites[i])
             spin_symbols.append(sprites[i].sym_type)
         return spin_symbols, spin_symbols_obj

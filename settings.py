@@ -23,6 +23,8 @@ BG_IMAGE_PATH = 'graphics/assets/neon_brick.jpg'
 GRID_IMAGE_PATH = 'graphics/assets/slot_grid.png'
 SYM_PATH = 'graphics/symbols'
 NUM_PATH = 'graphics/numbers'
+WHEEL_PATH = 'graphics/wheel'
+LINE_PATH = 'graphics/lines'
 
 # Text
 TEXT_COLOR = 'White'
@@ -74,11 +76,11 @@ SYMBOLS_PATH = {
 
 SYMBOLS_WEIGHT = {
     'diamond': 0, 
-    'sip': 1,
+    'sip': 2,
     'wah': 10,
     'jdg': 8,
     'mgcil': 10,
-    'bonus': 10
+    'bonus': 2
 }
 
 SYMBOLS_PAY = {
@@ -92,21 +94,39 @@ SYMBOLS_PAY = {
 
 # Paylines (index=reel, value=row)
 PAYLINES = [
-    [0, 0, 0, 0, 0],   # Top Row
-    [1, 1, 1, 1, 1],   # Middle Row
-    [2, 2, 2, 2, 2],   # Bottom Row
-    [0, 1, 2, 1, 0],   # V
-    [2, 1, 0, 1, 2],   # Reverse V
-    [0, 0, 1, 2, 2],   # Cross top-left to bottom-right
-    [2, 2, 1, 0, 0],   # Cross bottom-left to top-right
-    [0, 1, 0, 1, 0],   # Top zig-zag
-    [1, 0, 1, 0, 1],   # Middle zig-zag 1
-    [1, 2, 1, 2, 1],   # Middle zig-zag 2
-    [2, 1, 2, 1, 2]    # Bottom zig-zag
+    [0, 0, 0, 0, 0],   # 0: Top Row
+    [1, 1, 1, 1, 1],   # 1: Middle Row
+    [2, 2, 2, 2, 2],   # 2: Bottom Row
+    [0, 1, 2, 1, 0],   # 3: V
+    [2, 1, 0, 1, 2],   # 4: Reverse V
+    [0, 0, 1, 2, 2],   # 5: Cross top-left to bottom-right
+    [2, 2, 1, 0, 0],   # 6: Cross bottom-left to top-right
+    [0, 1, 0, 1, 0],   # 7: Top zig-zag
+    [1, 0, 1, 0, 1],   # 8: Middle zig-zag 1
+    [1, 2, 1, 2, 1],   # 9: Middle zig-zag 2
+    [2, 1, 2, 1, 2],   # 10: Bottom zig-zag
+    [1, 0, 0, 0, 1],   # 11: Bump Up
+    [1, 2, 2, 2, 1],   # 12: Bump Down
+]
+
+LINES_PATH = [
+    f'{LINE_PATH}/line0.png',
+    f'{LINE_PATH}/line1.png',
+    f'{LINE_PATH}/line2.png',
+    f'{LINE_PATH}/line3.png',
+    f'{LINE_PATH}/line4.png',
+    f'{LINE_PATH}/line5.png',
+    f'{LINE_PATH}/line6.png',
+    f'{LINE_PATH}/line7.png',
+    f'{LINE_PATH}/line8.png',
+    f'{LINE_PATH}/line9.png',
+    f'{LINE_PATH}/line10.png',
+    f'{LINE_PATH}/line11.png',
+    f'{LINE_PATH}/line12.png',
 ]
 
 # Wheel
-WHEEL_PATH = 'graphics/wheel/wheel.png'
+WHEEL = f'{WHEEL_PATH}/wheel.png'
 WHEEL_SIZE = 800
-ARROW_PATH = 'graphics/wheel/arrow.svg'
+ARROW = f'{WHEEL_PATH}/arrow.svg'
 ARROW_SIZE = 400

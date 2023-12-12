@@ -11,11 +11,11 @@ class BonusAnimation(Animation):
         self.centerx = REELS_ZONE[0] + REELS_ZONE[2]//2
         self.centery = REELS_ZONE[1] + REELS_ZONE[3]//2
 
-        self.wheel_img = pygame.image.load(WHEEL_PATH).convert_alpha()
+        self.wheel_img = pygame.image.load(WHEEL).convert_alpha()
         self.wheel_img = pygame.transform.smoothscale(self.wheel_img, (WHEEL_SIZE, WHEEL_SIZE))
         self.wheel_rect = self.wheel_img.get_rect(center=(self.centerx, self.centery))
 
-        self.arrow_img = pygame.image.load(ARROW_PATH).convert_alpha()
+        self.arrow_img = pygame.image.load(ARROW).convert_alpha()
         self.arrow_img = pygame.transform.smoothscale(self.arrow_img, (ARROW_SIZE, ARROW_SIZE))
         self.arrow_rect = self.wheel_img.get_rect(center=(self.centerx, self.centery))
 

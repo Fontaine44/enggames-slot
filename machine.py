@@ -23,6 +23,8 @@ class Machine:
         self.bg = pygame.transform.smoothscale(self.bg, (WIDTH, HEIGHT))
         self.grid = pygame.image.load(GRID_IMAGE_PATH).convert_alpha()
 
+        self.lines = self.load_images_list(LINES_PATH, alpha=True)
+
         self.machine_balance = 10000.00
         self.reel_list = {}
         self.can_spin = False
@@ -50,11 +52,33 @@ class Machine:
 
 
     # Load images (surfaces) into dictionary from dictionnary of paths
-    def load_images(self, paths, size):
+    def load_images_dict(self, paths, size=None, alpha=False):
         images_surfaces = {}
         for key, path in paths.items():
-            image = pygame.image.load(path).convert_alpha()
-            images_surfaces[key] = pygame.transform.scale(image, (size, size))
+            image = pygame.image.load(path)
+
+            if alpha:
+                image = image.convert_alpha()
+            if size:
+                image = pygame.transform.smoothscale(image, size)
+
+            images_surfaces[key] = image
+
+        return images_surfaces
+    
+    # Load images (surfaces) into list from list of paths
+    def load_images_list(self, paths, size=None, alpha=False):
+        images_surfaces = []
+        for path in paths:
+            image = pygame.image.load(path)
+
+            if alpha:
+                image = image.convert_alpha()
+            if size:
+                image = pygame.transform.smoothscale(image, size)
+            
+            images_surfaces.append(image)
+
         return images_surfaces
 
     def cooldowns(self):
@@ -127,7 +151,7 @@ class Machine:
             #     pygame.draw.rect(self.reels_surface, BLUE, im.rect, width=1)
 
     def spawn_reels(self):
-        symbols_surfaces = self.load_images(SYMBOLS_PATH, SYMBOL_SIZE)              # Create dictionnary of surfaces
+        symbols_surfaces = self.load_images_dict(SYMBOLS_PATH, size=(SYMBOL_SIZE, SYMBOL_SIZE), alpha=True)              # Create dictionnary of surfaces
         x_topleft, y_topleft = X_OFFSET/2, -SYMBOL_SIZE    # Top left position of the reel
         # Spawn 5 reels
         for i in range(5):
@@ -143,7 +167,6 @@ class Machine:
 
         for reel in self.reel_list:
             self.reel_list[reel].start_spin(int(reel) * DELAY_TIME)
-
     
     def play_animations(self):
         self.win_animation.play()
