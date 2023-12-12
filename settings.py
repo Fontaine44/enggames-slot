@@ -11,14 +11,16 @@ WIDTH = 1920
 REEL_SPEED = 100    # number of pixels down per frame, must be a divider of the image size
 DELAY_TIME = 200
 SPIN_TIME = 1000
+
+X_OFFSET = 20
 # topleft_x, topleft_y, width, height
-REELS_ZONE = [0, 0, SYMBOL_SIZE*5, SYMBOL_SIZE*3]
-BOTTOM_UI_ZONE = [0, REELS_ZONE[3], SYMBOL_SIZE*5, HEIGHT-REELS_ZONE[3]]
+REELS_ZONE = [0, 0, SYMBOL_SIZE*5+X_OFFSET*5, SYMBOL_SIZE*3]
+BOTTOM_UI_ZONE = [0, REELS_ZONE[3], REELS_ZONE[2], HEIGHT-REELS_ZONE[3]]
 SIDE_UI_ZONE =  [REELS_ZONE[2], 0, WIDTH-REELS_ZONE[2], HEIGHT]
 
 # Images
-BG_IMAGE_PATH = 'graphics/assets/bg_black.png'
-GRID_IMAGE_PATH = 'graphics/assets/gridline.png'
+BG_IMAGE_PATH = 'graphics/assets/neon_brick.jpg'
+GRID_IMAGE_PATH = 'graphics/assets/slot_grid.png'
 SYM_PATH = 'graphics/symbols'
 NUM_PATH = 'graphics/numbers'
 

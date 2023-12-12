@@ -8,12 +8,12 @@ class StateMachine:
     def __init__(self):
         self.num_states = 4
         self.current_ind = 0
-        # self.machine = Machine(self)
+        self.machine = Machine(self)
         self.menu = Menu(self)
         self.ticket = Ticket(self)
         self.video = Video(self)
 
-        self.current_state = self.menu
+        self.current_state = self.machine
 
     def next(self):
         # Increment state

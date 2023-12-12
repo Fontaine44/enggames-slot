@@ -1,5 +1,6 @@
 from settings import *
 import pygame
+from time import sleep
 
 class Menu:
     def __init__(self, state_machine):

@@ -18,6 +18,11 @@ class Machine:
         self.bottom_ui_surface = pygame.Surface((BOTTOM_UI_ZONE[2], BOTTOM_UI_ZONE[3]))
         self.side_ui_surface = pygame.Surface((SIDE_UI_ZONE[2], SIDE_UI_ZONE[3]))
 
+        # Load background
+        self.bg = pygame.image.load(BG_IMAGE_PATH)
+        self.bg = pygame.transform.smoothscale(self.bg, (WIDTH, HEIGHT))
+        self.grid = pygame.image.load(GRID_IMAGE_PATH).convert_alpha()
+
         self.machine_balance = 10000.00
         self.reel_list = {}
         self.can_spin = False
@@ -123,10 +128,10 @@ class Machine:
 
     def spawn_reels(self):
         symbols_surfaces = self.load_images(SYMBOLS_PATH, SYMBOL_SIZE)              # Create dictionnary of surfaces
-        x_topleft, y_topleft = 0, -SYMBOL_SIZE    # Top left position of the reel
+        x_topleft, y_topleft = X_OFFSET/2, -SYMBOL_SIZE    # Top left position of the reel
         # Spawn 5 reels
         for i in range(5):
-            self.reel_list[i] = Reel(symbols_surfaces, x_topleft + i*SYMBOL_SIZE, y_topleft) # Need to create reel class
+            self.reel_list[i] = Reel(symbols_surfaces, x_topleft + i*SYMBOL_SIZE + i*X_OFFSET, y_topleft) # Need to create reel class
 
     def start_spinning(self):
         self.checked_win = False
@@ -227,16 +232,22 @@ class Machine:
     def update(self, delta_time):
         self.cooldowns()
         self.input()
-        self.reels_surface.fill(BLACK)
+        self.display_surface.blit(self.bg, (0, 0))
+        self.reels_surface.blit(self.grid, (0, 0))
+
         self.draw_reels(delta_time)
+
         self.play_animations()
+
         self.display_surface.blit(self.reels_surface, REELS_ZONE)
-        
+
+
 
 
         # self.ui.update()
 
-        return [self.reels_rect]
+        return [self.display_surface.get_rect()]
+        # return [self.reels_rect]
 
         # if self.bonus_animation.playing and self.bonus_animation.state > 0:
         #     return [self.bonus_animation.wheel_rect]
