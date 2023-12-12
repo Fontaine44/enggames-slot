@@ -87,6 +87,12 @@ class Machine:
 
     # Start spin if spacebar is pressed
     def input(self):
+        keys = pygame.key.get_pressed()
+
+        if keys[pygame.K_UP]:
+            self.state_machine.next()
+
+
         if self.can_spin and self.curr_player.balance >= self.curr_player.bet_size:
             if self.buttons.get_input() == 0:
                 self.start_spinning()
@@ -94,8 +100,6 @@ class Machine:
                 self.curr_player.place_bet()
                 self.machine_balance += self.curr_player.bet_size
                 self.curr_player.last_payout = None
-
-            keys = pygame.key.get_pressed()
 
             # Checks for space key, ability to toggle spin, and balance to cover bet size
             if keys[pygame.K_SPACE]:
@@ -227,6 +231,7 @@ class Machine:
         self.draw_reels(delta_time)
         self.play_animations()
         self.display_surface.blit(self.reels_surface, REELS_ZONE)
+        
 
 
         # self.ui.update()
