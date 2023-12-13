@@ -13,7 +13,7 @@ class WinAnimation(Animation):
         self.set_symbols_state(self.win_data[self.current_win])        # Start first animation
 
         # Play the win sound
-        self.machine.sound.line_sound.play()
+        self.machine.sound.play_line_sound()
 
         # Allow spin if no sip/bonus
         if not self.machine.sip_data and not self.machine.bonus_data:

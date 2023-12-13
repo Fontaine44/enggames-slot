@@ -42,6 +42,7 @@ class SipAnimation(Animation):
                     # Go to next animation
                     self.current_animation_time = 0
                     self.state += 1
+                    self.machine.sound.play_sip_sound()
             
             # State 1 (zoom out)
             elif self.state == 1:

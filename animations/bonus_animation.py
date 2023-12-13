@@ -25,6 +25,7 @@ class BonusAnimation(Animation):
         self.bonus_data = bonus_data
         self.playing = True
         self.set_symbols_state(True, self.bonus_data)        # Start first animation
+        self.machine.sound.play_bonus_sound()
     
     def reset(self):
         self.win = None
@@ -59,12 +60,14 @@ class BonusAnimation(Animation):
                 angle = self.wheel.draw_2()
                 spin = self.get_input()
                 if spin:
+                    self.machine.sound.play_wheel_sound()
                     self.next_state()
 
             # State 3 (spin wheel)
             elif self.state == 3:
                 angle = self.wheel.draw_3()
                 if angle is not None:
+                    self.machine.sound.stop_wheel_sound()
                     # Determine win here
                     self.next_state()
             

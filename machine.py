@@ -49,7 +49,7 @@ class Machine:
         self.buttons = ArcadeButton()
 
         self.sound = Sound()
-        # self.sound.start_main_sound()
+        self.sound.start_main_sound()
 
         self.allow_spin()
 
