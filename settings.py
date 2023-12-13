@@ -66,30 +66,30 @@ NUMBERS_WEIGHT = {
 
 # Symbols dictionnary
 SYMBOLS_PATH = {
-    'diamond': f"{SYM_PATH}/diamond.png", 
     'sip': f"{SYM_PATH}/sip.png",
     'wah': f"{SYM_PATH}/wah.png",
     'jdg': f"{SYM_PATH}/jdg.png",
     'mgcil': f"{SYM_PATH}/mgcil.png",
     'bonus': f"{SYM_PATH}/bonus.png",
+    'rat': f"{SYM_PATH}/rat.png"
 }
 
-SYMBOLS_WEIGHT = {
-    'diamond': 0, 
-    'sip': 2,
+SYMBOLS_WEIGHT = { 
+    'sip': 1,
+    'bonus': 1,
     'wah': 10,
     'jdg': 8,
     'mgcil': 10,
-    'bonus': 20
+    'rat': 10,
 }
 
 SYMBOLS_PAY = {
-    'diamond': 1, 
     'sip': 0,
+    'bonus': 0,
     'wah': 2,
     'jdg': 2,
     'mgcil': 2,
-    'bonus': 0
+    'rat': 10,
 }
 
 # Paylines (index=reel, value=row)
