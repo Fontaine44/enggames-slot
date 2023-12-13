@@ -11,6 +11,9 @@ class WinAnimation(Animation):
         self.win_data = win_data
         self.playing = True
         self.set_symbols_state(True, self.win_data[self.current_win])        # Start first animation
+
+        if not self.machine.sip_data and not self.machine.bonus_data:
+            self.machine.allow_spin()
     
     def reset(self):
         self.current_animation_time = 0
@@ -46,8 +49,6 @@ class WinAnimation(Animation):
                     else:
                         # Turn on next animation
                         self.set_symbols_state(True, self.win_data[self.current_win])
-                        # Allow new spin
-                        self.machine.allow_spin()
 
                 else:
                     # Increment current animation index

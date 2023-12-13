@@ -66,12 +66,12 @@ class SipAnimation(Animation):
             
             # State 2 (random numbers)
             if self.state == 2:
-                if self.current_animation_time > FPS*3:
+                if self.current_animation_time > FPS*2:
                     # Go to next animation
                     self.current_animation_time = 0
                     self.state += 1
 
-                elif self.current_animation_time % 10 == 0:
+                elif self.current_animation_time % 5 == 0:
                     # Get a random number image
                     rand_key = random.choices(self.numbers_keys, weights=self.numbers_weights, k=1)[0]
                     self.sip_number = int(rand_key)
@@ -95,7 +95,7 @@ class SipAnimation(Animation):
                 # Check for bonus
                 if self.machine.bonus_data:
                     sleep(self.sip_number)
-                    
+
                     # Reset image to sip symbol
                     for sym_pos in self.sip_data:
                         symbol = self.machine.spin_result_obj[sym_pos[0]][sym_pos[1]]
