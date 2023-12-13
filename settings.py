@@ -80,7 +80,7 @@ SYMBOLS_WEIGHT = {
     'wah': 10,
     'jdg': 8,
     'mgcil': 10,
-    'bonus': 2
+    'bonus': 20
 }
 
 SYMBOLS_PAY = {
@@ -127,6 +127,6 @@ LINES_PATH = [
 
 # Wheel
 WHEEL = f'{WHEEL_PATH}/wheel.png'
-WHEEL_SIZE = 800
+WHEEL_SIZE = 900
 ARROW = f'{WHEEL_PATH}/arrow.svg'
 ARROW_SIZE = 400
