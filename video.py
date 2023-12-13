@@ -19,3 +19,5 @@ class Video:
         self.check()
         self.display_surface.fill(GREEN)
         return self.display_surface, [self.display_rect]
+    
+# video with instructions playing full screen

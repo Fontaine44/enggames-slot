@@ -22,3 +22,8 @@ class Ticket:
         self.check()
         self.display_surface.blit(self.bg, (0, 0))
         return self.display_surface, [self.display_rect]
+    
+
+# Do you want to print a ticket?
+
+# Do you want to take a souvenir picture?

@@ -20,3 +20,8 @@ class Menu:
         self.check()
         self.display_surface.fill(RED)
         return self.display_surface, [self.display_rect]
+    
+
+# Leader board scrolling
+
+# Bottom with instructions for red/green buttons
