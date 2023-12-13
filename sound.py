@@ -21,8 +21,8 @@ import pygame
 class Sound:
     def __init__(self):
         # Load sounds
+        # self.main_sound = pygame.mixer.Sound('audio/track.mp3')
         self.line_sound = pygame.mixer.Sound('audio/line.mp3')
-        self.main_sound = pygame.mixer.Sound('audio/track.mp3')
         pass
 
     def start_main_sound(self):

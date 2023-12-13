@@ -18,39 +18,14 @@ class Symbol(pygame.sprite.Sprite):
         self.sip = False
         self.bonus = False
 
-    def update(self, win_animation, sip_animation, bonus_animation):
+    def update(self, sip_animation, bonus_animation):
         # Fades out non-winning symbols
-        if win_animation.playing:
-            self.win_animation()
-        elif sip_animation.playing:
-            self.sip_animation(sip_animation.state)
-        elif bonus_animation.playing:
+        if bonus_animation.playing:
             self.bonus_animation(bonus_animation.state)
+        elif sip_animation.playing:
+            pass
         else:
             self.pos = self.rect.topleft    # Update pos
-
-    def win_animation(self):
-        if self.winning:
-            if self.alpha <= 255:
-                self.alpha += 20
-        else:
-            if self.alpha > 95:
-                self.alpha -= 20
-        # Update alpha value
-        self.image.set_alpha(self.alpha)
-    
-    def sip_animation(self, state):
-        if state == 0:
-            if self.sip:
-                # Glow
-                if self.alpha <= 255:
-                    self.alpha += 20
-            else:
-                # Fade out
-                if self.alpha > 95:
-                    self.alpha -= 20
-            # Update alpha value
-            self.image.set_alpha(self.alpha)
         
     def bonus_animation(self, state):
         if state == 0:

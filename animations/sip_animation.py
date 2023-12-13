@@ -20,7 +20,7 @@ class SipAnimation(Animation):
     def start(self, sip_data):
         self.sip_data = sip_data
         self.playing = True
-        self.set_symbols_state(True, self.sip_data)        # Start first animation
+        self.set_symbols_state(self.sip_data)        # Start first animation
     
     def reset(self):
         self.current_animation_time = 0
@@ -71,7 +71,7 @@ class SipAnimation(Animation):
                     self.current_animation_time = 0
                     self.state += 1
 
-                elif self.current_animation_time % 5 == 0:
+                elif self.current_animation_time % 8 == 0:
                     # Get a random number image
                     rand_key = random.choices(self.numbers_keys, weights=self.numbers_weights, k=1)[0]
                     self.sip_number = int(rand_key)
@@ -90,7 +90,6 @@ class SipAnimation(Animation):
 
             # State 4 (allow new spin or start bonus animation)
             elif self.state == 4:
-                self.set_symbols_state(False, self.sip_data)
                 
                 # Check for bonus
                 if self.machine.bonus_data:
@@ -108,8 +107,13 @@ class SipAnimation(Animation):
                     self.machine.allow_spin()   # Allow new spin
 
     # Toggle state on symbols
-    def set_symbols_state(self, activate, sip_data):
-        # Turn on/off sip animation on winning symbols
-        for sym_pos in sip_data:
-            symbol = self.machine.spin_result_obj[sym_pos[0]][sym_pos[1]]
-            symbol.sip = activate
+    def set_symbols_state(self, sip_data):
+        # Fade out all symbols
+        for reel in self.machine.spin_result_obj:
+            for symbol in reel:
+                symbol.image.set_alpha(95)
+        
+        # Fade in winning symbols
+        for reel, row in sip_data:
+            symbol = self.machine.spin_result_obj[reel][row]
+            symbol.image.set_alpha(255)

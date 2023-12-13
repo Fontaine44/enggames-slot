@@ -75,7 +75,7 @@ SYMBOLS_PATH = {
 }
 
 SYMBOLS_WEIGHT = { 
-    'sip': 1,
+    'sip': 20,
     'bonus': 1,
     'wah': 10,
     'jdg': 8,

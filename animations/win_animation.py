@@ -10,7 +10,7 @@ class WinAnimation(Animation):
     def start(self, win_data):
         self.win_data = win_data
         self.playing = True
-        self.set_symbols_state(True, self.win_data[self.current_win])        # Start first animation
+        self.set_symbols_state(self.win_data[self.current_win])        # Start first animation
 
         # Play the win sound
         self.machine.sound.line_sound.play()
@@ -36,7 +36,7 @@ class WinAnimation(Animation):
 
             if self.current_animation_time > FPS*1.2:
                 # Turn off animation current animation
-                self.set_symbols_state(False, self.win_data[self.current_win])
+                self.set_symbols_state([])
                 # Reset timer
                 self.current_animation_time = 0
 
@@ -52,24 +52,30 @@ class WinAnimation(Animation):
                         self.machine.bonus_animation.start(self.machine.bonus_data)
                     else:
                         # Turn on next animation
-                        self.set_symbols_state(True, self.win_data[self.current_win])
+                        self.set_symbols_state(self.win_data[self.current_win])
 
                 else:
                     # Increment current animation index
                     self.current_win += 1
                     # Turn on next animation
-                    self.set_symbols_state(True, self.win_data[self.current_win]) 
+                    self.set_symbols_state(self.win_data[self.current_win]) 
 
     # Toggle state on symbols
-    def set_symbols_state(self, state, win_data):
-        if state:
-            # Set line index
-            self.line_ind = self.win_data[self.current_win][0]
+    def set_symbols_state(self, win_data):
+        # Fade out all symbols
+        for reel in self.machine.spin_result_obj:
+            for symbol in reel:
+                symbol.image.set_alpha(95)
+        
+        if win_data:
+            # Set payline index
+            self.line_ind = win_data[0]
 
-        # Turn animation on symbols
-        for reel, row in enumerate(win_data[2]):
-            self.machine.spin_result_obj[reel][row].winning = state
-
+            # Fade in winning symbols
+            for reel, row in enumerate(win_data[2]):
+                symbol = self.machine.spin_result_obj[reel][row]
+                symbol.image.set_alpha(255)
+        
     def draw_line(self):
         # Draw line
         self.machine.reels_surface.blit(self.machine.lines[self.line_ind], REELS_ZONE)

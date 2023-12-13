@@ -49,7 +49,8 @@ class Machine:
         self.buttons = ArcadeButton()
 
         self.sound = Sound()
-        self.sound.start_main_sound()
+        # self.sound.start_main_sound()
+
         self.allow_spin()
 
 
@@ -124,7 +125,6 @@ class Machine:
         if keys[pygame.K_UP]:
             self.state_machine.next()
 
-
         if self.can_spin and self.curr_player.balance >= self.curr_player.bet_size:
             if self.buttons.get_input() == 0:
                 self.start_spinning()
@@ -146,7 +146,7 @@ class Machine:
 
             self.reel_list[reel].animate(delta_time)    # Move symbols
 
-            self.reel_list[reel].symbol_list.update(self.win_animation, self.sip_animation, self.bonus_animation)
+            self.reel_list[reel].symbol_list.update(self.sip_animation, self.bonus_animation)
 
             self.reel_list[reel].symbol_list.draw(self.reels_surface)
 
