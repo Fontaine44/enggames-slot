@@ -1,3 +1,5 @@
+import pygame
+
 # Sound in Game init
 # main_sound = pygame.mixer.Sound('audio/track.mp3')
 # main_sound.play(loops = -1)
@@ -12,11 +14,20 @@
 # self.win_five = pygame.mixer.Sound('audio/winfive.wav')
 # self.win_five.set_volume(0.8)
 
-# Play the win sound in cooldowns win
-# self.play_win_sound(self.win_data)
-
 # After each start_spin call
 # self.spin_sound.play()
+
+
+class Sound:
+    def __init__(self):
+        # Load sounds
+        self.line_sound = pygame.mixer.Sound('audio/line.mp3')
+        self.main_sound = pygame.mixer.Sound('audio/track.mp3')
+        pass
+
+    def start_main_sound(self):
+        self.main_sound.play(loops = -1)
+
 
 # You need to provide sounds and load them in the Machine init function for this to work!
 def play_win_sound(self, win_data):

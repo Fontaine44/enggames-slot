@@ -5,6 +5,7 @@ from ui import UI
 from itertools import groupby
 from buttons import ArcadeButton
 from animations import *
+from sound import Sound
 import pygame
 
 class Machine:
@@ -47,6 +48,8 @@ class Machine:
         self.ui = UI(self.curr_player)
         self.buttons = ArcadeButton()
 
+        self.sound = Sound()
+        self.sound.start_main_sound()
         self.allow_spin()
 
 
@@ -261,6 +264,8 @@ class Machine:
         self.draw_reels(delta_time)
 
         self.play_animations()
+
+
 
         self.display_surface.blit(self.reels_surface, REELS_ZONE)
 
