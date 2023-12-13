@@ -1,5 +1,6 @@
 from settings import FPS, NUMBERS_PATH, SYMBOL_SIZE, NUMBERS_WEIGHT
 from .animation import *
+from time import sleep
 import pygame
 import random
 
@@ -82,7 +83,7 @@ class SipAnimation(Animation):
 
             # State 3 (wait for the user to take the sips)
             elif self.state == 3:
-                if self.current_animation_time > FPS*self.sip_number*2:
+                if self.current_animation_time > FPS*self.sip_number:
                     # Go to next animation
                     self.current_animation_time = 0
                     self.state += 1
@@ -90,10 +91,17 @@ class SipAnimation(Animation):
             # State 4 (allow new spin or start bonus animation)
             elif self.state == 4:
                 self.set_symbols_state(False, self.sip_data)
-                self.stop()
                 
                 # Check for bonus
                 if self.machine.bonus_data:
+                    sleep(self.sip_number)
+                    
+                    # Reset image to sip symbol
+                    for sym_pos in self.sip_data:
+                        symbol = self.machine.spin_result_obj[sym_pos[0]][sym_pos[1]]
+                        symbol.image = symbol.image.copy()
+
+                    self.stop()
                     self.machine.bonus_animation.start(self.machine.bonus_data)
                 else:
                     self.stop()

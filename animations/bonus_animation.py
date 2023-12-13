@@ -157,14 +157,14 @@ class Wheel():
         return None
 
     def draw_4(self):
-        # Draw reward here
+        # TODO: Draw reward here in UI
 
         # Blit Arrow and Wheel
         self.reels.blit(self.wheel_img, self.wheel_rect.topleft)
         self.reels.blit(self.rotated_arrow, self.rotated_rect.topleft)
 
     def draw_5(self):
-        self.alpha -= 4
+        self.alpha -= 6
         self.wheel_img.set_alpha(self.alpha)
         self.rotated_arrow.set_alpha(self.alpha)
 
