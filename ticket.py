@@ -6,8 +6,11 @@ class Ticket:
         self.state_machine = state_machine
 
         # Create surfaces
-        self.display_surface = pygame.display.get_surface()
+        self.display_surface = pygame.Surface((WIDTH, HEIGHT))
         self.display_rect = self.display_surface.get_rect()
+
+        self.bg = pygame.image.load(BG_IMAGE_PATH)
+        self.bg = pygame.transform.smoothscale(self.bg, (WIDTH, HEIGHT))
     
 
     def check(self):
@@ -17,5 +20,5 @@ class Ticket:
 
     def update(self, delta_time):
         self.check()
-        self.display_surface.fill(BLUE)
-        return self.display_rect
+        self.display_surface.blit(self.bg, (0, 0))
+        return self.display_surface, [self.display_rect]

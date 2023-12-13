@@ -6,7 +6,7 @@ class Video:
         self.state_machine = state_machine
 
         # Create surfaces
-        self.display_surface = pygame.display.get_surface()
+        self.display_surface = pygame.Surface((WIDTH, HEIGHT))
         self.display_rect = self.display_surface.get_rect()
     
 
@@ -18,4 +18,4 @@ class Video:
     def update(self, delta_time):
         self.check()
         self.display_surface.fill(GREEN)
-        return self.display_rect
+        return self.display_surface, [self.display_rect]

@@ -46,7 +46,9 @@ class Game:
             self.delta_time = (pygame.time.get_ticks() - self.start_time) / 1000
             self.start_time = pygame.time.get_ticks()
 
-            rects_to_update = self.state_machine.update(self.delta_time)
+            surface, rects_to_update = self.state_machine.update(self.delta_time)
+            self.screen.blit(surface, (0, 0))
+            
             pygame.display.update(rects_to_update)
 
             self.clock.tick(FPS)

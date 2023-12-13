@@ -13,7 +13,7 @@ class Machine:
         self.state_machine = state_machine
 
         # Create surfaces
-        self.display_surface = pygame.display.get_surface()
+        self.display_surface = pygame.Surface((WIDTH, HEIGHT))
         self.reels_surface = pygame.Surface((REELS_ZONE[2], REELS_ZONE[3]))
         self.reels_rect = self.reels_surface.get_rect()
         self.bottom_ui_surface = pygame.Surface((BOTTOM_UI_ZONE[2], BOTTOM_UI_ZONE[3]))
@@ -50,10 +50,6 @@ class Machine:
 
         self.sound = Sound()
         self.sound.start_main_sound()
-
-        self.allow_spin()
-
-
 
     # Load images (surfaces) into dictionary from dictionnary of paths
     def load_images_dict(self, paths, size=None, alpha=False):
@@ -125,7 +121,7 @@ class Machine:
         if keys[pygame.K_UP]:
             self.state_machine.next()
 
-        if self.can_spin and self.curr_player.balance >= self.curr_player.bet_size:
+        elif self.can_spin and self.curr_player.balance >= self.curr_player.bet_size:
             if self.buttons.get_input() == 0:
                 self.start_spinning()
                 self.spin_time = pygame.time.get_ticks()
@@ -265,8 +261,6 @@ class Machine:
 
         self.play_animations()
 
-
-
         self.display_surface.blit(self.reels_surface, REELS_ZONE)
 
 
@@ -274,7 +268,7 @@ class Machine:
 
         # self.ui.update()
 
-        return [self.display_surface.get_rect()]
+        return self.display_surface, [self.display_surface.get_rect()]
         # return [self.reels_rect]
 
         # if self.bonus_animation.playing and self.bonus_animation.state > 0:
