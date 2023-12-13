@@ -67,4 +67,10 @@ class WinAnimation(Animation):
             self.machine.spin_result_obj[reel][row].winning = state
 
     def draw_line(self):
+        # Draw line
         self.machine.reels_surface.blit(self.machine.lines[self.line_ind], REELS_ZONE)
+
+        # Redraw winning symbols on top of line
+        for reel, row in enumerate(self.win_data[self.current_win][2]):
+            symbol = self.machine.spin_result_obj[reel][row]
+            self.machine.reels_surface.blit(symbol.image, symbol.rect)
