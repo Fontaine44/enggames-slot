@@ -23,7 +23,7 @@ class Sound:
     def __init__(self):
         # Load sounds
         self.main_sound = pygame.mixer.Sound('audio/track.mp3')
-        self.main_sound.set_volume(0.5)
+        self.main_sound.set_volume(0.3)
         self.line_sound = pygame.mixer.Sound('audio/line.mp3')
         self.sip_sounds = [
             pygame.mixer.Sound('audio/sip1.mp3'),

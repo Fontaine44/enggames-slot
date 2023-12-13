@@ -1,5 +1,6 @@
 from settings import *
 from .animation import *
+from random import randrange
 import pygame
 
 class BonusAnimation(Animation):
@@ -119,7 +120,7 @@ class Wheel():
         self.angle = 0
         self.rotation_speed = 8
 
-        self.desired_angle = 90
+        self.desired_angle = randrange(0, 360)
         self.slowdown_drift = 105
         self.full_speed_angle = FPS*2*self.rotation_speed
         self.slowdown_angle = -(360-(self.full_speed_angle % 360) + self.full_speed_angle + self.desired_angle + self.slowdown_drift)
