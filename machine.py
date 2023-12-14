@@ -43,7 +43,7 @@ class Machine:
 
         self.spawn_reels()
         self.curr_player = Player()
-        self.ui = UI(self.curr_player)
+        # self.ui = UI(self.curr_player)
 
         self.buttons = buttons
         self.sound = sound
@@ -96,7 +96,6 @@ class Machine:
                 self.curr_player.last_payout = 0
 
                 self.pay_player()          # Pay the player for the wins
-                self.ui.win_text_angle = random.randint(-4, 4)
             
             elif self.sip_data:
                 self.sip_animation.start(self.sip_data)

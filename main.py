@@ -4,6 +4,7 @@ from buttons import Buttons
 from sound import Sound
 import ctypes
 import pygame
+import pygame.freetype
 import sys
 
 # Maintain resolution regardless of Windows scaling settings

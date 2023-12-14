@@ -21,16 +21,12 @@ SIDE_UI_ZONE =  [REELS_ZONE[2], 0, WIDTH-REELS_ZONE[2], HEIGHT]
 # Images
 BG_IMAGE_PATH = 'graphics/assets/neon_brick.jpg'
 GRID_IMAGE_PATH = 'graphics/assets/slot_grid.png'
+CASHOUT_IMAGE_PATH = 'graphics/assets/cashout_screen.png'
+FONT_PATH = 'graphics/font/CasinoFlat_COMBIEN.ttf'
 SYM_PATH = 'graphics/symbols'
 NUM_PATH = 'graphics/numbers'
 WHEEL_PATH = 'graphics/wheel'
 LINE_PATH = 'graphics/lines'
-
-# Text
-TEXT_COLOR = 'White'
-UI_FONT = 'graphics/font/Casino3D.ttf'
-UI_FONT_SIZE = 30
-WIN_FONT_SIZE = 110
 
 # Colors
 BLACK = (0, 0, 0)

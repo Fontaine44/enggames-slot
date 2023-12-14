@@ -8,7 +8,7 @@ class StateMachine:
     def __init__(self, sound, buttons):
         self.sound = sound
         self.buttons = buttons
-        self.current_state = 0
+        self.current_state = 1
         self.menu = Menu(self, self.sound, self.buttons)
         self.ticket = Ticket(self, self.sound, self.buttons)
         self.video = Video(self, self.buttons)
@@ -37,12 +37,12 @@ class StateMachine:
         return self.states[self.current_state].update(delta_time)
 
     def transition(self, delta_time):
-        self.alpha += 5
+        self.alpha += 3
         if self.alpha < 255:
             self.states[self.current_state-1].display_surface.set_alpha(255-self.alpha)   # Fade out
             self.states[self.current_state].display_surface.set_alpha(self.alpha)         # Fade in
         else:
-            # Transisiton is over
+            # Transition is over
             self.alpha = 0
             self.update = self.draw
             self.states[self.current_state].start()
