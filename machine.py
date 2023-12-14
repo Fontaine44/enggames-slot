@@ -1,3 +1,4 @@
+from state import State
 from player import Player
 from reel import *
 from settings import *
@@ -6,8 +7,9 @@ from itertools import groupby
 from animations import *
 import pygame
 
-class Machine:
+class Machine(State):
     def __init__(self, state_machine, sound, buttons):
+        super().__init__()
         self.state_machine = state_machine
 
         # Create surfaces

@@ -22,6 +22,7 @@ SIDE_UI_ZONE =  [REELS_ZONE[2], 0, WIDTH-REELS_ZONE[2], HEIGHT]
 BG_IMAGE_PATH = 'graphics/assets/neon_brick.jpg'
 GRID_IMAGE_PATH = 'graphics/assets/slot_grid.png'
 CASHOUT_IMAGE_PATH = 'graphics/assets/cashout_screen.png'
+BANKRUPT_IMAGE_PATH = 'graphics/assets/bankrupt_screen.png'
 FONT_PATH = 'graphics/font/CasinoFlat_COMBIEN.ttf'
 SYM_PATH = 'graphics/symbols'
 NUM_PATH = 'graphics/numbers'

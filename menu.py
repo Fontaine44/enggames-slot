@@ -1,8 +1,10 @@
 from settings import *
+from state import State
 import pygame
 
-class Menu:
+class Menu(State):
     def __init__(self, state_machine, sound, buttons):
+        super().__init__()
         self.state_machine = state_machine
         self.sound = sound
         self.buttons = buttons

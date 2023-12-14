@@ -1,8 +1,10 @@
 from settings import *
+from state import State
 import pygame
 
-class Video:
+class Video(State):
     def __init__(self, state_machine, sound):
+        super().__init__()
         self.state_machine = state_machine
         self.sound = sound
 

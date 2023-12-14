@@ -31,6 +31,8 @@ class StateMachine:
         if self.current_state == 2:
             self.states[2]= Machine(self, self.sound, self.buttons)
         
+        self.states[self.current_state].pre_start()
+        
         sleep(0.2)
 
     def draw(self, delta_time):
