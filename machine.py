@@ -82,12 +82,9 @@ class Machine:
 
         return images_surfaces
 
-    def cooldowns(self):
-        # Only lets player spin if all reels are NOT spinning and animations are done
-        self.spinning = self.is_spinning()
-
-        # Wait for reel to finish spinning and check for win
-        if not self.checked_win and not self.spinning:
+    def check_spin(self):
+        # Check the spin results and act accordingly
+        if not self.checked_win:
             self.checked_win = True
             self.set_result()       # Set spin_result and spin_result_obj
 
@@ -113,11 +110,11 @@ class Machine:
 
     # Returns true if the machine is spinning (last reel is still spinning)
     def is_spinning(self):
-        return self.reel_list[4].is_spinning
+        self.spinning = self.reel_list[4].is_spinning
+        return self.spinning
 
     # Start spin if spacebar is pressed
     def input(self):
-        
         self.buttons.refresh_input()
 
         if self.buttons.red_pressed:
@@ -247,8 +244,12 @@ class Machine:
 
             
     def update(self, delta_time):
-        self.cooldowns()
-        self.input()
+        if not self.is_spinning():
+            self.check_spin()
+        
+        if self.can_spin:
+            self.input()
+
         self.display_surface.blit(self.bg, (0, 0))
         self.reels_surface.blit(self.grid, (0, 0))
 
