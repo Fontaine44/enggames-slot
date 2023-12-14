@@ -1,5 +1,6 @@
 from escpos.printer import Serial
 from settings import *
+from time import sleep
 
 
 def wah_parser(text):
@@ -41,3 +42,4 @@ def print_ticket(key, amount, sips, chugs):
     
     except:
         print("Failed to print voucher")
+        sleep(2)

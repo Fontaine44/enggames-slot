@@ -24,6 +24,10 @@ GRID_IMAGE_PATH = 'graphics/assets/slot_grid.png'
 CASHOUT_IMAGE_PATH = 'graphics/assets/cashout_screen.png'
 BANKRUPT_IMAGE_PATH = 'graphics/assets/bankrupt_screen.png'
 PRINTING_IMAGE_PATH = 'graphics/assets/printing_screen.png'
+PHOTO_IMAGE_PATH = 'graphics/assets/photo_screen.png'
+COUNTDOWN_1_PATH = 'graphics/assets/countdown_1.png'
+COUNTDOWN_2_PATH = 'graphics/assets/countdown_2.png'
+COUNTDOWN_3_PATH = 'graphics/assets/countdown_3.png'
 
 FONT_PATH = 'graphics/font/CasinoFlat_COMBIEN.ttf'
 SYM_PATH = 'graphics/symbols'
@@ -31,8 +35,11 @@ NUM_PATH = 'graphics/numbers'
 WHEEL_PATH = 'graphics/wheel'
 LINE_PATH = 'graphics/lines'
 
-# Printer
+# Printer & Webcam
+WEBCAM_PORT = 0
 PRINTER_PORT = 'COM7'
+WEBCAM_HEIGHT = 540
+WEBCAM_WIDTH = 960
 MGCIL_LOGO_PATH = 'graphics/assets/mgcil_logo.png'
 
 # Colors

@@ -53,7 +53,8 @@ class StateMachine:
 
     def close(self):
         try:
-            self.machine.buttons.ser.close()
+            self.buttons.ser.close()
+            self.states[3].cap.release()
         except:
             pass
 

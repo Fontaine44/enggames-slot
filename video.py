@@ -21,7 +21,7 @@ class Video(State):
     def update(self, delta_time):
         self.video_time += 1
 
-        if self.video_time == 60: # Video is over
+        if self.video_time == 10: # Video is over
             self.state_machine.next()
 
         self.display_surface.fill(GREEN)
