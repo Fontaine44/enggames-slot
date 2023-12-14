@@ -1,5 +1,6 @@
 from state import State
 from settings import *
+from printer import print_ticket
 import pygame
 import pygame.freetype
 
@@ -25,6 +26,10 @@ class Ticket(State):
         self.cashout_screen = pygame.image.load(CASHOUT_IMAGE_PATH).convert_alpha()
         self.amount_surface = None
         self.amount_pos = None
+
+        # State 2
+        self.printing_screen = pygame.image.load(PRINTING_IMAGE_PATH).convert_alpha()
+        self.key = None
     
     def pre_start(self):
         # Get player and retrieve balance
@@ -69,22 +74,36 @@ class Ticket(State):
         
         self.buttons.refresh_input()
         if self.buttons.green_pressed:
-            self.state_machine.next()
+            self.state = 2
+            self.state_time = 0
 
-        if self.state_time >= FPS*10:
+        if self.state_time >= FPS*10 or self.buttons.red_pressed:
             self.state_machine.next()
+    
+    # State 2: Printing voucher
+    def state2(self):
+        self.state_time += 1
+        
+        self.display_surface.blit(self.printing_screen, (0, 0))
 
+        if self.state_time > 1:     # Make sure to blit screen one time
+            print_ticket("dfs", self.amount, 12, 1)
+            self.state = 3
+            self.state_time = 0
+    
+    # State 3: Take souvenir picture
+    def state3(self):
+        pass
 
     def update(self, delta_time):
-
-
         if self.state == 0:
             self.state0()
         elif self.state == 1:
             self.state1()
+        elif self.state == 2:
+            self.state2()
+        elif self.state == 3:
+            self.state3()
 
         return self.display_surface, [self.display_rect]
     
-
-# State 2: Printing voucher
-# State 3: Take souvenir picture

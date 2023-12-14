@@ -23,11 +23,17 @@ BG_IMAGE_PATH = 'graphics/assets/neon_brick.jpg'
 GRID_IMAGE_PATH = 'graphics/assets/slot_grid.png'
 CASHOUT_IMAGE_PATH = 'graphics/assets/cashout_screen.png'
 BANKRUPT_IMAGE_PATH = 'graphics/assets/bankrupt_screen.png'
+PRINTING_IMAGE_PATH = 'graphics/assets/printing_screen.png'
+
 FONT_PATH = 'graphics/font/CasinoFlat_COMBIEN.ttf'
 SYM_PATH = 'graphics/symbols'
 NUM_PATH = 'graphics/numbers'
 WHEEL_PATH = 'graphics/wheel'
 LINE_PATH = 'graphics/lines'
+
+# Printer
+PRINTER_PORT = 'COM7'
+MGCIL_LOGO_PATH = 'graphics/assets/mgcil_logo.png'
 
 # Colors
 BLACK = (0, 0, 0)
