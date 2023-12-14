@@ -3,13 +3,11 @@ from reel import *
 from settings import *
 from ui import UI
 from itertools import groupby
-from buttons import ArcadeButton
 from animations import *
-from sound import Sound
 import pygame
 
 class Machine:
-    def __init__(self, state_machine):
+    def __init__(self, state_machine, sound, buttons):
         self.state_machine = state_machine
 
         # Create surfaces
@@ -46,10 +44,13 @@ class Machine:
         self.spawn_reels()
         self.curr_player = Player()
         self.ui = UI(self.curr_player)
-        self.buttons = ArcadeButton()
 
-        self.sound = Sound()
+        self.buttons = buttons
+        self.sound = sound
+    
+    def start(self):
         self.sound.start_main_sound()
+        self.allow_spin()
 
     # Load images (surfaces) into dictionary from dictionnary of paths
     def load_images_dict(self, paths, size=None, alpha=False):
@@ -116,26 +117,20 @@ class Machine:
 
     # Start spin if spacebar is pressed
     def input(self):
-        keys = pygame.key.get_pressed()
+        
+        self.buttons.refresh_input()
 
-        if keys[pygame.K_UP]:
+        if self.buttons.red_pressed:
             self.state_machine.next()
 
         elif self.can_spin and self.curr_player.balance >= self.curr_player.bet_size:
-            if self.buttons.get_input() == 0:
+            if self.buttons.green_pressed:
                 self.start_spinning()
                 self.spin_time = pygame.time.get_ticks()
                 self.curr_player.place_bet()
                 self.machine_balance += self.curr_player.bet_size
                 self.curr_player.last_payout = None
 
-            # Checks for space key, ability to toggle spin, and balance to cover bet size
-            if keys[pygame.K_SPACE]:
-                self.start_spinning()
-                self.spin_time = pygame.time.get_ticks()
-                self.curr_player.place_bet()
-                self.machine_balance += self.curr_player.bet_size
-                self.curr_player.last_payout = None
             
     def draw_reels(self, delta_time):
         for reel in self.reel_list:

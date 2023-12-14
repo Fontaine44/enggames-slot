@@ -54,6 +54,7 @@ class BonusAnimation(Animation):
             elif self.state == 1:
                 self.wheel.draw_1()
                 if self.wheel.alpha > 255 and self.current_animation_time > FPS*2:
+                    self.machine.buttons.clear_buffer()
                     self.next_state()
 
             # State 2 (wait for input button press)
@@ -86,8 +87,8 @@ class BonusAnimation(Animation):
                     self.machine.allow_spin()   # Allow new spin
     
     def get_input(self):
-        keys = pygame.key.get_pressed()
-        return self.machine.buttons.get_input() == 0 or keys[pygame.K_SPACE]
+        self.machine.buttons.refresh_input()
+        return self.machine.buttons.green_pressed
 
     # Toggle state on symbols
     def set_symbols_state(self, activate, bonus_data):

@@ -1,10 +1,15 @@
 import serial
+import pygame
 
-class ArcadeButton():
+class Buttons():
     def __init__(self):
         # Define the serial port and baud rate
         self.serial_port = 'COM8'
         self.baud_rate = 19200
+
+        self.red_pressed = False
+        self.green_pressed = False
+
         try:
             self.ser = serial.Serial(self.serial_port, self.baud_rate)
         except:
@@ -21,35 +26,27 @@ class ArcadeButton():
         else:
             return None
         
-    def get_input(self):
+    def get_serial_input(self):
         if self.ser is not None:
             line = self.read_line_or_none()
 
             if line == '0':
-                return 0
+                return 0    # Green pressed
             elif line == '1':
                 print("cashing_out")
-                return 1
+                return 1    # Red pressed
             else:
-                return None
+                return None # Nothing pressed
+        
+    def refresh_input(self):
+        button_input = self.get_serial_input()
 
-# can_spin = False
-# i = 0
-# button = ArcadeButton()
-# while True:
-#     if can_spin:
-#         if button.get_input() == 0:
-#             print("spinning")
-#             i = 0
-#             can_spin = False
-#     i+=1
-#     if i > 10000000:
-#         can_spin = True
-#         print("spin allowed")
-# try:
-#     button = ArcadeButton()
-#     button.get_input()
-# except KeyboardInterrupt:
-#     button.ser.close()
+        self.red_pressed = True if button_input == 1 else False
+        self.green_pressed = True if button_input == 0 else False
 
-
+        # For debug purposed
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_UP]:
+            self.red_pressed = True
+        elif  keys[pygame.K_SPACE]:
+            self.green_pressed = True

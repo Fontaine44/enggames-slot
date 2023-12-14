@@ -1,5 +1,7 @@
 from state_machine import StateMachine
 from settings import *
+from buttons import Buttons
+from sound import Sound
 import ctypes
 import pygame
 import sys
@@ -20,7 +22,9 @@ class Game:
         pygame.event.set_allowed([pygame.QUIT, pygame.KEYDOWN])
         self.clock = pygame.time.Clock()
 
-        self.state_machine = StateMachine()
+        self.sound = Sound()
+        self.buttons = Buttons()
+        self.state_machine = StateMachine(self.sound, self.buttons)
 
         self.delta_time = 0
     

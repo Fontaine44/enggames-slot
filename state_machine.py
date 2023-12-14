@@ -5,13 +5,14 @@ from video import Video
 from time import sleep
 
 class StateMachine:
-    def __init__(self):
+    def __init__(self, sound, buttons):
+        self.sound = sound
+        self.buttons = buttons
         self.current_state = 0
-        self.machine = Machine(self)
-        self.menu = Menu(self)
-        self.ticket = Ticket(self)
-        self.video = Video(self)
-        self.states = [self.menu, self.video, self.machine, self.ticket]
+        self.menu = Menu(self, self.sound, self.buttons)
+        self.ticket = Ticket(self, self.sound, self.buttons)
+        self.video = Video(self, self.buttons)
+        self.states = [self.menu, self.video, None, self.ticket]
 
         self.update = self.draw
 
@@ -28,7 +29,7 @@ class StateMachine:
             self.current_state = 0
 
         if self.current_state == 2:
-            self.machine = Machine(self)
+            self.states[2]= Machine(self, self.sound, self.buttons)
         
         sleep(0.2)
 
@@ -44,11 +45,7 @@ class StateMachine:
             # Transisiton is over
             self.alpha = 0
             self.update = self.draw
-
-            # Update state specific stuff
-            if self.current_state == 2:
-                self.machine.allow_spin()
-
+            self.states[self.current_state].start()
 
         return self.draw(delta_time)
 

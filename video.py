@@ -2,21 +2,26 @@ from settings import *
 import pygame
 
 class Video:
-    def __init__(self, state_machine):
+    def __init__(self, state_machine, sound):
         self.state_machine = state_machine
+        self.sound = sound
 
         # Create surfaces
         self.display_surface = pygame.Surface((WIDTH, HEIGHT))
         self.display_rect = self.display_surface.get_rect()
+
+        self.video_time = 0
     
-
-    def check(self):
-        if pygame.key.get_pressed()[pygame.K_UP]:
-            self.state_machine.next()
-
+    def start(self):
+        self.video_time = 0
+        # TODO: start video here
 
     def update(self, delta_time):
-        self.check()
+        self.video_time += 1
+
+        if self.video_time == 60: # Video is over
+            self.state_machine.next()
+
         self.display_surface.fill(GREEN)
         return self.display_surface, [self.display_rect]
     
