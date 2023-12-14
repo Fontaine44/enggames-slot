@@ -29,12 +29,12 @@ class WinAnimation(Animation):
         self.playing = False
         self.reset()
 
-    def play(self):
+    def play(self, delta_time):
         if self.playing:
-            self.current_animation_time += 1
+            self.current_animation_time += delta_time
             self.draw_line()
 
-            if self.current_animation_time > FPS*1.2:
+            if self.current_animation_time > 1.2:
                 # Turn off animation current animation
                 self.set_symbols_state([])
                 # Reset timer

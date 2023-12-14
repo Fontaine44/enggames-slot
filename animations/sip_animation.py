@@ -31,14 +31,14 @@ class SipAnimation(Animation):
         self.playing = False
         self.reset()
 
-    def play(self):
+    def play(self, delta_time):
         if self.playing:
-            self.current_animation_time += 1
+            self.current_animation_time += delta_time
 
             # State 0 (highlight)
             if self.state == 0:
                 # Go to state 1
-                if self.current_animation_time > FPS*2:
+                if self.current_animation_time > 2:
                     # Go to next animation
                     self.current_animation_time = 0
                     self.state += 1
@@ -47,9 +47,10 @@ class SipAnimation(Animation):
             # State 1 (zoom out)
             elif self.state == 1:
                 # Go to state 2
-                if self.current_animation_time > FPS:
+                if self.current_animation_time > 1:
                     # Go to next animation
                     self.current_animation_time = 0
+                    self.current_animation_steps = -1
                     self.state += 1
                     self.sip_scale_factor = 1.0
 
@@ -67,12 +68,14 @@ class SipAnimation(Animation):
             
             # State 2 (random numbers)
             if self.state == 2:
-                if self.current_animation_time > FPS*2:
+                self.current_animation_steps += 1
+
+                if self.current_animation_time > 2:
                     # Go to next animation
                     self.current_animation_time = 0
                     self.state += 1
 
-                elif self.current_animation_time % 8 == 0:
+                elif self.current_animation_steps % 6 == 0:
                     # Get a random number image
                     rand_key = random.choices(self.numbers_keys, weights=self.numbers_weights, k=1)[0]
                     self.sip_number = int(rand_key)
@@ -84,7 +87,7 @@ class SipAnimation(Animation):
 
             # State 3 (wait for the user to take the sips)
             elif self.state == 3:
-                if self.current_animation_time > FPS*self.sip_number:
+                if self.current_animation_time > self.sip_number:
                     # Go to next animation
                     self.current_animation_time = 0
                     self.state += 1

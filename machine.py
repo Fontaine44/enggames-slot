@@ -160,10 +160,10 @@ class Machine(State):
         for reel in self.reel_list:
             self.reel_list[reel].start_spin(int(reel) * DELAY_TIME)
     
-    def play_animations(self):
-        self.win_animation.play()
-        self.sip_animation.play()
-        self.bonus_animation.play()
+    def play_animations(self, delta_time):
+        self.win_animation.play(delta_time)
+        self.sip_animation.play(delta_time)
+        self.bonus_animation.play(delta_time)
 
     def allow_spin(self):
         self.can_spin = True
@@ -256,7 +256,7 @@ class Machine(State):
 
         self.draw_reels(delta_time)
 
-        self.play_animations()
+        self.play_animations(delta_time)
 
         self.display_surface.blit(self.reels_surface, REELS_ZONE)
 

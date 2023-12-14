@@ -39,21 +39,21 @@ class BonusAnimation(Animation):
         self.playing = False
         self.reset()
 
-    def play(self):
+    def play(self, delta_time):
         if self.playing:
-            self.current_animation_time += 1
+            self.current_animation_time += delta_time
 
             # State 0 (highlight)
             if self.state == 0:
                 # Go to state 1
-                if self.current_animation_time > FPS*2:
+                if self.current_animation_time > 2:
                     self.next_state()
                     self.wheel = Wheel(self)
 
             # State 1 (fade in wheel)
             elif self.state == 1:
                 self.wheel.draw_1()
-                if self.wheel.alpha > 255 and self.current_animation_time > FPS*2:
+                if self.wheel.alpha > 255 and self.current_animation_time > 2:
                     self.machine.buttons.clear_buffer()
                     self.next_state()
 
@@ -76,7 +76,7 @@ class BonusAnimation(Animation):
             # State 4 (give reward/punish)
             elif self.state == 4:
                 self.wheel.draw_4()
-                if self.current_animation_time > FPS*3:
+                if self.current_animation_time > 3:
                     self.next_state()
             
             # State 5 (fade out wheel)
