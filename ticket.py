@@ -46,7 +46,7 @@ class Ticket(State):
     
     def pre_start(self):
         # Get player and retrieve balance
-        self.player = self.state_machine.states[2].curr_player
+        self.player = self.state_machine.states[2].player
         self.amount = self.player.get_balance()
 
         self.take_photo = False
@@ -167,7 +167,7 @@ class Ticket(State):
                     self.display_surface.blit(self.countdown_2, (0, 0))
                 elif self.photo_countdown < 3:
                     self.display_surface.blit(self.countdown_1, (0, 0))
-                elif self.photo_countdown >= 4:
+                elif self.photo_countdown >= 3.5:
                     # TODO: save picture and show it for 15 seconds or next button press
                     sleep(5)
                     self.cap.release()

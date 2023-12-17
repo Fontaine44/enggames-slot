@@ -15,12 +15,13 @@ SPIN_TIME = 1000
 X_OFFSET = 20
 # topleft_x, topleft_y, width, height
 REELS_ZONE = [0, 0, SYMBOL_SIZE*5+X_OFFSET*5, SYMBOL_SIZE*3]
-BOTTOM_UI_ZONE = [0, REELS_ZONE[3], REELS_ZONE[2], HEIGHT-REELS_ZONE[3]]
-SIDE_UI_ZONE =  [REELS_ZONE[2], 0, WIDTH-REELS_ZONE[2], HEIGHT]
+BOTTOM_UI_ZONE = [0, REELS_ZONE[3], WIDTH, HEIGHT-REELS_ZONE[3]]
+SIDE_UI_ZONE =  [REELS_ZONE[2], 0, WIDTH-REELS_ZONE[2], HEIGHT-BOTTOM_UI_ZONE[3]]
 
 # Images
-BG_IMAGE_PATH = 'graphics/assets/neon_brick.jpg'
+BG_IMAGE_PATH = 'graphics/assets/machine_screen.png'
 GRID_IMAGE_PATH = 'graphics/assets/slot_grid.png'
+BOTTOM_UI_IMAGE_PATH = 'graphics/assets/bottom_ui_screen.png'
 CASHOUT_IMAGE_PATH = 'graphics/assets/cashout_screen.png'
 BANKRUPT_IMAGE_PATH = 'graphics/assets/bankrupt_screen.png'
 PRINTING_IMAGE_PATH = 'graphics/assets/printing_screen.png'
@@ -36,7 +37,7 @@ WHEEL_PATH = 'graphics/wheel'
 LINE_PATH = 'graphics/lines'
 
 # Printer & Webcam
-WEBCAM_PORT = 0
+WEBCAM_PORT = 1
 PRINTER_PORT = 'COM7'
 WEBCAM_HEIGHT = 540
 WEBCAM_WIDTH = 960
@@ -85,8 +86,8 @@ SYMBOLS_PATH = {
 }
 
 SYMBOLS_WEIGHT = { 
-    'sip': 2,
-    'bonus': 4,
+    'sip': 3,
+    'bonus': 3,
     'wah': 10,
     'jdg': 8,
     'mgcil': 10,

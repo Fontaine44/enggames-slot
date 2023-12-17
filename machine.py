@@ -6,6 +6,7 @@ from ui import UI
 from itertools import groupby
 from animations import *
 import pygame
+from time import sleep
 
 class Machine(State):
     def __init__(self, state_machine, sound, buttons):
@@ -14,16 +15,13 @@ class Machine(State):
 
         # Create surfaces
         self.display_surface = pygame.Surface((WIDTH, HEIGHT))
+        self.display_rect = self.display_surface.get_rect()
         self.reels_surface = pygame.Surface((REELS_ZONE[2], REELS_ZONE[3]))
-        self.reels_rect = self.reels_surface.get_rect()
         self.bottom_ui_surface = pygame.Surface((BOTTOM_UI_ZONE[2], BOTTOM_UI_ZONE[3]))
         self.side_ui_surface = pygame.Surface((SIDE_UI_ZONE[2], SIDE_UI_ZONE[3]))
 
-        # Load background
-        self.bg = pygame.image.load(BG_IMAGE_PATH)
-        self.bg = pygame.transform.smoothscale(self.bg, (WIDTH, HEIGHT))
+        # Load images
         self.grid = pygame.image.load(GRID_IMAGE_PATH).convert_alpha()
-
         self.lines = self.load_images_list(LINES_PATH, alpha=True)
 
         self.machine_balance = 10000.00
@@ -44,12 +42,15 @@ class Machine(State):
         self.bonus_animation = BonusAnimation(self)
 
         self.spawn_reels()
-        self.curr_player = Player()
-        # self.ui = UI(self.curr_player)
+        self.player = Player()
+        self.ui = UI(self.player, self.bottom_ui_surface, self.side_ui_surface)
 
         self.buttons = buttons
         self.sound = sound
     
+    def pre_start(self):
+        self.ui.display_balance()
+
     def start(self):
         self.sound.start_main_sound()
         self.allow_spin()
@@ -95,9 +96,10 @@ class Machine(State):
             if self.win_data:
                 self.win_animation.start(self.win_data)
 
-                self.curr_player.last_payout = 0
+                self.player.last_payout = 0
 
                 self.pay_player()          # Pay the player for the wins
+                self.ui.display_balance()
             
             elif self.sip_data:
                 self.sip_animation.start(self.sip_data)
@@ -121,16 +123,13 @@ class Machine(State):
         if self.buttons.red_pressed:
             self.state_machine.next()
 
-        elif self.can_spin and self.curr_player.balance >= self.curr_player.bet_size:
+        elif self.can_spin and self.player.balance >= self.player.bet_size:
             if self.buttons.green_pressed:
                 self.start_spinning()
-                self.spin_time = pygame.time.get_ticks()
-                self.curr_player.place_bet()
-                self.machine_balance += self.curr_player.bet_size
-                self.curr_player.last_payout = None
-
             
     def draw_reels(self, delta_time):
+        self.reels_surface.blit(self.grid, REELS_ZONE)
+
         for reel in self.reel_list:
 
             self.reel_list[reel].animate(delta_time)    # Move symbols
@@ -154,6 +153,12 @@ class Machine(State):
         self.spin_time = pygame.time.get_ticks()
         self.spinning = True
         self.can_spin = False
+        
+        self.player.place_bet()
+        self.machine_balance += self.player.bet_size
+        self.player.last_payout = None
+
+        self.ui.display_balance()
 
         self.win_animation.stop()
 
@@ -234,52 +239,29 @@ class Machine(State):
             win_symbol = win[1]
             symbol_mult = SYMBOLS_PAY[win_symbol]
             multiplier = (len(win[2]) - 2) * symbol_mult
-            spin_payout += self.curr_player.bet_size * multiplier
+            spin_payout += self.player.bet_size * multiplier
 
         # Add the payout to the player's balance
-        self.curr_player.balance += spin_payout
+        self.player.balance += spin_payout
         self.machine_balance -= spin_payout
-        self.curr_player.last_payout += spin_payout
-        self.curr_player.total_won += spin_payout
-
-
+        self.player.last_payout += spin_payout
+        self.player.total_won += spin_payout
             
     def update(self, delta_time):
         if not self.is_spinning():
             self.check_spin()
-        
+            
         if self.can_spin:
             self.input()
 
-        self.display_surface.blit(self.bg, (0, 0))
-        self.reels_surface.blit(self.grid, (0, 0))
-
         self.draw_reels(delta_time)
-
         self.play_animations(delta_time)
 
+        # Check if ui was refreshed
+        if self.ui.refreshed:
+            self.display_surface.blit(self.bottom_ui_surface, BOTTOM_UI_ZONE)
+            self.ui.refreshed = False
+
         self.display_surface.blit(self.reels_surface, REELS_ZONE)
-
-
-
-
-        # self.ui.update()
-
-        return self.display_surface, [self.display_surface.get_rect()]
-        # return [self.reels_rect]
-
-        # if self.bonus_animation.playing and self.bonus_animation.state > 0:
-        #     return [self.bonus_animation.wheel_rect]
-        # else:
-        #     return  [self.reels_rect]
-
-
-
-        # Balance/payout debugger
-        # debug_player_data = self.curr_player.get_data()
-        # machine_balance = "{:.2f}".format(self.machine_balance)
-        # if self.curr_player.last_payout:
-        #     last_payout = "{:.2f}".format(self.curr_player.last_payout)
-        # else:
-        #     last_payout = "N/A"
-        # debug(f"Player balance: {debug_player_data['balance']} | Machine balance: {machine_balance} | Last payout: {last_payout}")
+        return self.display_surface, [self.display_rect]
+    

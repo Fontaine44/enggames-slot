@@ -1,48 +1,35 @@
 from settings import *
-import pygame, random
+import pygame
+import pygame.freetype
+import random
 
 class UI:
-    def __init__(self, player):
+    def __init__(self, player, bottom_ui_surface, side_ui_surface):
         self.player = player
-        self.display_surface = pygame.display.get_surface()
-        try:
-            self.font, self.bet_font = pygame.font.Font(UI_FONT, UI_FONT_SIZE), pygame.font.Font(UI_FONT, UI_FONT_SIZE)
-            self.win_font = pygame.font.Font(UI_FONT, WIN_FONT_SIZE)
-        except:
-            print("Error loading font!")
-            print(f"Currently, the UI_FONT variable is set to {UI_FONT}")
-            print("Does the file exist?")
-            quit()
-        self.win_text_angle = random.randint(-4, 4)
+        self.bottom_ui_surface = bottom_ui_surface
+        self.side_ui_surface = side_ui_surface
+        self.bottom_ui_image = pygame.image.load(BOTTOM_UI_IMAGE_PATH).convert_alpha()
+        
+        self.font = pygame.freetype.Font(FONT_PATH, 60)
+        self.refreshed = False      # refresh is True if we need to refresh the background in this tick
 
-    def display_info(self):
-        player_data = self.player.get_data()
+    def refresh(self):
+        if not self.refreshed:
+            self.bottom_ui_surface.blit(self.bottom_ui_image, (0, 0))
+            self.refreshed = True
+    
+    def display_big_message(self, message, size, color):
+        self.refresh()
 
-        # Balance and bet size
-        balance_surf = self.font.render("Balance: $" + player_data['balance'], True, TEXT_COLOR, None)
-        x, y = 20, self.display_surface.get_size()[1] - 30
-        balance_rect = balance_surf.get_rect(bottomleft = (x, y))
+        text_angle = random.randint(-4, 4)
+        self.balance_surface, _ = self.font.render(message, size=size, fgcolor=color, rotation=text_angle)
+        self.bottom_ui_surface.blit(self.balance_surface, (600, 30))
+    
+    def display_balance(self):
+        self.refresh()
 
-        bet_surf = self.bet_font.render("Wager: $" + player_data['bet_size'], True, TEXT_COLOR, None)
-        x = self.display_surface.get_size()[0] - 20
-        bet_rect = bet_surf.get_rect(bottomright = (x, y))
+        self.balance_surface, _ = self.font.render(f"{self.player.balance} $", WHITE)
+        self.bottom_ui_surface.blit(self.balance_surface, (300, 30))
 
-        # Draw player data
-        pygame.draw.rect(self.display_surface, False, balance_rect)
-        pygame.draw.rect(self.display_surface, False, bet_rect)
-        self.display_surface.blit(balance_surf, balance_rect)
-        self.display_surface.blit(bet_surf, bet_rect)
-
-        # Print last win if applicable
-        if self.player.last_payout:
-            last_payout = player_data['last_payout']
-            win_surf = self.win_font.render("WIN! $" + last_payout, True, TEXT_COLOR, None)
-            x1 = 800
-            y1 = self.display_surface.get_size()[1] - 60
-            win_surf = pygame.transform.rotate(win_surf, self.win_text_angle)
-            win_rect = win_surf.get_rect(center = (x1, y1))
-            self.display_surface.blit(win_surf, win_rect)
-
-    def update(self):
-        pygame.draw.rect(self.display_surface, 'Black', pygame.Rect(0, 900, 1600, 100))
-        self.display_info()
+        self.bet_size_surface, _ = self.font.render(f"{self.player.bet_size} $", WHITE)
+        self.bottom_ui_surface.blit(self.bet_size_surface, (300, 107))

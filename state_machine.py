@@ -32,8 +32,6 @@ class StateMachine:
             self.states[2]= Machine(self, self.sound, self.buttons)
         
         self.states[self.current_state].pre_start()
-        
-        sleep(0.2)
 
     def draw(self, delta_time):
         return self.states[self.current_state].update(delta_time)
@@ -41,7 +39,6 @@ class StateMachine:
     def transition(self, delta_time):
         self.alpha += 3
         if self.alpha < 255:
-            self.states[self.current_state-1].display_surface.set_alpha(255-self.alpha)   # Fade out
             self.states[self.current_state].display_surface.set_alpha(self.alpha)         # Fade in
         else:
             # Transition is over

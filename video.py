@@ -13,18 +13,23 @@ class Video(State):
         self.display_rect = self.display_surface.get_rect()
 
         self.video_time = 0
+        self.video_over = False
     
     def start(self):
         self.video_time = 0
+        self.video_over = False
         # TODO: start video here
 
     def update(self, delta_time):
-        self.video_time += 1
-
-        if self.video_time == 10: # Video is over
-            self.state_machine.next()
-
-        self.display_surface.fill(GREEN)
+        self.video_time += delta_time
+       
+        if not self.video_over:
+            if self.video_time > 2:
+                self.state_machine.next()
+                self.video_over = True
+            else:
+                self.display_surface.fill(GREEN)
+        
         return self.display_surface, [self.display_rect]
     
 # video with instructions playing full screen
