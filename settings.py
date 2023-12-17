@@ -1,9 +1,4 @@
 # Display settings
-# SYMBOL_SIZE = 268
-# FPS = 90
-# HEIGHT = 900
-# WIDTH = 1600
-# REEL_SPEED =  67   # number of pixels down per frame, must be a divider of the image size
 SYMBOL_SIZE = 300
 FPS = 60
 HEIGHT = 1080
@@ -14,14 +9,14 @@ SPIN_TIME = 1000
 
 X_OFFSET = 20
 # topleft_x, topleft_y, width, height
-REELS_ZONE = [0, 0, SYMBOL_SIZE*5+X_OFFSET*5, SYMBOL_SIZE*3]
-BOTTOM_UI_ZONE = [0, REELS_ZONE[3], WIDTH, HEIGHT-REELS_ZONE[3]]
-SIDE_UI_ZONE =  [REELS_ZONE[2], 0, WIDTH-REELS_ZONE[2], HEIGHT-BOTTOM_UI_ZONE[3]]
+REELS_ZONE = [0, 0, SYMBOL_SIZE*5+X_OFFSET*5, SYMBOL_SIZE*3] # [0, 0, 1600, 900]
+BOTTOM_UI_ZONE = [0, REELS_ZONE[3], REELS_ZONE[2], HEIGHT-REELS_ZONE[3]] # [0, 900, 1600, 180]
+SIDE_UI_ZONE =  [REELS_ZONE[2], 0, WIDTH-REELS_ZONE[2], HEIGHT] # [1600, 0, 320, 1080]
 
 # Images
-BG_IMAGE_PATH = 'graphics/assets/machine_screen.png'
 GRID_IMAGE_PATH = 'graphics/assets/slot_grid.png'
 BOTTOM_UI_IMAGE_PATH = 'graphics/assets/bottom_ui_screen.png'
+SIDE_UI_IMAGE_PATH = 'graphics/assets/side_ui_screen.png'
 CASHOUT_IMAGE_PATH = 'graphics/assets/cashout_screen.png'
 BANKRUPT_IMAGE_PATH = 'graphics/assets/bankrupt_screen.png'
 PRINTING_IMAGE_PATH = 'graphics/assets/printing_screen.png'
@@ -50,6 +45,7 @@ WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
+PINK = (255, 70, 216)
 
 NUMBERS_PATH = {
     '1': f"{NUM_PATH}/1.png",
@@ -86,8 +82,8 @@ SYMBOLS_PATH = {
 }
 
 SYMBOLS_WEIGHT = { 
-    'sip': 3,
-    'bonus': 3,
+    'sip': 2,
+    'bonus': 2,
     'wah': 10,
     'jdg': 8,
     'mgcil': 10,

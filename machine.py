@@ -100,6 +100,7 @@ class Machine(State):
 
                 self.pay_player()          # Pay the player for the wins
                 self.ui.display_balance()
+                self.ui.display_message(f"WIN {self.player.last_payout} $", 120, PINK)
             
             elif self.sip_data:
                 self.sip_animation.start(self.sip_data)
@@ -260,6 +261,7 @@ class Machine(State):
         # Check if ui was refreshed
         if self.ui.refreshed:
             self.display_surface.blit(self.bottom_ui_surface, BOTTOM_UI_ZONE)
+            self.display_surface.blit(self.side_ui_surface, SIDE_UI_ZONE)
             self.ui.refreshed = False
 
         self.display_surface.blit(self.reels_surface, REELS_ZONE)
