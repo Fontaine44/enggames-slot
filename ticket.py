@@ -97,7 +97,7 @@ class Ticket(State):
                 self.state = 2
                 self.state_time = 0
 
-            if self.state_time >= 12 or self.buttons.red_pressed:
+            if self.state_time >= 30 or self.buttons.red_pressed:
                 self.state_machine.next()
         
         return self.display_surface, [self.display_rect]
@@ -182,7 +182,7 @@ class Ticket(State):
             
         if self.state_time <= 4:
             return self.display_surface, [self.display_rect]
-        elif self.state_time >= 20 and not self.take_photo:
+        elif self.state_time >= 30 and not self.take_photo:
             self.cap.release()
             self.state_machine.next()
         
