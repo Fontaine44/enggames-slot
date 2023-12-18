@@ -2,7 +2,6 @@ from machine import Machine
 from menu import Menu
 from ticket import Ticket
 from video import Video
-from time import sleep
 
 class StateMachine:
     def __init__(self, sound, buttons):

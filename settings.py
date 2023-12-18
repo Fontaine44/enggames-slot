@@ -45,7 +45,7 @@ GRAY = (127, 127, 127)
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
-BLUE = (0, 0, 255)
+BLUE = (0, 50, 255)
 PINK = (255, 70, 216)
 
 NUMBERS_PATH = {
@@ -83,7 +83,7 @@ SYMBOLS_PATH = {
 }
 
 SYMBOLS_WEIGHT = { 
-    'sip': 1,
+    'sip': 19,
     'bonus': 1,
     'wah': 10,
     'jdg': 8,
