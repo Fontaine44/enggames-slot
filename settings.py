@@ -24,6 +24,7 @@ PHOTO_IMAGE_PATH = 'graphics/assets/photo_screen.png'
 COUNTDOWN_1_PATH = 'graphics/assets/countdown_1.png'
 COUNTDOWN_2_PATH = 'graphics/assets/countdown_2.png'
 COUNTDOWN_3_PATH = 'graphics/assets/countdown_3.png'
+BLUR_IMAGE_PATH = 'graphics/assets/blur_screen.png'
 
 FONT_PATH = 'graphics/font/CasinoFlat_COMBIEN.ttf'
 SYM_PATH = 'graphics/symbols'
@@ -82,8 +83,8 @@ SYMBOLS_PATH = {
 }
 
 SYMBOLS_WEIGHT = { 
-    'sip': 2,
-    'bonus': 2,
+    'sip': 1,
+    'bonus': 1,
     'wah': 10,
     'jdg': 8,
     'mgcil': 10,

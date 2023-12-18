@@ -28,6 +28,12 @@ class WinAnimation(Animation):
     def stop(self):
         self.playing = False
         self.reset()
+    
+    def pause(self):
+        self.playing = False
+    
+    def unpause(self):
+        self.playing = True
 
     def play(self, delta_time):
         if self.playing:

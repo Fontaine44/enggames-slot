@@ -6,12 +6,13 @@ from ui import UI
 from itertools import groupby
 from animations import *
 import pygame
-from time import sleep
 
 class Machine(State):
     def __init__(self, state_machine, sound, buttons):
         super().__init__()
         self.state_machine = state_machine
+        self.buttons = buttons
+        self.sound = sound
 
         # Create surfaces
         self.display_surface = pygame.Surface((WIDTH, HEIGHT))
@@ -40,13 +41,11 @@ class Machine(State):
         self.win_animation = WinAnimation(self)
         self.sip_animation = SipAnimation(self)
         self.bonus_animation = BonusAnimation(self)
+        self.confirm_animation = ConfirmAnimation(self)
 
         self.spawn_reels()
         self.player = Player()
         self.ui = UI(self.player, self.bottom_ui_surface, self.side_ui_surface)
-
-        self.buttons = buttons
-        self.sound = sound
     
     def pre_start(self):
         self.ui.display_balance()
@@ -122,7 +121,7 @@ class Machine(State):
         self.buttons.refresh_input()
 
         if self.buttons.red_pressed:
-            self.state_machine.next()
+            self.confirm_animation.start(0)
 
         elif self.can_spin and self.player.balance >= self.player.bet_size:
             if self.buttons.green_pressed:
@@ -166,14 +165,20 @@ class Machine(State):
         for reel in self.reel_list:
             self.reel_list[reel].start_spin(int(reel) * DELAY_TIME)
     
-    def play_animations(self, delta_time):
+    def play_animations1(self, delta_time):
         self.win_animation.play(delta_time)
         self.sip_animation.play(delta_time)
         self.bonus_animation.play(delta_time)
 
+    def play_animations2(self, delta_time):
+        self.confirm_animation.play(delta_time)
+
     def allow_spin(self):
         self.can_spin = True
         self.buttons.clear_buffer()
+    
+    def disallow_spin(self):
+        self.can_spin = False
 
     # Set spin_result with new results (2D arrays of symbol strings)
     def set_result(self):
@@ -256,7 +261,7 @@ class Machine(State):
             self.input()
 
         self.draw_reels(delta_time)
-        self.play_animations(delta_time)
+        self.play_animations1(delta_time)
 
         # Check if ui was refreshed
         if self.ui.refreshed:
@@ -265,5 +270,7 @@ class Machine(State):
             self.ui.refreshed = False
 
         self.display_surface.blit(self.reels_surface, REELS_ZONE)
+        self.play_animations2(delta_time)
+
         return self.display_surface, [self.display_rect]
     
