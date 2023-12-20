@@ -50,6 +50,7 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 50, 255)
 PINK = (255, 0, 216)
+YELLOW = (255, 255, 0)
 
 NUMBERS_PATH = {
     '1': f"{NUM_PATH}/1.png",
@@ -86,8 +87,8 @@ SYMBOLS_PATH = {
 }
 
 SYMBOLS_WEIGHT = { 
-    'sip': 7,
-    'bonus': 1,
+    'sip': 1,
+    'bonus': 10,
     'wah': 10,
     'jdg': 8,
     'mgcil': 10,
@@ -138,6 +139,7 @@ LINES_PATH = [
 
 # Wheel
 WHEEL = f'{WHEEL_PATH}/wheel.png'
-WHEEL_SIZE = 900
 ARROW = f'{WHEEL_PATH}/arrow.svg'
 ARROW_SIZE = 400
+WHEEL_RANGES = [(-22.5, 22.5), (22.5, 68), (68, 113.5), (113.5, 159), (159, 204.5), (204.5, 250), (250, 295.5), (295.5, 341)]
+WHEEL_WEIGHTS = [1, 4, 2, 4, 1, 4, 2, 4]

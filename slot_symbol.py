@@ -20,40 +20,8 @@ class Symbol(pygame.sprite.Sprite):
 
     def update(self, sip_animation, bonus_animation):
         # Fades out non-winning symbols
-        if bonus_animation.playing:
-            self.bonus_animation(bonus_animation.state)
-        elif sip_animation.playing:
-            pass
-        else:
+        if not bonus_animation.playing and not sip_animation.playing:
             self.pos = self.rect.topleft    # Update pos
-        
-    def bonus_animation(self, state):
-        if state == 0:
-            if self.bonus:
-                # Glow
-                if self.alpha <= 255:
-                    self.alpha += 20
-            else:
-                # Fade out
-                if self.alpha > 95:
-                    self.alpha -= 20
-            # Update alpha value
-            self.image.set_alpha(self.alpha)
-
-        elif state == 1:
-            # Fade out
-            if self.alpha > 95:
-                self.alpha -= 5
-            # Update alpha value
-            self.image.set_alpha(self.alpha)
-        
-        elif state == 5:
-            if self.bonus:
-                # Glow
-                if self.alpha <= 255:
-                    self.alpha += 2
-            # Update alpha value
-            self.image.set_alpha(self.alpha)
 
 
     def scale_image(self, scale_factor):
