@@ -1,10 +1,11 @@
+from settings import ARDUINO_PORT
 import serial
 import pygame
 
 class Buttons():
     def __init__(self):
         # Define the serial port and baud rate
-        self.serial_port = 'COM8'
+        self.serial_port = ARDUINO_PORT
         self.baud_rate = 19200
 
         self.red_pressed = False

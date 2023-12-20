@@ -33,7 +33,8 @@ NUM_PATH = 'graphics/numbers'
 WHEEL_PATH = 'graphics/wheel'
 LINE_PATH = 'graphics/lines'
 
-# Printer & Webcam
+# Printer & Webcam & Arduino
+ARDUINO_PORT = 'COM8'
 WEBCAM_PORT = 0
 PRINTER_PORT = 'COM7'
 WEBCAM_HEIGHT = 600
