@@ -11,9 +11,10 @@ class ConfirmAnimation(Animation):
 
         # Images
         self.blur = pygame.image.load(BLUR_IMAGE_PATH).convert_alpha()
+        self.confirm_0 = pygame.image.load(CASHOUT_CONFIRM_PATH).convert_alpha()
 
         self.screen_num = None
-        self.win_playing = True
+        self.win_playing = False
         self.reset()
     
     def start(self, screen_num):
@@ -23,12 +24,13 @@ class ConfirmAnimation(Animation):
 
         # Pause win animation if playing
         if self.machine.win_animation.playing:
-            self.win_was_playing = True
+            self.win_playing = True
             self.machine.win_animation.pause()
     
     def reset(self):
         self.current_animation_time = 0
         self.screen_num = None
+        self.win_playing = False
 
     def stop(self):
         self.playing = False
@@ -40,10 +42,10 @@ class ConfirmAnimation(Animation):
 
             self.display_images()
         
-            if self.current_animation_time == FPS*2:
+            if self.current_animation_time == FPS:
                 self.machine.buttons.clear_buffer()
             
-            if self.current_animation_time > FPS*2:
+            if self.current_animation_time > FPS:
                 self.check_input()
     
     def display_images(self):
@@ -52,7 +54,7 @@ class ConfirmAnimation(Animation):
         self.machine.display_surface.blit(self.blur, (0, 0))
 
         if self.screen_num == 0:
-            pass
+            self.machine.display_surface.blit(self.confirm_0, (0, 0))
 
     def check_input(self):
         self.buttons.refresh_input()
@@ -71,13 +73,13 @@ class ConfirmAnimation(Animation):
         if self.screen_num == 0:
             self.machine.display_surface.blit(self.machine.bottom_ui_surface, BOTTOM_UI_ZONE)
             self.machine.display_surface.blit(self.machine.side_ui_surface, SIDE_UI_ZONE)
-            self.stop()
 
             # Restart win animation if it was playing
-            if self.win_was_playing:
+            if self.win_playing:
                 self.machine.win_animation.unpause()
-                
+            
+            self.stop()
             self.machine.allow_spin()
-            sleep(0.1)
+            sleep(0.2)
 
 # Screen 0: confirm cash-out

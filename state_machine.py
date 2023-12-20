@@ -36,7 +36,7 @@ class StateMachine:
         return self.states[self.current_state].update(delta_time)
 
     def transition(self, delta_time):
-        self.alpha += 3
+        self.alpha += 2
         if self.alpha < 255:
             self.states[self.current_state].display_surface.set_alpha(self.alpha)         # Fade in
         else:

@@ -25,6 +25,7 @@ COUNTDOWN_1_PATH = 'graphics/assets/countdown_1.png'
 COUNTDOWN_2_PATH = 'graphics/assets/countdown_2.png'
 COUNTDOWN_3_PATH = 'graphics/assets/countdown_3.png'
 BLUR_IMAGE_PATH = 'graphics/assets/blur_screen.png'
+CASHOUT_CONFIRM_PATH = 'graphics/assets/cashout_confirm.png'
 
 FONT_PATH = 'graphics/font/CasinoFlat_COMBIEN.ttf'
 SYM_PATH = 'graphics/symbols'
@@ -83,7 +84,7 @@ SYMBOLS_PATH = {
 }
 
 SYMBOLS_WEIGHT = { 
-    'sip': 19,
+    'sip': 1,
     'bonus': 1,
     'wah': 10,
     'jdg': 8,
@@ -94,10 +95,10 @@ SYMBOLS_WEIGHT = {
 SYMBOLS_PAY = {
     'sip': 0,
     'bonus': 0,
-    'wah': 2,
-    'jdg': 2,
-    'mgcil': 2,
-    'rat': 10,
+    'wah': 1,
+    'jdg': 1,
+    'mgcil': 1,
+    'rat': 1,
 }
 
 # Paylines (index=reel, value=row)
