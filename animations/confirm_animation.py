@@ -12,9 +12,11 @@ class ConfirmAnimation(Animation):
         # Images
         self.blur = pygame.image.load(BLUR_IMAGE_PATH).convert_alpha()
         self.confirm_0 = pygame.image.load(CASHOUT_CONFIRM_PATH).convert_alpha()
+        self.confirm_1 = pygame.image.load(SIP_CONFIRM_PATH).convert_alpha()
 
         self.screen_num = None
         self.win_playing = False
+        self.sip_playing = False
         self.reset()
     
     def start(self, screen_num):
@@ -26,11 +28,17 @@ class ConfirmAnimation(Animation):
         if self.machine.win_animation.playing:
             self.win_playing = True
             self.machine.win_animation.pause()
+        
+        # Pause sip animation if playing
+        if self.machine.sip_animation.playing:
+            self.sip_playing = True
+            self.machine.sip_animation.pause()
     
     def reset(self):
         self.current_animation_time = 0
         self.screen_num = None
         self.win_playing = False
+        self.sip_playing = False
 
     def stop(self):
         self.playing = False
@@ -55,6 +63,8 @@ class ConfirmAnimation(Animation):
 
         if self.screen_num == 0:
             self.machine.display_surface.blit(self.confirm_0, (0, 0))
+        elif self.screen_num == 1:
+            self.machine.display_surface.blit(self.confirm_1, (0, 0))
 
     def check_input(self):
         self.buttons.refresh_input()
@@ -66,6 +76,9 @@ class ConfirmAnimation(Animation):
     
     def red_pressed(self):
         if self.screen_num == 0:
+            self.stop()
+            self.machine.state_machine.next()
+        elif self.screen_num == 1:
             self.stop()
             self.machine.state_machine.next()
 
@@ -82,4 +95,15 @@ class ConfirmAnimation(Animation):
             self.machine.allow_spin()
             sleep(0.2)
 
+        elif self.screen_num == 1:
+            self.machine.display_surface.blit(self.machine.bottom_ui_surface, BOTTOM_UI_ZONE)
+            self.machine.display_surface.blit(self.machine.side_ui_surface, SIDE_UI_ZONE)
+
+            # Restart sip animation if it was playing
+            if self.sip_playing:
+                self.machine.sip_animation.unpause()
+            
+            self.stop()
+            sleep(0.2)
 # Screen 0: confirm cash-out
+# Screen 1: confirm sips

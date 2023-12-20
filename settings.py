@@ -26,6 +26,7 @@ COUNTDOWN_2_PATH = 'graphics/assets/countdown_2.png'
 COUNTDOWN_3_PATH = 'graphics/assets/countdown_3.png'
 BLUR_IMAGE_PATH = 'graphics/assets/blur_screen.png'
 CASHOUT_CONFIRM_PATH = 'graphics/assets/cashout_confirm.png'
+SIP_CONFIRM_PATH = 'graphics/assets/sips_confirm.png'
 
 FONT_PATH = 'graphics/font/CasinoFlat_COMBIEN.ttf'
 SYM_PATH = 'graphics/symbols'
@@ -48,7 +49,7 @@ WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 50, 255)
-PINK = (255, 70, 216)
+PINK = (255, 0, 216)
 
 NUMBERS_PATH = {
     '1': f"{NUM_PATH}/1.png",
@@ -85,7 +86,7 @@ SYMBOLS_PATH = {
 }
 
 SYMBOLS_WEIGHT = { 
-    'sip': 1,
+    'sip': 7,
     'bonus': 1,
     'wah': 10,
     'jdg': 8,

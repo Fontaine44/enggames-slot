@@ -20,3 +20,9 @@ class Animation(ABC):
     @abstractmethod
     def play(self):
         pass
+
+    def pause(self):
+        self.playing = False
+    
+    def unpause(self):
+        self.playing = True

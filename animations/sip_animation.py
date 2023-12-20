@@ -2,6 +2,7 @@ from settings import *
 from .animation import *
 import pygame
 import random
+from time import sleep
 
 class SipAnimation(Animation):
     def __init__(self, machine):
@@ -92,6 +93,11 @@ class SipAnimation(Animation):
                     # Go to next animation
                     self.current_animation_time = 0
                     self.state += 1
+
+                    # Random sips check
+                    if random.randint(1, 3) == 1:
+                        sleep(2)
+                        self.machine.confirm_animation.start(1)
 
             # State 4 (allow new spin or start bonus animation)
             elif self.state == 4:
