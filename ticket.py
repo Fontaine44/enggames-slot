@@ -120,7 +120,7 @@ class Ticket(State):
                 self.cap = cv2.VideoCapture(WEBCAM_PORT, cv2.CAP_DSHOW)
                 self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, WEBCAM_WIDTH)
                 self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, WEBCAM_HEIGHT)
-                self.display_surface.blit(self.photo_screen, (0, 0))
+                ret, frame = self.cap.read()
             except:
                 self.cap = None
                 self.state_machine.next()
@@ -136,6 +136,10 @@ class Ticket(State):
 
         # Capture and blit frame
         if self.cap:
+            
+            if self.state_time <= 4:
+                self.display_surface.blit(self.photo_screen, (0, 0))
+
             # Capture a frame from the camera
             ret, frame = self.cap.read()
             
