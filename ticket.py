@@ -6,6 +6,7 @@ import pygame.freetype
 import cv2
 from time import sleep
 
+
 class Ticket(State):
     def __init__(self, state_machine, sound, buttons):
         super().__init__()
@@ -108,11 +109,23 @@ class Ticket(State):
         
         self.display_surface.blit(self.printing_screen, (0, 0))
 
-        if self.state_time > 0.3:     # Make sure to blit screen one time
+        if self.state_time > 0.5:     # Make sure to blit screen one time
             # TODO: print ticket with good id and stats
             print_ticket("dfs", self.amount, 12, 1)
             self.state = 3
             self.state_time = 0
+
+            # Start camera object
+            try:
+                self.cap = cv2.VideoCapture(WEBCAM_PORT, cv2.CAP_DSHOW)
+                self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, WEBCAM_WIDTH)
+                self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, WEBCAM_HEIGHT)
+                self.display_surface.blit(self.photo_screen, (0, 0))
+            except:
+                self.cap = None
+                self.state_machine.next()
+                print("Failed to init webcam object")
+
             self.buttons.clear_buffer()
         
         return self.display_surface, [self.display_rect]
@@ -121,30 +134,15 @@ class Ticket(State):
     def state3(self, delta_time):
         self.state_time += delta_time
 
-        # Print background first
-        if self.state_time <= 4:
-            self.display_surface.blit(self.photo_screen, (0, 0))
-
-        # Create webcam object once
-        if self.state_time >= 1 and not self.cap:
-            try:
-                self.cap = cv2.VideoCapture(WEBCAM_PORT, cv2.CAP_DSHOW)
-                self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, WEBCAM_WIDTH)
-                self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, WEBCAM_HEIGHT)
-            except:
-                self.cap = None
-                self.state_machine.next()
-                print("Failed to init webcam object")
-
         # Capture and blit frame
-        if self.state_time > 1 and self.cap:
-
+        if self.cap:
             # Capture a frame from the camera
             ret, frame = self.cap.read()
             
             # Check for succesful capture
             if ret:
                 # Convert the OpenCV frame to Pygame surface
+                frame = cv2.resize(frame, (WEBCAM_WIDTH, WEBCAM_HEIGHT))
                 frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 frame = cv2.transpose(frame)
                 frame = cv2.flip(frame, 0)

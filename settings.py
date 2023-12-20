@@ -34,10 +34,10 @@ WHEEL_PATH = 'graphics/wheel'
 LINE_PATH = 'graphics/lines'
 
 # Printer & Webcam
-WEBCAM_PORT = 1
+WEBCAM_PORT = 0
 PRINTER_PORT = 'COM7'
-WEBCAM_HEIGHT = 540
-WEBCAM_WIDTH = 960
+WEBCAM_HEIGHT = 600
+WEBCAM_WIDTH = 800
 MGCIL_LOGO_PATH = 'graphics/assets/mgcil_logo.png'
 
 # Colors
