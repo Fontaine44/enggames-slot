@@ -19,7 +19,7 @@ def print_ticket(key, amount, sips, chugs):
         p.text("*********************\n")
         p.control("LF")
         p.set(align='center')
-        p.image('C:\\Users\\rfon2\\Downloads\\test3.png', True, True, fragment_height=960, center=True)
+        p.image(MGCIL_LOGO_PATH, True, True, fragment_height=960, center=True)
         p.control("LF")
         p.set(align='center', bold=False, double_width=True, double_height=True)
 
