@@ -1,8 +1,11 @@
 from settings import *
 import random
+import string
+import secrets
 
 class Player():
     def __init__(self):
+        self.id = self.generate_short_id()
         self.balance = 1000
         self.bet_size = 100
         self.last_payout = 0
@@ -10,6 +13,8 @@ class Player():
         self.total_wager = 0
         self.free_spins = 0
         self.jackpot = random.randrange(5000, 10000)
+        self.sips = 0
+        self.chugs = 0
 
     def get_data(self):
         player_data = {}
@@ -49,3 +54,8 @@ class Player():
 
     def bankrupt(self):
         self.balance = 0
+    
+    def generate_short_id(self, length=6):
+        characters = string.ascii_letters + string.digits
+        short_id = ''.join(secrets.choice(characters) for _ in range(length))
+        return short_id

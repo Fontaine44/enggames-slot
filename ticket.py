@@ -4,7 +4,6 @@ from printer import print_ticket
 import pygame
 import pygame.freetype
 import cv2
-from time import sleep
 
 
 class Ticket(State):
@@ -110,8 +109,8 @@ class Ticket(State):
         self.display_surface.blit(self.printing_screen, (0, 0))
 
         if self.state_time > 0.5:     # Make sure to blit screen one time
-            # TODO: print ticket with good id and stats
-            print_ticket("dfs", self.amount, 12, 1)
+            player = self.state_machine.machine.player
+            print_ticket(player)
             self.state = 3
             self.state_time = 0
 
@@ -170,8 +169,9 @@ class Ticket(State):
                 elif self.photo_countdown < 3:
                     self.display_surface.blit(self.countdown_1, (0, 0))
                 elif self.photo_countdown >= 3.5:
+                    self.sound.play_camera_sound()
                     # TODO: save picture and show it for 15 seconds or next button press
-                    sleep(5)
+                    pygame.time.delay(5000)
                     self.cap.release()
                     self.state_machine.next()
             else:

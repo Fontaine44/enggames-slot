@@ -133,6 +133,7 @@ class BonusAnimation(Animation):
             self.machine.ui.display_balance()
             self.machine.ui.display_message("CHUG!!", 160, RED)
             self.machine.sound.play_chug_sound()
+            self.machine.player.chugs += 1
 
 class Wheel():
     def __init__(self, bonus):

@@ -11,6 +11,7 @@ class StateMachine:
         self.menu = Menu(self, self.sound, self.buttons)
         self.ticket = Ticket(self, self.sound, self.buttons)
         self.video = Video(self, self.buttons)
+        self.machine = None
         self.states = [self.menu, self.video, None, self.ticket]
 
         self.update = self.draw
@@ -29,6 +30,7 @@ class StateMachine:
 
         if self.current_state == 2:
             self.states[2]= Machine(self, self.sound, self.buttons)
+            self.machine = self.states[2]
         
         self.states[self.current_state].pre_start()
 

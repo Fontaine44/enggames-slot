@@ -36,7 +36,7 @@ LINE_PATH = 'graphics/lines'
 
 # Printer & Webcam & Arduino
 ARDUINO_PORT = 'COM8'
-WEBCAM_PORT = 0
+WEBCAM_PORT = 1
 PRINTER_PORT = 'COM7'
 WEBCAM_HEIGHT = 600
 WEBCAM_WIDTH = 800
@@ -88,8 +88,8 @@ SYMBOLS_PATH = {
 }
 
 SYMBOLS_WEIGHT = { 
-    'sip': 1,
-    'bonus': 10,
+    'sip': 2,
+    'bonus': 2,
     'wah': 10,
     'jdg': 8,
     'mgcil': 10,

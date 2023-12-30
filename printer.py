@@ -4,18 +4,18 @@ from time import sleep
 
 
 def wah_parser(text):
-    # TODO: parse wah/wahwah here
+    text = text.replace('5', 'wah').replace('7', '(wahwah)')
     return text
 
-def print_ticket(key, amount, sips, chugs):
+def print_ticket(player):
     try:
-        parsed_amount = wah_parser(str(amount))
-        parsed_sips = wah_parser(str(sips))
-        parsed_chugs = wah_parser(str(chugs))
+        parsed_amount = wah_parser(str(player.balance))
+        parsed_sips = wah_parser(str(player.sips))
+        parsed_chugs = wah_parser(str(player.chugs))
 
         p = Serial(PRINTER_PORT, baudrate=57600)
 
-        p.set(align='left', bold=False, double_width=False, double_height=False)
+        p.set(align='center', bold=False, double_width=True, double_height=True)
         p.text("*********************\n")
         p.control("LF")
         p.set(align='center')
@@ -23,13 +23,14 @@ def print_ticket(key, amount, sips, chugs):
         p.control("LF")
         p.set(align='center', bold=False, double_width=True, double_height=True)
 
-        p.text("Mgcil Drinking Slot\nMachine Voucher\n")
+        p.text("Mgcil Drinking Slot\nMachine Coupon\n")
         p.set(align='center', bold=True, double_width=True, double_height=True)
         p.control("LF")
         p.text(f"{parsed_amount} $\n")
         p.control("LF")
 
-        p.qr(key, size=10, native=True)
+        p.text("  ")
+        p.qr(player.id, size=10, native=True)
         p.control("LF")
 
         p.set(align='center', normal_textsize=True, bold=False, double_width=False, double_height=False)
@@ -40,6 +41,7 @@ def print_ticket(key, amount, sips, chugs):
         p.text("*********************\n")
         p.cut()
     
-    except:
+    except Exception as e:
         print("Failed to print voucher")
+        print(e)
         sleep(2)

@@ -76,6 +76,7 @@ class SipAnimation(Animation):
                     self.state += 1
                     self.machine.ui.display_balance()
                     self.machine.ui.display_message(f"TAKE {self.sip_number} SIPS", 120, PINK)
+                    self.machine.player.sips += self.sip_number
 
                 elif self.current_animation_steps % 6 == 0:
                     # Get a random number image
