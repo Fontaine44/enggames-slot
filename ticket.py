@@ -4,6 +4,7 @@ from printer import print_ticket
 import pygame
 import pygame.freetype
 import cv2
+import json
 
 
 class Ticket(State):
@@ -110,15 +111,16 @@ class Ticket(State):
 
         if self.state_time > 0.5:     # Make sure to blit screen one time
             player = self.state_machine.machine.player
-            print_ticket(player)
+            self.save_player(player)
+            # print_ticket(player)
             self.state = 3
             self.state_time = 0
 
             # Start camera object
             try:
                 self.cap = cv2.VideoCapture(WEBCAM_PORT, cv2.CAP_DSHOW)
-                self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, WEBCAM_WIDTH)
-                self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, WEBCAM_HEIGHT)
+                # self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, WEBCAM_WIDTH)
+                # self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, WEBCAM_HEIGHT)
                 ret, frame = self.cap.read()
             except:
                 self.cap = None
@@ -140,12 +142,12 @@ class Ticket(State):
                 self.display_surface.blit(self.photo_screen, (0, 0))
 
             # Capture a frame from the camera
-            ret, frame = self.cap.read()
+            ret, original_frame = self.cap.read()
             
             # Check for succesful capture
             if ret:
                 # Convert the OpenCV frame to Pygame surface
-                frame = cv2.resize(frame, (WEBCAM_WIDTH, WEBCAM_HEIGHT))
+                frame = cv2.resize(original_frame, (WEBCAM_WIDTH, WEBCAM_HEIGHT))
                 frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 frame = cv2.transpose(frame)
                 frame = cv2.flip(frame, 0)
@@ -170,7 +172,8 @@ class Ticket(State):
                     self.display_surface.blit(self.countdown_1, (0, 0))
                 elif self.photo_countdown >= 3.5:
                     self.sound.play_camera_sound()
-                    # TODO: save picture and show it for 15 seconds or next button press
+                    output_file_path = f'photos/{self.state_machine.machine.player.id}.png'
+                    cv2.imwrite(output_file_path, original_frame)
                     pygame.time.delay(5000)
                     self.cap.release()
                     self.state_machine.next()
@@ -189,6 +192,37 @@ class Ticket(State):
             self.state_machine.next()
         
         return self.display_surface, [self.webcam_rect]
+
+    def save_player(self, player):
+        player_obj = {
+            'id': player.id,
+            'balance': player.balance,
+            'sips': player.sips,
+            'chugs': player.chugs,
+            'redeemed': False
+        }
+
+        # Step 1: Open the JSON file and load its contents
+        with open(DATA_PATH, 'r') as file:
+            data = json.load(file)
+
+        if len(data) == 0: 
+            data = [player_obj]
+        else:
+            index_to_insert = 0
+            for i, ply in enumerate(data):
+                if player.balance >= ply["balance"]:
+                    index_to_insert = i
+                    break
+                index_to_insert = i + 1
+
+            # Insert the new_int at the correct position
+            data.insert(index_to_insert, player_obj)
+
+        # Step 3: Save the updated data back to the JSON file
+        with open(DATA_PATH, 'w') as file:
+            json.dump(data, file, indent=2)  # 'indent' parameter for pretty formatting, adjust as needed
+
 
     def update(self, delta_time):
         if self.state == 0:

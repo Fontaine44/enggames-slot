@@ -41,6 +41,7 @@ PRINTER_PORT = 'COM7'
 WEBCAM_HEIGHT = 600
 WEBCAM_WIDTH = 800
 MGCIL_LOGO_PATH = 'graphics/assets/mgcil_logo.png'
+DATA_PATH = 'data.json'
 
 # Colors
 BLACK = (0, 0, 0)
@@ -66,15 +67,15 @@ NUMBERS_PATH = {
 }
 
 NUMBERS_WEIGHT = {
-    '1': 2,
-    '2': 3,
-    '3': 3,
+    '1': 1,
+    '2': 1,
+    '3': 2,
     '4': 3,
-    '5': 3,
-    '6': 2,
-    '7': 2,
-    '8': 1,
-    '9': 1,
+    '5': 4,
+    '6': 4,
+    '7': 4,
+    '8': 3,
+    '9': 2,
 }
 
 # Symbols dictionnary
