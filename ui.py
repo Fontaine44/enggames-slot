@@ -40,5 +40,10 @@ class UI:
         self.balance_surface, _ = self.font.render(f"{self.player.balance} $", WHITE)
         self.bottom_ui_surface.blit(self.balance_surface, (300, 30))
 
-        self.bet_size_surface, _ = self.font.render(f"{self.player.bet_size} $", WHITE)
-        self.bottom_ui_surface.blit(self.bet_size_surface, (300, 107))
+        if self.player.free_spins > 0:
+            self.bet_size_surface, _ = self.font.render("FREE", GREEN)
+            self.bottom_ui_surface.blit(self.bet_size_surface, (300, 107))
+
+        else:
+            self.bet_size_surface, _ = self.font.render(f"{self.player.bet_size} $", WHITE)
+            self.bottom_ui_surface.blit(self.bet_size_surface, (300, 107))

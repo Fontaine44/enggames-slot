@@ -25,7 +25,6 @@ class Machine(State):
         self.grid = pygame.image.load(GRID_IMAGE_PATH).convert_alpha()
         self.lines = self.load_images_list(LINES_PATH, alpha=True)
 
-        self.machine_balance = 10000.00
         self.reel_list = {}
         self.can_spin = False
         self.spinning = False
@@ -155,7 +154,6 @@ class Machine(State):
         self.can_spin = False
         
         self.player.place_bet()
-        self.machine_balance += self.player.bet_size
         self.player.last_payout = None
 
         self.ui.display_balance()
@@ -174,8 +172,11 @@ class Machine(State):
         self.confirm_animation.play(delta_time)
 
     def allow_spin(self):
-        self.can_spin = True
-        self.buttons.clear_buffer()
+        if self.player.balance == 0:
+            self.state_machine.next()
+        else:
+            self.can_spin = True
+            self.buttons.clear_buffer()
     
     def disallow_spin(self):
         self.can_spin = False
@@ -249,7 +250,6 @@ class Machine(State):
 
         # Add the payout to the player's balance
         self.player.balance += spin_payout
-        self.machine_balance -= spin_payout
         self.player.last_payout += spin_payout
         self.player.total_won += spin_payout
             

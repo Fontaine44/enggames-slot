@@ -70,14 +70,14 @@ class BonusAnimation(Animation):
                 if stopped:
                     self.machine.sound.stop_wheel_sound()
                     self.next_state()
-                    pygame.time.delay(2000)
-                    self.machine.ui.display_balance()
-                    self.machine.ui.display_message("JACKPOT!!", 160, YELLOW)
+                    pygame.time.delay(500)
+                    self.give_reward()
             
             # State 4 (give reward/punish)
             elif self.state == 4:
                 self.wheel.draw_4()
-                if self.current_animation_time > 10:
+                if self.current_animation_time > 7:
+                    self.machine.sound.stop_wheel_prize()
                     self.next_state()
             
             # State 5 (fade out wheel)
@@ -107,6 +107,32 @@ class BonusAnimation(Animation):
         self.current_animation_time = 0
         self.state += 1
 
+    def give_reward(self):
+        angle = int(self.wheel.angle)
+        if angle in range(341, 360) or angle in range(0, 23):
+            self.machine.player.get_jackpot()
+            self.machine.ui.display_balance()
+            self.machine.ui.display_message("JACKPOT!!", 160, YELLOW)
+            self.machine.sound.play_jackpot_sound()
+        elif angle in range(WHEEL_RANGES[2][0], int(WHEEL_RANGES[2][1]+0.5)):
+            self.machine.player.activate_free_spins()   
+            self.machine.ui.display_balance()
+            self.machine.ui.display_message("10 FREE SPINS!!", 140, GREEN)
+            self.machine.sound.play_prize_sound()
+        elif angle in range(WHEEL_RANGES[4][0], int(WHEEL_RANGES[4][1]+0.5)):
+            self.machine.player.bankrupt()
+            self.machine.ui.display_balance()
+            self.machine.ui.display_message("BANKRUPT!!", 160, GREY)
+            self.machine.sound.play_bankrupt_sound()
+        elif angle in range(WHEEL_RANGES[6][0], int(WHEEL_RANGES[6][1]+0.5)):
+            self.machine.player.double_money()
+            self.machine.ui.display_balance()
+            self.machine.ui.display_message("DOUBLE MONEY!!", 140, YELLOW)
+            self.machine.sound.play_prize_sound()
+        else:
+            self.machine.ui.display_balance()
+            self.machine.ui.display_message("CHUG!!", 160, RED)
+            self.machine.sound.play_chug_sound()
 
 class Wheel():
     def __init__(self, bonus):

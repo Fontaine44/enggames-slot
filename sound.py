@@ -1,24 +1,6 @@
 from random import randrange
 import pygame
 
-# Sound in Game init
-# main_sound = pygame.mixer.Sound('audio/track.mp3')
-# main_sound.play(loops = -1)
-
-# Import sounds in Machine init
-# self.spin_sound = pygame.mixer.Sound('audio/spinclip.mp3')
-# self.spin_sound.set_volume(0.15)
-# self.win_three = pygame.mixer.Sound('audio/winthree.wav')
-# self.win_three.set_volume(0.6)
-# self.win_four = pygame.mixer.Sound('audio/winfour.wav')
-# self.win_four.set_volume(0.7)
-# self.win_five = pygame.mixer.Sound('audio/winfive.wav')
-# self.win_five.set_volume(0.8)
-
-# After each start_spin call
-# self.spin_sound.play()
-
-
 class Sound:
     def __init__(self):
         # Load sounds
@@ -33,6 +15,9 @@ class Sound:
         self.bonus_sound = pygame.mixer.Sound('audio/bonus.mp3')
         self.wheel_sound = pygame.mixer.Sound('audio/wheel.mp3')
         self.prize_sound = pygame.mixer.Sound('audio/prize.mp3')
+        self.chug_sound = pygame.mixer.Sound('audio/chug.mp3')
+        self.bankrupt_sound = pygame.mixer.Sound('audio/bankrupt.mp3')
+        self.jackpot_sound = pygame.mixer.Sound('audio/jackpot.mp3')
 
     def start_main_sound(self):
         return
@@ -52,8 +37,26 @@ class Sound:
     
     def stop_wheel_sound(self):
         self.wheel_sound.stop()
-        self.prize_sound.play()
 
+    def play_chug_sound(self):
+        self.chug_sound.play()
+        self.wheel_prize = self.chug_sound
+
+    def play_bankrupt_sound(self):
+        self.bankrupt_sound.play()
+        self.wheel_prize = self.bankrupt_sound
+    
+    def play_prize_sound(self):
+        self.prize_sound.play()
+        self.wheel_prize = self.prize_sound
+    
+    def play_jackpot_sound(self):
+        self.jackpot_sound.play()
+        self.wheel_prize = self.jackpot_sound
+    
+    def stop_wheel_prize(self):
+        self.wheel_prize.stop()
+        self.wheel_prize = None
 
 # # You need to provide sounds and load them in the Machine init function for this to work!
 # def play_win_sound(self, win_data):

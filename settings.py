@@ -51,6 +51,7 @@ GREEN = (0, 255, 0)
 BLUE = (0, 50, 255)
 PINK = (255, 0, 216)
 YELLOW = (255, 255, 0)
+GREY = (169, 169, 169)
 
 NUMBERS_PATH = {
     '1': f"{NUM_PATH}/1.png",
@@ -142,4 +143,4 @@ WHEEL = f'{WHEEL_PATH}/wheel.png'
 ARROW = f'{WHEEL_PATH}/arrow.svg'
 ARROW_SIZE = 400
 WHEEL_RANGES = [(-22.5, 22.5), (22.5, 68), (68, 113.5), (113.5, 159), (159, 204.5), (204.5, 250), (250, 295.5), (295.5, 341)]
-WHEEL_WEIGHTS = [1, 4, 2, 4, 1, 4, 2, 4]
+WHEEL_WEIGHTS = [1, 2, 2, 2, 0.5, 2, 2, 2]
