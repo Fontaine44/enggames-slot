@@ -21,11 +21,18 @@
     "redeemed": false
   },
   {
-    "id": "szMLb7",
+    "id": "HdhX7V",
     "balance": 1000,
     "sips": 0,
     "chugs": 0,
     "redeemed": false
+  },
+  {
+    "id": "szMLb7",
+    "balance": 1000,
+    "sips": 0,
+    "chugs": 0,
+    "redeemed": true
   },
   {
     "id": "MZJn5o",
@@ -52,6 +59,13 @@
     "id": "Yc5MoT",
     "balance": 1000,
     "sips": 0,
+    "chugs": 0,
+    "redeemed": false
+  },
+  {
+    "id": "cK4U3s",
+    "balance": 900,
+    "sips": 8,
     "chugs": 0,
     "redeemed": false
   },
