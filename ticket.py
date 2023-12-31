@@ -47,7 +47,7 @@ class Ticket(State):
     
     def pre_start(self):
         # Get player and retrieve balance
-        self.player = self.state_machine.states[2].player
+        self.player = self.state_machine.machine.player
         self.amount = self.player.get_balance()
 
         self.take_photo = False
@@ -99,6 +99,7 @@ class Ticket(State):
                 self.state_time = 0
 
             if self.state_time >= 30 or self.buttons.red_pressed:
+                pygame.time.delay(500)
                 self.state_machine.next()
         
         return self.display_surface, [self.display_rect]
@@ -112,7 +113,7 @@ class Ticket(State):
         if self.state_time > 0.5:     # Make sure to blit screen one time
             player = self.state_machine.machine.player
             self.save_player(player)
-            # print_ticket(player)
+            print_ticket(player)
             self.state = 3
             self.state_time = 0
 
@@ -158,7 +159,6 @@ class Ticket(State):
                 print("Failed to capture webcam")
                 self.cap.release()
                 self.state_machine.next()
-
 
             # Check if countdown is on or check for input
             if self.take_photo:

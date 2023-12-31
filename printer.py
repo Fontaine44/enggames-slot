@@ -40,6 +40,8 @@ def print_ticket(player):
         p.set(align='center', bold=False, double_width=True, double_height=True)
         p.text("*********************\n")
         p.cut()
+
+        p.close()
     
     except Exception as e:
         print("Failed to print voucher")

@@ -14,6 +14,8 @@ BOTTOM_UI_ZONE = [0, REELS_ZONE[3], REELS_ZONE[2], HEIGHT-REELS_ZONE[3]] # [0, 9
 SIDE_UI_ZONE =  [REELS_ZONE[2], 0, WIDTH-REELS_ZONE[2], HEIGHT] # [1600, 0, 320, 1080]
 
 # Images
+MENU_IMAGE_PATH = 'graphics/assets/menu_screen.png'
+SCAN_IMAGE_PATH = 'graphics/assets/scan_screen.png'
 GRID_IMAGE_PATH = 'graphics/assets/slot_grid.png'
 BOTTOM_UI_IMAGE_PATH = 'graphics/assets/bottom_ui_screen.png'
 SIDE_UI_IMAGE_PATH = 'graphics/assets/side_ui_screen.png'

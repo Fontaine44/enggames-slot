@@ -24,7 +24,7 @@ class Video(State):
         self.video_time += delta_time
        
         if not self.video_over:
-            if self.video_time > 0.2:
+            if self.video_time > 1:
                 self.state_machine.next()
                 self.video_over = True
             else:

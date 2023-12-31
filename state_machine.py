@@ -7,7 +7,7 @@ class StateMachine:
     def __init__(self, sound, buttons):
         self.sound = sound
         self.buttons = buttons
-        self.current_state = 1
+        self.current_state = 0
         self.menu = Menu(self, self.sound, self.buttons)
         self.ticket = Ticket(self, self.sound, self.buttons)
         self.video = Video(self, self.buttons)
@@ -53,6 +53,7 @@ class StateMachine:
         try:
             self.buttons.ser.close()
             self.states[3].cap.release()
+            self.states[0].cap.release()
         except:
             pass
 
