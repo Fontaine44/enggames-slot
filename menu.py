@@ -100,9 +100,8 @@ class Menu(State):
         # Start camera object
         try:
             self.cap = cv2.VideoCapture(WEBCAM_PORT, cv2.CAP_DSHOW)
-            # self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, WEBCAM_WIDTH)
-            # self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, WEBCAM_HEIGHT)
-            ret, frame = self.cap.read()
+            self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, WEBCAM_WIDTH)
+            self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, WEBCAM_HEIGHT)
         except:
             self.cap = None
             self.state_machine.next()

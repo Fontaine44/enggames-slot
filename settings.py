@@ -38,7 +38,7 @@ LINE_PATH = 'graphics/lines'
 
 # Printer & Webcam & Arduino
 ARDUINO_PORT = 'COM8'
-WEBCAM_PORT = 1
+WEBCAM_PORT = 0
 PRINTER_PORT = 'COM7'
 WEBCAM_HEIGHT = 600
 WEBCAM_WIDTH = 800
