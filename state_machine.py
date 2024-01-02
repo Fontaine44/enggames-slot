@@ -27,9 +27,11 @@ class StateMachine:
         # Check for reset
         if self.current_state == len(self.states):
             self.current_state = 0
-
-        if self.current_state == 2:
-            self.states[2]= Machine(self, self.sound, self.buttons, cashin_amount)
+        
+        if self.current_state == 1:
+            self.cashin_amount = cashin_amount
+        elif self.current_state == 2:
+            self.states[2]= Machine(self, self.sound, self.buttons, self.cashin_amount)
             self.machine = self.states[2]
         
         self.states[self.current_state].pre_start()

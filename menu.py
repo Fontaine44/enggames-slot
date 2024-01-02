@@ -78,6 +78,7 @@ class Menu(State):
                 frame = cv2.resize(original_frame, (WEBCAM_WIDTH, WEBCAM_HEIGHT))
                 frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 frame = cv2.transpose(frame)
+                frame = cv2.flip(frame, 0)
                 frame_surface = pygame.surfarray.make_surface(frame)
                 # Blit the frame onto the Pygame screen
                 self.display_surface.blit(frame_surface, self.webcam_rect)
