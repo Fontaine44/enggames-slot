@@ -41,9 +41,9 @@ WHEEL_PATH = 'graphics/wheel'
 LINE_PATH = 'graphics/lines'
 
 # Printer & Webcam & Arduino
-ARDUINO_PORT = 'COM8'
-WEBCAM_PORT = 1
-PRINTER_PORT = 'COM7'
+ARDUINO_PORT = 'COM3'
+WEBCAM_PORT = 0
+PRINTER_PORT = 'COM4'
 WEBCAM_HEIGHT = 600
 WEBCAM_WIDTH = 800
 MGCIL_LOGO_PATH = 'graphics/assets/mgcil_logo.png'
