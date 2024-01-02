@@ -18,7 +18,7 @@ class StateMachine:
 
         self.alpha = 0
 
-    def next(self):
+    def next(self, cashin_amount=1000):
         # Increment state
         self.current_state += 1
 
@@ -29,7 +29,7 @@ class StateMachine:
             self.current_state = 0
 
         if self.current_state == 2:
-            self.states[2]= Machine(self, self.sound, self.buttons)
+            self.states[2]= Machine(self, self.sound, self.buttons, cashin_amount)
             self.machine = self.states[2]
         
         self.states[self.current_state].pre_start()

@@ -128,6 +128,8 @@ class Menu(State):
                 # Determine position
                 self.amount_pos = ((WIDTH-amount_width)//2, (HEIGHT-amount_height)//2)
 
+                self.cashin_amount = amount
+
                 return True
             
         return False
@@ -140,7 +142,7 @@ class Menu(State):
         # Show cashin amount for 3 seconds
         if self.cashin_time > 3:
             self.cashin_time = 0
-            self.state_machine.next()
+            self.state_machine.next(cashin_amount=self.cashin_amount)
             
 
     def update(self, delta_time):

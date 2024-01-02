@@ -8,7 +8,7 @@ from animations import *
 import pygame
 
 class Machine(State):
-    def __init__(self, state_machine, sound, buttons):
+    def __init__(self, state_machine, sound, buttons, starting_balance):
         super().__init__()
         self.state_machine = state_machine
         self.buttons = buttons
@@ -43,7 +43,7 @@ class Machine(State):
         self.confirm_animation = ConfirmAnimation(self)
 
         self.spawn_reels()
-        self.player = Player()
+        self.player = Player(starting_balance)
         self.ui = UI(self.player, self.bottom_ui_surface, self.side_ui_surface)
     
     def pre_start(self):

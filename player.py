@@ -4,9 +4,9 @@ import string
 import secrets
 
 class Player():
-    def __init__(self):
+    def __init__(self, balance):
         self.id = self.generate_short_id()
-        self.balance = 1000
+        self.balance = balance
         self.bet_size = 100
         self.last_payout = 0
         self.total_won = 0
