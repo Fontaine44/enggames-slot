@@ -50,7 +50,6 @@ class Machine(State):
         self.ui.display_balance()
 
     def start(self):
-        self.sound.start_main_sound()
         self.allow_spin()
 
     # Load images (surfaces) into dictionary from dictionnary of paths

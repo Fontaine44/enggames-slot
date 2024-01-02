@@ -1,6 +1,5 @@
 from settings import *
 from .animation import *
-from time import sleep
 import pygame
 
 class ConfirmAnimation(Animation):
@@ -33,6 +32,11 @@ class ConfirmAnimation(Animation):
         if self.machine.sip_animation.playing:
             self.sip_playing = True
             self.machine.sip_animation.pause()
+
+        # Start police sound
+        if screen_num == 1:
+            self.machine.sound.stop_main_sound()
+            self.machine.sound.play_police_sound()
     
     def reset(self):
         self.current_animation_time = 0
@@ -76,9 +80,13 @@ class ConfirmAnimation(Animation):
     
     def red_pressed(self):
         if self.screen_num == 0:
+            self.machine.sound.stop_police_sound()
+            self.machine.sound.play_main_sound()
             self.stop()
             self.machine.state_machine.next()
         elif self.screen_num == 1:
+            self.machine.sound.stop_police_sound()
+            self.machine.sound.play_main_sound()
             self.stop()
             self.machine.state_machine.next()
 
@@ -93,7 +101,7 @@ class ConfirmAnimation(Animation):
             
             self.stop()
             self.machine.allow_spin()
-            sleep(0.2)
+            pygame.time.delay(200)
 
         elif self.screen_num == 1:
             self.machine.display_surface.blit(self.machine.bottom_ui_surface, BOTTOM_UI_ZONE)
@@ -103,7 +111,9 @@ class ConfirmAnimation(Animation):
             if self.sip_playing:
                 self.machine.sip_animation.unpause()
             
+            self.machine.sound.stop_police_sound()
+            self.machine.sound.play_main_sound()
             self.stop()
-            sleep(0.2)
+            pygame.time.delay(200)
 # Screen 0: confirm cash-out
 # Screen 1: confirm sips
