@@ -172,7 +172,7 @@ class Machine(State):
         self.confirm_animation.play(delta_time)
 
     def allow_spin(self):
-        if self.player.balance == 0:
+        if self.player.balance == 0 and not self.win_data:
             self.state_machine.next()
         else:
             self.can_spin = True
@@ -245,7 +245,7 @@ class Machine(State):
         for win in self.win_data:
             win_symbol = win[1]
             symbol_mult = SYMBOLS_PAY[win_symbol]
-            multiplier = (len(win[2]) - 2) * symbol_mult
+            multiplier = (len(win[2]) - 2) * 2 * symbol_mult
             spin_payout += self.player.bet_size * multiplier
 
         # Add the payout to the player's balance
