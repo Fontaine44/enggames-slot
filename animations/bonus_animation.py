@@ -124,6 +124,8 @@ class BonusAnimation(Animation):
             self.machine.ui.display_balance()
             self.machine.ui.display_message("BANKRUPT!!", 160, GREY)
             self.machine.sound.play_bankrupt_sound()
+            pygame.time.delay(2000)
+            self.machine.state_machine.next_state()
         elif angle in range(WHEEL_RANGES[6][0], int(WHEEL_RANGES[6][1]+0.5)):
             self.machine.player.double_money()
             self.machine.ui.display_balance()

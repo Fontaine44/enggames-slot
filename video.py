@@ -9,7 +9,7 @@ class Video(State):
         self.sound = sound
 
         self.state = 0
-        self.state_times = [1, 4, 4, 2.5]
+        self.state_times = [2, 4, 4, 2.5]
 
         # Create surfaces
         self.display_surface = pygame.Surface((WIDTH, HEIGHT))
@@ -22,7 +22,7 @@ class Video(State):
 
         self.video_time = 0
     
-    def start(self):
+    def pre_start(self):
         self.video_time = 0
         self.state = 0
         
@@ -38,8 +38,4 @@ class Video(State):
                 self.video_time = 0
                 self.state += 1
         
-
-        
         return self.display_surface, [self.display_rect]
-    
-# video with instructions playing full screen
