@@ -1,42 +1,7 @@
 [
   {
-    "id": "3W9q5d",
-    "balance": 16206,
-    "sips": 2,
-    "chugs": 0,
-    "redeemed": false
-  },
-  {
-    "id": "Gvl9ER",
-    "balance": 2600,
-    "sips": 0,
-    "chugs": 0,
-    "redeemed": true
-  },
-  {
-    "id": "Aq0ogW",
+    "id": "Wl0aaw",
     "balance": 1300,
-    "sips": 0,
-    "chugs": 0,
-    "redeemed": false
-  },
-  {
-    "id": "HdhX7V",
-    "balance": 1000,
-    "sips": 0,
-    "chugs": 0,
-    "redeemed": false
-  },
-  {
-    "id": "szMLb7",
-    "balance": 1000,
-    "sips": 0,
-    "chugs": 0,
-    "redeemed": true
-  },
-  {
-    "id": "MZJn5o",
-    "balance": 1000,
     "sips": 0,
     "chugs": 0,
     "redeemed": false
@@ -49,94 +14,10 @@
     "redeemed": true
   },
   {
-    "id": "gJGw4P",
-    "balance": 1000,
-    "sips": 0,
-    "chugs": 0,
-    "redeemed": false
-  },
-  {
-    "id": "Yc5MoT",
-    "balance": 1000,
-    "sips": 0,
-    "chugs": 0,
-    "redeemed": false
-  },
-  {
-    "id": "cK4U3s",
-    "balance": 900,
+    "id": "BYFOSv",
+    "balance": 700,
     "sips": 8,
     "chugs": 0,
     "redeemed": false
-  },
-  {
-    "id": "pPLDYb",
-    "balance": 900,
-    "sips": 0,
-    "chugs": 0,
-    "redeemed": true
-  },
-  {
-    "id": "RZRguW",
-    "balance": 900,
-    "sips": 0,
-    "chugs": 0,
-    "redeemed": false
-  },
-  {
-    "id": "q3LL8R",
-    "balance": 900,
-    "sips": 0,
-    "chugs": 0,
-    "redeemed": true
-  },
-  {
-    "id": "JBLZCR",
-    "balance": 800,
-    "sips": 5,
-    "chugs": 0,
-    "redeemed": false
-  },
-  {
-    "id": "oF1Hdu",
-    "balance": 800,
-    "sips": 2,
-    "chugs": 0,
-    "redeemed": false
-  },
-  {
-    "id": "l4Bx9v",
-    "balance": 700,
-    "sips": 0,
-    "chugs": 0,
-    "redeemed": false
-  },
-  {
-    "id": "3ruyh4",
-    "balance": 600,
-    "sips": 0,
-    "chugs": 0,
-    "redeemed": false
-  },
-  {
-    "id": "r1H12D",
-    "balance": 500,
-    "sips": 0,
-    "chugs": 0,
-    "redeemed": true
-  },
-  {
-    "id": "oq8Qvg",
-    "balance": 500,
-    "sips": 0,
-    "chugs": 0,
-    "redeemed": true
-  },
-  {
-    "id": "2ogIGb",
-    "balance": 300,
-    "sips": 0,
-    "chugs": 0,
-    "redeemed": true
   }
 ]

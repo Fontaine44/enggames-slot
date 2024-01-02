@@ -4,8 +4,8 @@ import pygame
 class Sound:
     def __init__(self):
         # Load sounds
-        self.main_sound = pygame.mixer.Sound('audio/track.mp3')
-        self.main_sound.set_volume(0.2)
+        # self.main_sound = pygame.mixer.Sound('audio/track.mp3')
+        # self.main_sound.set_volume(0.2)
         self.line_sound = pygame.mixer.Sound('audio/line.mp3')
         self.sip_sounds = [
             pygame.mixer.Sound('audio/sip1.mp3'),
@@ -22,12 +22,15 @@ class Sound:
         self.police_sound = pygame.mixer.Sound('audio/police.mp3')
 
     def start_main_sound(self):
+        return
         self.main_sound.play(loops=-1)
     
     def play_main_sound(self):
+        return
         self.main_sound.set_volume(0.2)
 
     def stop_main_sound(self):
+        return
         self.main_sound.set_volume(0)
     
     def play_line_sound(self):

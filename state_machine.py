@@ -20,6 +20,9 @@ class StateMachine:
 
         self.sound.start_main_sound()
 
+        self.menu.pre_start()
+        self.menu.start()
+
     def next(self, cashin_amount=1000):
         # Increment state
         self.current_state += 1

@@ -17,6 +17,7 @@ class Menu(State):
         self.cap = None
         self.detector = cv2.QRCodeDetector()
 
+        self.winner_time = 0
         self.cashin_time = 0
         self.amount_pos = None
         self.amount_surface = None
@@ -25,6 +26,12 @@ class Menu(State):
         self.display_surface = pygame.Surface((WIDTH, HEIGHT))
         self.display_rect = self.display_surface.get_rect()
 
+        self.winner_rect = pygame.Rect(640, 360, 640, 480)
+        self.winner_surface = None
+        self.winner_number = 0
+        self.amount_surface = None
+        self.amount_rect = None
+
         # Load images
         self.menu_screen = pygame.image.load(MENU_IMAGE_PATH).convert_alpha()
         self.scan_screen = pygame.image.load(SCAN_IMAGE_PATH).convert_alpha()
@@ -32,10 +39,12 @@ class Menu(State):
     def pre_start(self):
         self.started = False
         self.state = 0
+        self.load_winner()
 
     def start(self):
         self.buttons.clear_buffer()
         self.started = True
+        self.winner_time = 0
 
     def check_menu(self):
         self.buttons.refresh_input()
@@ -57,10 +66,61 @@ class Menu(State):
             except:
                 pass
             
-    def menu(self):
+    def menu(self, delta_time):
+        self.winner_time += delta_time
+
+        if self.winner_time > 2.5:
+            self.change_winner()
+            self.winner_time = 0
+
         if self.started:
             self.check_menu()
         self.display_surface.blit(self.menu_screen, (0, 0))
+
+        # Display photo
+        if self.winner_surface:
+            self.display_surface.blit(self.winner_surface, self.winner_rect)
+        
+        # Display font
+        self.display_surface.blit(self.amount_surface, self.amount_rect) 
+
+    def change_winner(self):
+        # Change number
+        self.winner_number += 1
+        if self.winner_number > 9:
+            self.winner_number = 0
+        
+        self.load_winner()
+
+    def load_winner(self):
+        # Change id
+        with open(DATA_PATH, 'r') as file:
+            data = json.load(file)
+        
+        try:
+            info = data[self.winner_number]
+            amount = info["balance"]
+            id = info["id"]
+        except IndexError:
+            self.winner_number = 0
+            info = data[self.winner_number]
+            amount = info["balance"]
+            id = info["id"]
+
+        # Change surface
+        try:
+            self.winner_surface = pygame.image.load(f"photos/{id}.png").convert_alpha()
+        except:
+            self.winner_surface = None
+
+        # Change font
+        # Render text to a surface
+        self.amount_surface, _ = self.font.render("#" + f"{self.winner_number+1} - {amount}$", WHITE, size=110)
+        # Get the size of the rendered text
+        amount_width, amount_height = self.amount_surface.get_size()
+        # Determine position
+        self.amount_rect = ((WIDTH-amount_width)//2, 250)
+
     
     def scan(self):
         self.check_scan()
@@ -148,7 +208,7 @@ class Menu(State):
 
     def update(self, delta_time):
         if self.state == 0:
-            self.menu()
+            self.menu(delta_time)
         elif self.state == 1:
             self.scan()
         else:
