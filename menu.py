@@ -69,7 +69,7 @@ class Menu(State):
     def menu(self, delta_time):
         self.winner_time += delta_time
 
-        if self.winner_time > 2.5:
+        if self.winner_time > 1:
             self.change_winner()
             self.winner_time = 0
 

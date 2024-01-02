@@ -1,5 +1,12 @@
 [
   {
+    "id": "VGjvLu",
+    "balance": 1400,
+    "sips": 0,
+    "chugs": 1,
+    "redeemed": false
+  },
+  {
     "id": "Wl0aaw",
     "balance": 1300,
     "sips": 0,
@@ -18,6 +25,6 @@
     "balance": 700,
     "sips": 8,
     "chugs": 0,
-    "redeemed": false
+    "redeemed": true
   }
 ]
