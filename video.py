@@ -9,7 +9,7 @@ class Video(State):
         self.sound = sound
 
         self.state = 0
-        self.state_times = [2, 4, 4, 2.5]
+        self.state_times = [2.5, 4.5, 4, 2.5]
 
         # Create surfaces
         self.display_surface = pygame.Surface((WIDTH, HEIGHT))
@@ -25,6 +25,7 @@ class Video(State):
     def pre_start(self):
         self.video_time = 0
         self.state = 0
+        self.sound.play_video_sound(self.state)
         
     def update(self, delta_time):
         self.video_time += delta_time
@@ -37,5 +38,7 @@ class Video(State):
             if self.video_time > self.state_times[self.state]:
                 self.video_time = 0
                 self.state += 1
+                if self.state < 4:
+                    self.sound.play_video_sound(self.state)
         
         return self.display_surface, [self.display_rect]

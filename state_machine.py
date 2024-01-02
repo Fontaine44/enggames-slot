@@ -10,7 +10,7 @@ class StateMachine:
         self.current_state = 0
         self.menu = Menu(self, self.sound, self.buttons)
         self.ticket = Ticket(self, self.sound, self.buttons)
-        self.video = Video(self, self.buttons)
+        self.video = Video(self, self.sound)
         self.machine = None
         self.states = [self.menu, self.video, None, self.ticket]
 

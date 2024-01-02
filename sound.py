@@ -20,6 +20,12 @@ class Sound:
         self.jackpot_sound = pygame.mixer.Sound('audio/jackpot.mp3')
         self.camera_sound = pygame.mixer.Sound('audio/camera.mp3')
         self.police_sound = pygame.mixer.Sound('audio/police.mp3')
+        self.video_sounds = [
+            pygame.mixer.Sound('audio/video_0.mp3'),
+            pygame.mixer.Sound('audio/video_1.mp3'),
+            pygame.mixer.Sound('audio/video_2.mp3'),
+            pygame.mixer.Sound('audio/video_3.mp3')
+        ]
 
     def start_main_sound(self):
         return
@@ -76,6 +82,9 @@ class Sound:
 
     def stop_police_sound(self):
         self.police_sound.stop()
+    
+    def play_video_sound(self, video):
+        self.video_sounds[video].play()
 
 # # You need to provide sounds and load them in the Machine init function for this to work!
 # def play_win_sound(self, win_data):
