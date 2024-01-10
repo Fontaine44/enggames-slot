@@ -41,9 +41,9 @@ WHEEL_PATH = 'graphics/wheel'
 LINE_PATH = 'graphics/lines'
 
 # Printer & Webcam & Arduino
-ARDUINO_PORT = 'COM8'
-WEBCAM_PORT = 1
-PRINTER_PORT = 'COM7'
+ARDUINO_PORT = 'COM3'
+WEBCAM_PORT = 0
+PRINTER_PORT = 'COM4'
 WEBCAM_HEIGHT = 600
 WEBCAM_WIDTH = 800
 MGCIL_LOGO_PATH = 'graphics/assets/mgcil_logo.png'
@@ -149,5 +149,6 @@ LINES_PATH = [
 WHEEL = f'{WHEEL_PATH}/wheel.png'
 ARROW = f'{WHEEL_PATH}/arrow.svg'
 ARROW_SIZE = 400
-WHEEL_RANGES = [(-22.5, 22.5), (22.5, 68), (68, 113.5), (113.5, 159), (159, 204.5), (204.5, 250), (250, 295.5), (295.5, 341)]
-WHEEL_WEIGHTS = [1, 2, 2, 2, 0.5, 2, 2, 2]
+WHEEL_RANGES = [(-22.5, 22.5),
+ (22.5, 68), (68, 113.5), (113.5, 159), (159, 204.5), (204.5, 250), (250, 295.5), (295.5, 341)]
+WHEEL_WEIGHTS = [2, 2, 2, 2, 0, 2, 2, 2]
